@@ -1504,22 +1504,43 @@ const newItem = {
         const normalized = (tx.category || '').toLowerCase().trim();
         const targetIdx = categoryMap[normalized] !== undefined ? categoryMap[normalized] : 8;
         
-        let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span> ';
+let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span> ';
         if (tx.date) {
           try {
-            const dObj = new Date(tx.date.includes('/') || tx.date.includes('-') ? tx.date : tx.date);
-            if (!isNaN(dObj.getTime())) {
-              const day = String(dObj.getDate()).padStart(2, '0');
-              const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-              const month = months[dObj.getMonth()];
-              const hours = String(dObj.getHours()).padStart(2, '0');
-              const mins = String(dObj.getMinutes()).padStart(2, '0');
-              dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${day} ${month} ${hours}h${mins}min]</span> `;
+            let day, monthIdx, hours = '00', mins = '00';
+            const cleanStr = tx.date.trim();
+
+            if (cleanStr.includes('/')) {
+              // Formato brasileiro DD/MM/YYYY ou DD/MM/YY com ou sem hora
+              const parts = cleanStr.split(' ');
+              const dateParts = parts[0].split('/');
+              day = dateParts[0];
+              monthIdx = parseInt(dateParts[1], 10) - 1;
+
+              if (parts[1]) {
+                const timeParts = parts[1].split(':');
+                hours = timeParts[0] || '00';
+                mins = timeParts[1] || '00';
+              }
             } else {
-              dateTag = `<span class="text-[10px] text-slate-400 font-mono">[${tx.date.slice(0, 10)}]</span> `;
+              const dObj = new Date(cleanStr);
+              if (!isNaN(dObj.getTime())) {
+                day = String(dObj.getDate()).padStart(2, '0');
+                monthIdx = dObj.getMonth();
+                hours = String(dObj.getHours()).padStart(2, '0');
+                mins = String(dObj.getMinutes()).padStart(2, '0');
+              }
+            }
+
+            if (day !== undefined && monthIdx !== undefined && !isNaN(monthIdx)) {
+              const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+              const monthName = months[monthIdx];
+              dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${day} ${monthName} ${hours}h${mins}min]</span> `;
+            } else {
+              dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${cleanStr.slice(0, 10)}]</span> `;
             }
           } catch(e) {
-            dateTag = `<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span> `;
+            dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date}]</span> `;
           }
         }
 
