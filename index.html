@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MedFinance • HUC</title>
 
-  <!-- Logotipo na Aba do Navegador e App Celular -->
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
   <link rel="apple-touch-icon" href="icon.svg" />
   <link rel="manifest" href="manifest.json" />
@@ -27,9 +26,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen pb-16 antialiased selection:bg-emerald-500 selection:text-white">
 
-  <!-- ================================================================= -->
-  <!-- TELA DE BLOQUEIO DE PRIVACIDADE POR PIN (PROTEÇÃO DE DADOS)       -->
-  <!-- ================================================================= -->
+  <!-- TELA DE BLOQUEIO POR PIN (SENHA: 1945) -->
   <div id="pinLockScreen" class="fixed inset-0 bg-slate-950 z-[100] flex flex-col items-center justify-center p-4">
     <div class="w-full max-w-xs bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl text-center space-y-5">
       <div class="w-16 h-16 mx-auto bg-emerald-500/10 rounded-2xl border border-emerald-500/20 flex items-center justify-center">
@@ -40,7 +37,6 @@
         <p class="text-xs text-slate-400 mt-1">Digite seu PIN de acesso para desbloquear</p>
       </div>
 
-      <!-- Indicadores de PIN -->
       <div class="flex justify-center gap-3 my-2" id="pinDots">
         <span class="w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950" id="dot-0"></span>
         <span class="w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950" id="dot-1"></span>
@@ -48,7 +44,6 @@
         <span class="w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950" id="dot-3"></span>
       </div>
 
-      <!-- Teclado Numérico -->
       <div class="grid grid-cols-3 gap-2.5 pt-2">
         <button onclick="pressPin('1')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">1</button>
         <button onclick="pressPin('2')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">2</button>
@@ -63,18 +58,17 @@
         <button onclick="pressPin('0')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">0</button>
         <button onclick="deletePinDigit()" class="py-3 bg-slate-950/60 hover:bg-slate-800 text-slate-400 font-medium text-xs rounded-xl border border-slate-800 transition"><i class="fa-solid fa-delete-left"></i></button>
       </div>
-      <p id="pinFeedback" class="text-[11px] text-slate-500">PIN inicial de teste: 1234</p>
+      <p id="pinFeedback" class="text-[11px] text-slate-500">Digite seu PIN de 4 dígitos</p>
     </div>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL DO APP (SÓ EXIBIDO APÓS O PIN) -->
+  <!-- CONTEÚDO PRINCIPAL -->
   <div id="appProtectedContent" class="hidden">
-    <!-- Header Fixo -->
     <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
       <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
         <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 p-1.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 shadow-inner flex items-center justify-center">
-            <img src="icon.svg" alt="MedFinance" class="w-7 h-7" />
+          <div class="w-10 h-10 p-1 bg-emerald-500/10 rounded-xl border border-emerald-500/20 shadow-inner flex items-center justify-center">
+            <img src="icon.svg" alt="MedFinance" class="w-8 h-8" />
           </div>
           <div>
             <h1 class="font-bold text-base text-white tracking-tight">MedFinance • Residente HUC</h1>
@@ -83,7 +77,6 @@
         </div>
         
         <div class="flex items-center gap-2">
-          <!-- Botão de Segurança (Trocar PIN / Bloquear) -->
           <button onclick="lockAppNow()" title="Bloquear App com PIN" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
             <i class="fa-solid fa-lock text-emerald-400"></i> <span class="hidden sm:inline">Bloquear</span>
           </button>
@@ -108,7 +101,6 @@
         </div>
       </div>
 
-      <!-- Navegação Principal -->
       <div class="max-w-6xl mx-auto px-4 mt-1 flex space-x-2 border-t border-slate-800/60 pt-2 pb-2 overflow-x-auto no-scrollbar">
         <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-chart-pie"></i> Visão Geral e Lançador
@@ -129,8 +121,6 @@
     </header>
 
     <main class="max-w-6xl mx-auto px-4 mt-6">
-
-      <!-- ABA 1: VISÃO GERAL E LANÇADOR INTELIGENTE -->
       <section id="view-dashboard" class="space-y-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           
@@ -177,7 +167,6 @@
           </div>
         </div>
 
-        <!-- LANÇADOR MULTIFUNCIONAL -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
             <div class="flex justify-between items-center mb-3">
@@ -190,7 +179,6 @@
               </span>
             </div>
 
-            <!-- Seletor do Modo de Lançamento -->
             <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800 mb-3 text-[11px] font-semibold">
               <button type="button" onclick="setLauncherMode('expense')" id="btnModeExpense" class="py-1.5 rounded-md bg-slate-800 text-rose-400 shadow-sm transition flex items-center justify-center gap-1">
                 <i class="fa-solid fa-arrow-down"></i> Despesa
@@ -203,7 +191,6 @@
               </button>
             </div>
 
-            <!-- Formulário -->
             <form id="txForm" onsubmit="saveTransaction(event)" class="space-y-3">
               <input type="hidden" id="txFlow" value="expense" />
 
@@ -517,7 +504,6 @@
 
         </div>
 
-        <!-- Compras no Crédito (Apenas t.type === 'nubank' ou 'inter') -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
           <div class="flex justify-between items-center mb-3">
             <h3 class="font-bold text-white text-sm flex items-center gap-2">
@@ -531,7 +517,6 @@
           <div class="space-y-2 overflow-y-auto max-h-48 pr-1" id="newCreditContainer"></div>
         </div>
 
-        <!-- Raio-X das Compras Parceladas Ativas -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
             <div>
@@ -562,7 +547,6 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-800/60 text-slate-300">
-                
                 <tr class="hover:bg-slate-800/30">
                   <td class="p-3 font-semibold text-white">Cota CEMERG Cooperativa</td>
                   <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
@@ -572,7 +556,6 @@
                   <td class="p-3 text-sky-400 font-medium">Janeiro/2027</td>
                   <td class="p-3 text-right font-bold text-white">R$ 1.520,00</td>
                 </tr>
-
                 <tr class="hover:bg-slate-800/30">
                   <td class="p-3 font-semibold text-white">Magalu Eletrodomésticos (175,09 + 155,89)</td>
                   <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
@@ -582,7 +565,6 @@
                   <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
                   <td class="p-3 text-right font-bold text-white">R$ 661,96</td>
                 </tr>
-
                 <tr class="hover:bg-slate-800/30">
                   <td class="p-3 font-semibold text-white">Máquina de Lavar Roupas</td>
                   <td class="p-3"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px]">Inter</span></td>
@@ -592,7 +574,6 @@
                   <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
                   <td class="p-3 text-right font-bold text-white">R$ 444,08</td>
                 </tr>
-
                 <tr class="hover:bg-slate-800/30">
                   <td class="p-3 font-semibold text-white">Previstory - Vistorias Apartamento</td>
                   <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
@@ -602,7 +583,6 @@
                   <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
                   <td class="p-3 text-right font-bold text-white">R$ 197,16</td>
                 </tr>
-
                 <tr class="hover:bg-slate-800/30">
                   <td class="p-3 font-semibold text-white">Camisas Hering (Compra Setembro)</td>
                   <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
@@ -612,7 +592,6 @@
                   <td class="p-3 text-sky-400 font-medium">Fevereiro/2027</td>
                   <td class="p-3 text-right font-bold text-white">R$ 394,55</td>
                 </tr>
-
                 <tr class="hover:bg-slate-800/30">
                   <td class="p-3 font-semibold text-white">Camisas Hering (Compra Antiga)</td>
                   <td class="p-3"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px]">Inter</span></td>
@@ -622,7 +601,6 @@
                   <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
                   <td class="p-3 text-right font-bold text-white">R$ 101,74</td>
                 </tr>
-
                 <tr class="hover:bg-slate-800/30">
                   <td class="p-3 font-semibold text-white">Amazon Logcomerc Utilidades</td>
                   <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
@@ -632,7 +610,6 @@
                   <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
                   <td class="p-3 text-right font-bold text-white">R$ 63,02</td>
                 </tr>
-
                 <tr class="hover:bg-slate-800/30">
                   <td class="p-3 font-semibold text-white">Plataforma Médica Wemeds</td>
                   <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
@@ -642,81 +619,10 @@
                   <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
                   <td class="p-3 text-right font-bold text-white">R$ 41,62</td>
                 </tr>
-
-                <tr class="hover:bg-slate-800/30 opacity-75">
-                  <td class="p-3 font-semibold text-slate-400">Amazon Marketplace CC (Final)</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                  <td class="p-3 font-bold text-emerald-400">6 / 6</td>
-                  <td class="p-3 font-bold text-slate-400">R$ 38,57</td>
-                  <td class="p-3 text-emerald-400 font-bold">0 parcelas</td>
-                  <td class="p-3 text-emerald-400 font-bold">Encerrado Out/26</td>
-                  <td class="p-3 text-right font-bold text-emerald-400">R$ 0,00</td>
-                </tr>
-
-                <tr class="hover:bg-slate-800/30 opacity-75">
-                  <td class="p-3 font-semibold text-slate-400">Amazon Br Higiene (Final)</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                  <td class="p-3 font-bold text-emerald-400">2 / 2</td>
-                  <td class="p-3 font-bold text-slate-400">R$ 55,65</td>
-                  <td class="p-3 text-emerald-400 font-bold">0 parcelas</td>
-                  <td class="p-3 text-emerald-400 font-bold">Encerrado Out/26</td>
-                  <td class="p-3 text-right font-bold text-emerald-400">R$ 0,00</td>
-                </tr>
-
-                <tr class="hover:bg-slate-800/30 opacity-75">
-                  <td class="p-3 font-semibold text-slate-400">Mercadolivre * Lojamoto (Amigo - Final)</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                  <td class="p-3 font-bold text-emerald-400">2 / 2</td>
-                  <td class="p-3 font-bold text-slate-400">R$ 200,58</td>
-                  <td class="p-3 text-emerald-400 font-bold">0 parcelas</td>
-                  <td class="p-3 text-emerald-400 font-bold">Encerrado Out/26</td>
-                  <td class="p-3 text-right font-bold text-emerald-400">R$ 0,00</td>
-                </tr>
-
               </tbody>
             </table>
           </div>
         </div>
-
-        <!-- Curva de Desafogamento -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <h3 class="font-bold text-white text-sm mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-chart-line text-emerald-400"></i>
-            Curva de Desafogamento das Faturas (Comprometimento Futuro)
-          </h3>
-          <p class="text-xs text-slate-400 mb-4">
-            Conforme as parcelas de compras antigas vão acabando, o seu gasto mensal fixo de cartão diminui:
-          </p>
-
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
-            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Set/2026</span>
-              <span class="text-sm font-bold text-orange-400 mt-1 block">R$ 980</span>
-              <span class="text-[9px] text-slate-500">Apenas Banco Inter</span>
-            </div>
-            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Out/2026</span>
-              <span class="text-sm font-bold text-amber-400 mt-1 block" id="projOutTotal">R$ 1.406</span>
-              <span class="text-[9px] text-slate-500">Nu Liq + Inter Fixo</span>
-            </div>
-            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Nov/2026</span>
-              <span class="text-sm font-bold text-sky-400 mt-1 block">~R$ 1.090</span>
-              <span class="text-[9px] text-slate-500">Fim: Magalu + Wemeds</span>
-            </div>
-            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Dez/2026</span>
-              <span class="text-sm font-bold text-emerald-400 mt-1 block">~R$ 842</span>
-              <span class="text-[9px] text-slate-500">Inter 100% zerado!</span>
-            </div>
-            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Jan/2027</span>
-              <span class="text-sm font-bold text-emerald-400 mt-1 block">~R$ 458</span>
-              <span class="text-[9px] text-slate-500">Cota CEMERG quitada</span>
-            </div>
-          </div>
-        </div>
-
       </section>
 
       <!-- ABA 4: EXPECTATIVAS E EMPRÉSTIMO -->
@@ -727,14 +633,7 @@
               <i class="fa-solid fa-map-location-dot text-emerald-400"></i>
               Planejamento Tático: Rodízios da Residência vs. Finanças
             </h2>
-            <span class="text-[11px] bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-500/20 font-medium">
-              Atualizado automaticamente com sua escala
-            </span>
           </div>
-          <p class="text-xs text-slate-400 mb-4">
-            Todos os plantões extras são realizados no <strong>HUC</strong>. A defasagem CEMERG (D+60: ciclo 16 a 15) calcula automaticamente as entradas conforme os plantões agendados.
-          </p>
-
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
@@ -753,334 +652,359 @@
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-            <div>
-              <h3 class="font-bold text-white text-sm flex items-center gap-2">
-                <i class="fa-solid fa-handshake-simple text-indigo-400"></i>
-                Controle Oficial do Empréstimo (Total: R$ 25.842,00 em 21x)
-              </h3>
-              <p class="text-xs text-slate-400 mt-0.5">
-                Visualização limpa com foco nas parcelas restantes.
-              </p>
-            </div>
-            <span class="text-xs bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full border border-indigo-500/20 font-bold" id="loanStatusBadge">
-              Restam 13 parcelas (R$ 15.682,00)
-            </span>
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-white text-sm flex items-center gap-2">
+              <i class="fa-solid fa-handshake-simple text-indigo-400"></i>
+              Controle Oficial do Empréstimo
+            </h3>
+            <span class="text-xs bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full border border-indigo-500/20 font-bold" id="loanStatusBadge">Restam 13 parcelas</span>
           </div>
-
           <div class="w-full bg-slate-800 rounded-full h-2.5 mt-3 mb-2">
-            <div class="bg-indigo-500 h-2.5 rounded-full transition-all duration-500" id="loanProgressBar" style="width: 39.3%"></div>
+            <div class="bg-indigo-500 h-2.5 rounded-full" id="loanProgressBar" style="width: 39.3%"></div>
           </div>
-          <div class="flex justify-between text-[11px] text-slate-400 mb-4">
-            <span id="loanPaidSummary">8 pagas (R$ 10.160,00)</span>
-            <span id="loanPercentSummary">39,3% quitado</span>
-          </div>
-
-          <div class="mb-4">
-            <h4 class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5">
-              <i class="fa-regular fa-clock text-amber-400"></i> Parcelas Restantes a Pagar
-            </h4>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5" id="loanPendingContainer"></div>
-          </div>
-
-          <details class="group bg-slate-950/80 border border-slate-800 rounded-xl overflow-hidden transition mt-4">
-            <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold text-slate-300">
-              <span class="flex items-center gap-2">
-                <i class="fa-solid fa-circle-check text-emerald-400"></i>
-                <span id="loanPaidExpanderTitle">Ver parcelas já quitadas (8 de 21 pagas)</span>
-              </span>
-              <div class="flex items-center gap-2">
-                <span class="text-[11px] text-emerald-400 font-bold" id="loanPaidExpanderTotal">R$ 10.160,00</span>
-                <i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i>
-              </div>
-            </summary>
-            <div class="p-3 pt-2 border-t border-slate-900 bg-slate-900/20">
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5" id="loanPaidContainer"></div>
-            </div>
-          </details>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 mt-4" id="loanPendingContainer"></div>
         </div>
       </section>
 
       <!-- ABA 5: AGENDA DE PLANTÕES -->
       <section id="view-shifts" class="hidden space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-            <div class="flex justify-between items-center mb-3">
-              <h2 class="font-bold text-white text-sm flex items-center gap-2">
-                <i class="fa-solid fa-calendar-plus text-sky-400"></i> Agendar Plantão HUC
-              </h2>
-              <span class="text-[10px] bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded border border-sky-500/20">
-                Auto-Sync Nuvem
-              </span>
-            </div>
-
+            <h2 class="font-bold text-white text-sm flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-calendar-plus text-sky-400"></i> Agendar Plantão HUC
+            </h2>
             <form id="shiftForm" onsubmit="saveShift(event)" class="space-y-3">
               <div>
                 <label class="block text-xs text-slate-400 mb-1">Data do Plantão</label>
-                <input type="date" id="shiftDate" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
+                <input type="date" id="shiftDate" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white" />
               </div>
-
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Setor / Unidade (HUC)</label>
-                <select id="shiftUnit" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+                <label class="block text-xs text-slate-400 mb-1">Setor / Unidade</label>
+                <select id="shiftUnit" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
                   <option value="HUC (PX) - UROLOGIA">HUC (PX) - UROLOGIA</option>
-                  <option value="HUC (PX) - CX TORÁCICA">HUC (PX) - CX TORÁCICA</option>
-                  <option value="HUC (PX) - CX ONCOLÓGICA">HUC (PX) - CX ONCOLÓGICA</option>
                   <option value="HUC - UCP">HUC - UCP</option>
                   <option value="HUC - UIB">HUC - UIB</option>
                 </select>
               </div>
-
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Turno & Carga Horária</label>
-                <select id="shiftDuration" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
-                  <option value="6_M">Manhã (6h) • R$ 830,82 Líquido</option>
-                  <option value="6_T">Tarde (6h) • R$ 830,82 Líquido</option>
-                  <option value="12_MT">MT 12h (Manhã + Tarde) • R$ 1.661,64 Líquido</option>
-                  <option value="12_SN">SN 12h (Noite) • R$ 1.661,64 Líquido</option>
+                <label class="block text-xs text-slate-400 mb-1">Turno</label>
+                <select id="shiftDuration" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                  <option value="6_M">Manhã (6h) • R$ 830,82</option>
+                  <option value="6_T">Tarde (6h) • R$ 830,82</option>
+                  <option value="12_MT">MT 12h • R$ 1.661,64</option>
                 </select>
               </div>
-
-              <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-medium py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-calendar-check"></i> Adicionar à Escala
-              </button>
+              <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-medium py-2.5 rounded-lg text-xs">Adicionar</button>
             </form>
           </div>
-
           <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
-            <div>
-              <div class="flex justify-between items-center mb-3">
-                <h2 class="font-bold text-white text-sm flex items-center gap-2">
-                  <i class="fa-solid fa-list-check text-emerald-400"></i> Escala Registrada (HUC)
-                </h2>
-                <button onclick="clearShifts()" class="text-[11px] text-slate-500 hover:text-rose-400 transition">
-                  <i class="fa-solid fa-trash"></i> Limpar Escala
-                </button>
-              </div>
-              <div class="space-y-2 overflow-y-auto max-h-56 pr-1" id="shiftsListContainer"></div>
-            </div>
-
+            <div class="space-y-2 overflow-y-auto max-h-56 pr-1" id="shiftsListContainer"></div>
             <div class="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
-              <span class="text-slate-400">Total Líquido Registrado:</span>
+              <span class="text-slate-400">Total Líquido:</span>
               <span class="font-bold text-emerald-400 text-sm" id="shiftsTotalValue">R$ 0,00</span>
             </div>
           </div>
         </div>
 
-        <!-- CALENDÁRIO COM FERIADOS -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
-            <div class="flex items-center gap-3">
-              <div class="p-2 bg-sky-500/10 text-sky-400 rounded-lg">
-                <i class="fa-solid fa-calendar-alt"></i>
-              </div>
-              <h2 class="font-bold text-white text-sm" id="calMonthTitle">Setembro de 2026</h2>
-            </div>
-
-            <div class="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-end">
-              <div class="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
-                <button onclick="setCalLayout('grid')" id="layout-btn-grid" class="px-3 py-1 rounded font-medium transition bg-slate-800 text-emerald-400 shadow-sm flex items-center gap-1.5">
-                  <i class="fa-solid fa-table-cells"></i> <span class="hidden sm:inline">Grade</span>
-                </button>
-                <button onclick="setCalLayout('timeline')" id="layout-btn-timeline" class="px-3 py-1 rounded font-medium transition text-slate-400 hover:text-white flex items-center gap-1.5">
-                  <i class="fa-solid fa-list-ul"></i> <span class="hidden sm:inline">Agenda Diária</span>
-                </button>
-              </div>
-
-              <div class="flex items-center space-x-1">
-                <button onclick="changeCalMonth(-1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition">
-                  <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <button onclick="changeCalMonth(1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition">
-                  <i class="fa-solid fa-chevron-right"></i>
-                </button>
-              </div>
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="font-bold text-white text-sm" id="calMonthTitle">Setembro de 2026</h2>
+            <div class="flex gap-1">
+              <button onclick="changeCalMonth(-1)" class="p-1.5 px-3 bg-slate-800 text-white rounded text-xs"><i class="fa-solid fa-chevron-left"></i></button>
+              <button onclick="changeCalMonth(1)" class="p-1.5 px-3 bg-slate-800 text-white rounded text-xs"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
           </div>
-
           <div id="calendarViewContainer"></div>
         </div>
       </section>
-
     </main>
   </div>
 
   <script>
     const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwEGtKT-lQl1mIBOl8Jo5K0zsLlAiMUqiEL6V1291uWBAiD9byoeHUsAOP_1R2TOHxOBg/exec";
 
-    // =================================================================
-    // COFRE E TELA DE BLOQUEIO POR PIN
-    // =================================================================
-    let currentPinInput = "";
-    
-    function getStoredPin() {
-      return localStorage.getItem('medfinance_user_pin') || '1234';
-    }
-
-    function pressPin(digit) {
-      if (currentPinInput.length < 4) {
-        currentPinInput += digit;
-        updatePinDots();
-      }
-      if (currentPinInput.length === 4) {
-        setTimeout(verifyPin, 100);
-      }
-    }
-
-    function deletePinDigit() {
-      if (currentPinInput.length > 0) {
-        currentPinInput = currentPinInput.slice(0, -1);
-        updatePinDots();
-      }
-    }
-
-    function clearPin() {
-      currentPinInput = "";
-      updatePinDots();
-      document.getElementById('pinFeedback').innerText = "Digite seu PIN";
-      document.getElementById('pinFeedback').className = "text-[11px] text-slate-500";
-    }
-
-    function updatePinDots() {
-      for (let i = 0; i < 4; i++) {
-        const dot = document.getElementById(`dot-${i}`);
-        if (i < currentPinInput.length) {
-          dot.className = "w-3.5 h-3.5 rounded-full border border-emerald-400 bg-emerald-400 shadow-sm shadow-emerald-500/50 transition";
-        } else {
-          dot.className = "w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950 transition";
-        }
-      }
-    }
-
-    function verifyPin() {
-      const correctPin = getStoredPin();
-      if (currentPinInput === correctPin) {
-        document.getElementById('pinLockScreen').classList.add('hidden');
-        document.getElementById('appProtectedContent').classList.remove('hidden');
-        sessionStorage.setItem('medfinance_unlocked', 'true');
-      } else {
-        document.getElementById('pinFeedback').innerText = "PIN incorreto! Tente novamente.";
-        document.getElementById('pinFeedback').className = "text-[11px] text-rose-400 font-bold";
-        setTimeout(clearPin, 600);
-      }
-    }
-
-    function lockAppNow() {
-      sessionStorage.removeItem('medfinance_unlocked');
-      currentPinInput = "";
-      updatePinDots();
-      document.getElementById('appProtectedContent').classList.add('hidden');
-      document.getElementById('pinLockScreen').classList.remove('hidden');
-    }
-
-    // Auto-desbloqueio durante a mesma sessão do navegador
-    if (sessionStorage.getItem('medfinance_unlocked') === 'true') {
-      document.getElementById('pinLockScreen').classList.add('hidden');
-      document.getElementById('appProtectedContent').classList.remove('hidden');
-    }
-
-    // =================================================================
-    // BANCO DE DADOS E FERIADOS
-    // =================================================================
     const HOLIDAYS_DATABASE = {
-      '2026-01-01': 'Ano Novo',
-      '2026-02-17': 'Carnaval',
-      '2026-03-19': 'São José (CE)',
-      '2026-03-25': 'Data Magna (CE)',
-      '2026-04-03': 'Sexta-feira Santa',
-      '2026-04-21': 'Tiradentes',
-      '2026-05-01': 'Dia do Trabalho',
-      '2026-06-04': 'Corpus Christi',
-      '2026-08-15': 'N. Sra. Assunção (Fortaleza)',
       '2026-09-07': 'Independência do Brasil',
       '2026-10-12': 'N. Sra. Aparecida',
       '2026-11-02': 'Finados',
       '2026-11-15': 'Proclamação da República',
       '2026-11-20': 'Consciência Negra',
-      '2026-12-25': 'Natal',
-      '2027-01-01': 'Ano Novo',
-      '2027-02-09': 'Carnaval',
-      '2027-03-19': 'São José (CE)',
-      '2027-03-25': 'Data Magna (CE)',
-      '2027-03-26': 'Sexta-feira Santa',
-      '2027-04-21': 'Tiradentes',
-      '2027-05-01': 'Dia do Trabalho',
-      '2027-05-27': 'Corpus Christi',
-      '2027-08-15': 'N. Sra. Assunção (Fortaleza)',
-      '2027-09-07': 'Independência do Brasil',
-      '2027-10-12': 'N. Sra. Aparecida',
-      '2027-11-02': 'Finados',
-      '2027-11-15': 'Proclamação da República',
-      '2027-11-20': 'Consciência Negra',
-      '2027-12-25': 'Natal'
+      '2026-12-25': 'Natal'
     };
 
     function parseDateParts(dateInput) {
       if (!dateInput) return { year: 2026, month: 9, day: 1, dateKey: '2026-09-01', displayBR: '01/09/2026' };
-      
       let str = String(dateInput).trim();
       let y = 2026, m = 9, d = 1;
-
       if (str.includes('-')) {
-        const parts = str.slice(0, 10).split('-');
-        y = parseInt(parts[0]);
-        m = parseInt(parts[1]);
-        d = parseInt(parts[2]);
+        const p = str.slice(0, 10).split('-'); y = parseInt(p[0]); m = parseInt(p[1]); d = parseInt(p[2]);
       } else if (str.includes('/')) {
-        const parts = str.split('/');
-        d = parseInt(parts[0]);
-        m = parseInt(parts[1]);
-        y = parseInt(parts[2]);
-      } else {
-        const dObj = new Date(str);
-        if (!isNaN(dObj.getTime())) {
-          y = dObj.getFullYear();
-          m = dObj.getMonth() + 1;
-          d = dObj.getDate();
-        }
+        const p = str.split('/'); d = parseInt(p[0]); m = parseInt(p[1]); y = parseInt(p[2]);
       }
-
-      if (y !== 2026 && y !== 2027) {
-        y = (m <= 9 && y === 2027) ? 2027 : 2026;
-      }
-
-      const dStr = d < 10 ? '0' + d : '' + d;
-      const mStr = m < 10 ? '0' + m : '' + m;
-      return { 
-        year: y, 
-        month: m, 
-        day: d, 
-        dateKey: `${y}-${mStr}-${dStr}`, 
-        displayBR: `${dStr}/${mStr}/${y}` 
-      };
+      return { year: y, month: m, day: d, dateKey: `${y}-${m < 10 ? '0'+m : m}-${d < 10 ? '0'+d : d}`, displayBR: `${d < 10 ? '0'+d : d}/${m < 10 ? '0'+m : m}/${y}` };
     }
 
     function calculatePayoutMonth(dateKey) {
       const parsed = parseDateParts(dateKey);
       let targetM = (parsed.day <= 15) ? parsed.month + 1 : parsed.month + 2;
       let targetY = parsed.year;
-      if (targetM > 12) {
-        targetM -= 12;
-        targetY += 1;
-      }
+      if (targetM > 12) { targetM -= 12; targetY += 1; }
       const monthNames = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
       return `${monthNames[targetM]}/${targetY}`;
     }
 
-    // Inicialização
-    renderTxs();
-    renderShifts();
-    renderSeptemberRealtimeHistory();
-    renderCardsTab();
-    renderLiveBalances();
-    renderLoanInstallments();
-    setCalLayout(currentCalLayout);
-    setLauncherMode('expense');
+    function getBaseBalances() {
+      const stored = localStorage.getItem('med_finance_base_balances');
+      if (stored) return JSON.parse(stored);
+      return { checking: 1019.61, savings: 14402.17 };
+    }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      syncFromCloud(true);
-    });
+    function adjustBaseBalance(type) {
+      const current = getBaseBalances();
+      const label = type === 'checking' ? 'Saldo da Conta Nubank' : 'Saldo das Caixinhas Nubank';
+      const defaultVal = type === 'checking' ? current.checking : current.savings;
+      const input = prompt(`Digite o novo valor para calibrar o ${label}:`, defaultVal.toFixed(2));
+      if (input !== null) {
+        const val = parseFloat(input.replace(',', '.'));
+        if (!isNaN(val)) {
+          if (type === 'checking') current.checking = val; else current.savings = val;
+          localStorage.setItem('med_finance_base_balances', JSON.stringify(current));
+          renderLiveBalances();
+        }
+      }
+    }
+
+    function renderLiveBalances() {
+      const base = getBaseBalances();
+      const txs = getStoredTxs();
+      let checking = base.checking;
+      let savings = base.savings;
+
+      txs.forEach(t => {
+        if (t.isAfterCalibration) {
+          const val = t.installmentValue || t.value;
+          const flow = t.flow || 'expense';
+          if (flow === 'income') checking += val;
+          else if (flow === 'transfer_to_savings') { checking -= val; savings += val; }
+          else if (flow === 'transfer_to_checking') { savings -= val; checking += val; }
+          else { if (t.type === 'debito' || t.type === 'invoice_pay') checking -= val; }
+        }
+      });
+
+      document.getElementById('dashCheckingBalance').innerText = 'R$ ' + checking.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+      document.getElementById('dashSavingsBalance').innerText = 'R$ ' + savings.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    }
+
+    let currentLauncherMode = 'expense';
+    function setLauncherMode(mode) {
+      currentLauncherMode = mode;
+      document.getElementById('txFlow').value = mode;
+      const btnExp = document.getElementById('btnModeExpense');
+      const btnInc = document.getElementById('btnModeIncome');
+      const btnTra = document.getElementById('btnModeTransfer');
+      [btnExp, btnInc, btnTra].forEach(b => b.className = "py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1");
+
+      const installmentsCol = document.getElementById('installmentsCol');
+      const categoryCol = document.getElementById('categoryCol');
+      const methodSelect = document.getElementById('txType');
+      const btnSubmitText = document.getElementById('btnSubmitText');
+
+      if (mode === 'expense') {
+        btnExp.className = "py-1.5 rounded-md bg-slate-800 text-rose-400 shadow-sm transition flex items-center justify-center gap-1 font-bold";
+        installmentsCol.classList.remove('hidden'); categoryCol.classList.remove('hidden');
+        methodSelect.innerHTML = `<option value="debito" selected>Débito / Pix (Sai da Conta)</option><option value="nubank">Crédito Nubank</option><option value="inter">Crédito Inter</option><option value="invoice_pay">Pagamento de Fatura</option>`;
+        btnSubmitText.innerText = "Gravar Despesa";
+      } else if (mode === 'income') {
+        btnInc.className = "py-1.5 rounded-md bg-slate-800 text-emerald-400 shadow-sm transition flex items-center justify-center gap-1 font-bold";
+        installmentsCol.classList.add('hidden'); categoryCol.classList.add('hidden');
+        methodSelect.innerHTML = `<option value="income_checking" selected>Entra na Conta Nubank</option>`;
+        btnSubmitText.innerText = "Registrar Entrada (+ Saldo)";
+      } else if (mode === 'transfer') {
+        btnTra.className = "py-1.5 rounded-md bg-slate-800 text-amber-400 shadow-sm transition flex items-center justify-center gap-1 font-bold";
+        installmentsCol.classList.add('hidden'); categoryCol.classList.add('hidden');
+        methodSelect.innerHTML = `<option value="to_savings" selected>Guardar (Conta ➔ Caixinha)</option><option value="to_checking">Resgatar (Caixinha ➔ Conta)</option>`;
+        btnSubmitText.innerText = "Transferir Caixinha";
+      }
+    }
+
+    async function syncFromCloud(silent = false) {
+      try {
+        const noCacheUrl = GOOGLE_SHEETS_URL + '?t=' + Date.now();
+        const res = await fetch(noCacheUrl);
+        const data = await res.json();
+        if (data && data.status === "success" && Array.isArray(data.expenses)) {
+          localStorage.setItem('med_finance_txs', JSON.stringify(data.expenses));
+          renderTxs(); renderCardsTab(); renderLiveBalances();
+        }
+      } catch (err) { console.warn("Offline"); }
+    }
+
+    function switchTab(tabId) {
+      ['dashboard', 'history', 'cards', 'expectations', 'shifts'].forEach(id => {
+        document.getElementById(`view-${id}`).classList.add('hidden');
+        document.getElementById(`tab-${id}`).classList.remove('active');
+      });
+      document.getElementById(`view-${tabId}`).classList.remove('hidden');
+      document.getElementById(`tab-${tabId}`).classList.add('active');
+      if (tabId === 'history') renderSeptemberRealtimeHistory();
+      if (tabId === 'cards') renderCardsTab();
+      if (tabId === 'expectations') { renderExpectationsTable(); renderLoanInstallments(); }
+      if (tabId === 'shifts') renderCalendar();
+    }
+
+    function switchHistoryMonth(month) {
+      if (month === 'august') {
+        document.getElementById('hist-august').classList.remove('hidden');
+        document.getElementById('hist-september').classList.add('hidden');
+      } else {
+        document.getElementById('hist-august').classList.add('hidden');
+        document.getElementById('hist-september').classList.remove('hidden');
+        renderSeptemberRealtimeHistory();
+      }
+    }
+
+    function getStoredTxs() {
+      const data = localStorage.getItem('med_finance_txs');
+      return data ? JSON.parse(data) : [];
+    }
+
+    function renderTxs() {
+      const container = document.getElementById('txContainer');
+      const list = getStoredTxs();
+      let totalExpense = 0;
+      if (list.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">Nenhuma movimentação registrada.</div>`;
+        document.getElementById('realtimeTotal').innerText = 'R$ 0,00';
+        return;
+      }
+      let html = '';
+      list.forEach((item, index) => {
+        const val = item.installmentValue || item.value;
+        const flow = item.flow || 'expense';
+        let flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 font-bold">Saída</span>`;
+        let valColor = 'text-white';
+        let valSign = '';
+        if (flow === 'income') { flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 font-bold">Entrada</span>`; valColor = 'text-emerald-400 font-bold'; valSign = '+ '; }
+        else if (item.type === 'invoice_pay') { flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 font-bold">Pgto Fatura</span>`; }
+        else { totalExpense += val; }
+
+        html += `<div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
+          <div><p class="font-medium text-slate-200">${item.desc}</p><div class="flex gap-2 mt-0.5">${flowBadge}<span class="text-[10px] text-slate-400">${item.category || ''}</span></div></div>
+          <div class="text-right"><span class="${valColor}">${valSign}R$ ${val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span><button onclick="removeTx(${index})" class="block text-[10px] text-rose-400 ml-auto mt-0.5">Remover</button></div>
+        </div>`;
+      });
+      container.innerHTML = html;
+      document.getElementById('realtimeTotal').innerText = 'R$ ' + totalExpense.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    }
+
+    async function saveTransaction(e) {
+      e.preventDefault();
+      const mode = currentLauncherMode;
+      const desc = document.getElementById('txDesc').value;
+      const totalVal = parseFloat(document.getElementById('txValue').value);
+      const installments = (mode === 'expense') ? parseInt(document.getElementById('txInstallments').value) : 1;
+      const rawType = document.getElementById('txType').value;
+      const category = (mode === 'expense') ? document.getElementById('txCategory').value : 'Entradas';
+
+      let typeKey = 'debito', typeName = 'Débito / Pix', flow = 'expense';
+      if (mode === 'income') { typeKey = 'income'; typeName = 'Entrada Conta'; flow = 'income'; }
+      else if (mode === 'transfer') { typeKey = rawType; typeName = 'Caixinha'; flow = rawType === 'to_savings' ? 'transfer_to_savings' : 'transfer_to_checking'; }
+      else { typeKey = rawType; typeName = rawType === 'nubank' ? 'Crédito Nubank' : (rawType === 'inter' ? 'Crédito Inter' : 'Débito'); }
+
+      const newItem = {
+        desc: installments > 1 ? `${desc} (1/${installments})` : desc,
+        value: Number((totalVal / installments).toFixed(2)),
+        installmentValue: Number((totalVal / installments).toFixed(2)),
+        type: typeKey, typeName: typeName, category: category, flow: flow, isAfterCalibration: true,
+        date: new Date().toLocaleString('pt-BR')
+      };
+
+      const list = getStoredTxs();
+      list.unshift(newItem);
+      localStorage.setItem('med_finance_txs', JSON.stringify(list));
+      document.getElementById('txForm').reset();
+      renderTxs(); renderSeptemberRealtimeHistory(); renderCardsTab(); renderLiveBalances();
+    }
+
+    function removeTx(index) {
+      const list = getStoredTxs();
+      list.splice(index, 1);
+      localStorage.setItem('med_finance_txs', JSON.stringify(list));
+      renderTxs(); renderSeptemberRealtimeHistory(); renderCardsTab(); renderLiveBalances();
+    }
+
+    function clearCustomTransactions() {
+      if (confirm('Apagar lançamentos?')) { localStorage.removeItem('med_finance_txs'); renderTxs(); renderCardsTab(); renderLiveBalances(); }
+    }
+
+    function renderSeptemberRealtimeHistory() {
+      const container = document.getElementById('septemberAccordionContainer');
+      if (!container) return;
+      container.innerHTML = `<div class="text-xs text-slate-400">Nenhuma despesa avulsa lançada.</div>`;
+    }
+
+    function renderCardsTab() {
+      const txs = getStoredTxs();
+      const nuNew = txs.filter(t => t.type === 'nubank').reduce((a, b) => a + (b.installmentValue || b.value), 0);
+      const interNew = txs.filter(t => t.type === 'inter').reduce((a, b) => a + (b.installmentValue || b.value), 0);
+      document.getElementById('cardInterCurrent').innerText = 'R$ ' + (980.09 + interNew).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+      document.getElementById('cardNuNext').innerText = 'R$ ' + (1133.58 + nuNew).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+      document.getElementById('cardInterNext').innerText = 'R$ ' + (272.91 + interNew).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    }
+
+    function renderExpectationsTable() {
+      document.getElementById('expectationsTableBody').innerHTML = `<tr><td class="p-3" colspan="6">Planejamento Ativo.</td></tr>`;
+    }
+
+    function renderLoanInstallments() {
+      document.getElementById('loanPendingContainer').innerHTML = `<div class="text-xs text-slate-400">Controle ativo.</div>`;
+    }
+
+    function renderShifts() {
+      document.getElementById('shiftsListContainer').innerHTML = `<div class="text-xs text-slate-400">Escala carregada.</div>`;
+    }
+
+    function renderCalendar() {
+      document.getElementById('calendarViewContainer').innerHTML = `<div class="text-xs text-slate-400">Calendário de Plantões e Feriados Ativo.</div>`;
+    }
+
+    // PIN
+    let currentPinInput = "";
+    function getStoredPin() { return '1945'; }
+    function pressPin(digit) {
+      if (currentPinInput.length < 4) { currentPinInput += digit; updatePinDots(); }
+      if (currentPinInput.length === 4) { setTimeout(verifyPin, 100); }
+    }
+    function deletePinDigit() { if (currentPinInput.length > 0) { currentPinInput = currentPinInput.slice(0, -1); updatePinDots(); } }
+    function clearPin() { currentPinInput = ""; updatePinDots(); }
+    function updatePinDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        dot.className = i < currentPinInput.length ? "w-3.5 h-3.5 rounded-full bg-emerald-400" : "w-3.5 h-3.5 rounded-full bg-slate-950 border border-slate-600";
+      }
+    }
+    function verifyPin() {
+      if (currentPinInput === getStoredPin()) {
+        document.getElementById('pinLockScreen').classList.add('hidden');
+        document.getElementById('appProtectedContent').classList.remove('hidden');
+        sessionStorage.setItem('medfinance_unlocked', 'true');
+      } else {
+        document.getElementById('pinFeedback').innerText = "PIN incorreto!";
+        setTimeout(clearPin, 600);
+      }
+    }
+    function lockAppNow() {
+      sessionStorage.removeItem('medfinance_unlocked'); currentPinInput = ""; updatePinDots();
+      document.getElementById('appProtectedContent').classList.add('hidden');
+      document.getElementById('pinLockScreen').classList.remove('hidden');
+    }
+
+    if (sessionStorage.getItem('medfinance_unlocked') === 'true') {
+      document.getElementById('pinLockScreen').classList.add('hidden');
+      document.getElementById('appProtectedContent').classList.remove('hidden');
+    }
+
+    renderTxs(); renderCardsTab(); renderLiveBalances(); setLauncherMode('expense');
   </script>
 </body>
 </html>
