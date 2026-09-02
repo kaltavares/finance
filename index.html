@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MedFinance • HUC</title>
+
+  <!-- Logotipo na Aba do Navegador e App Celular -->
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#020617" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
@@ -20,851 +27,962 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen pb-16 antialiased selection:bg-emerald-500 selection:text-white">
 
-  <!-- Header Fixo -->
-  <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20 shadow-inner">
-          <i class="fa-solid fa-stethoscope text-lg"></i>
-        </div>
-        <div>
-          <h1 class="font-bold text-base text-white tracking-tight">MedFinance • Residente HUC</h1>
-          <p class="text-xs text-slate-400">Controle Orçamentário & Plantões CEMERG</p>
-        </div>
+  <!-- ================================================================= -->
+  <!-- TELA DE BLOQUEIO DE PRIVACIDADE POR PIN (PROTEÇÃO DE DADOS)       -->
+  <!-- ================================================================= -->
+  <div id="pinLockScreen" class="fixed inset-0 bg-slate-950 z-[100] flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-xs bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl text-center space-y-5">
+      <div class="w-16 h-16 mx-auto bg-emerald-500/10 rounded-2xl border border-emerald-500/20 flex items-center justify-center">
+        <img src="icon.svg" alt="MedFinance Logo" class="w-10 h-10" />
       </div>
-      
-      <div class="flex items-center gap-2">
-        <button id="btnSyncCloud" onclick="syncFromCloud()" title="Sincronizar PC & Celular via Google Sheets" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-arrows-rotate text-sky-400" id="syncIcon"></i>
-          <span class="hidden sm:inline" id="syncLabel">Sincronizar</span>
-        </button>
-
-        <button id="btnToggleNotifications" onclick="enablePushNotifications()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
-          <i class="fa-regular fa-bell text-amber-400" id="notifIcon"></i>
-          <span class="hidden sm:inline" id="notifLabel">Lembretes</span>
-        </button>
-
-        <button onclick="exportData()" title="Exportar Backup" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-download text-emerald-400"></i> <span class="hidden sm:inline">Backup</span>
-        </button>
-        
-        <span class="text-xs font-semibold px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full">
-          Set/2026
-        </span>
+      <div>
+        <h2 class="font-bold text-white text-base">MedFinance Privado</h2>
+        <p class="text-xs text-slate-400 mt-1">Digite seu PIN de acesso para desbloquear</p>
       </div>
+
+      <!-- Indicadores de PIN -->
+      <div class="flex justify-center gap-3 my-2" id="pinDots">
+        <span class="w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950" id="dot-0"></span>
+        <span class="w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950" id="dot-1"></span>
+        <span class="w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950" id="dot-2"></span>
+        <span class="w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950" id="dot-3"></span>
+      </div>
+
+      <!-- Teclado Numérico -->
+      <div class="grid grid-cols-3 gap-2.5 pt-2">
+        <button onclick="pressPin('1')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">1</button>
+        <button onclick="pressPin('2')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">2</button>
+        <button onclick="pressPin('3')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">3</button>
+        <button onclick="pressPin('4')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">4</button>
+        <button onclick="pressPin('5')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">5</button>
+        <button onclick="pressPin('6')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">6</button>
+        <button onclick="pressPin('7')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">7</button>
+        <button onclick="pressPin('8')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">8</button>
+        <button onclick="pressPin('9')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">9</button>
+        <button onclick="clearPin()" class="py-3 bg-slate-950/60 hover:bg-slate-800 text-slate-400 font-medium text-xs rounded-xl border border-slate-800 transition">Limpar</button>
+        <button onclick="pressPin('0')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">0</button>
+        <button onclick="deletePinDigit()" class="py-3 bg-slate-950/60 hover:bg-slate-800 text-slate-400 font-medium text-xs rounded-xl border border-slate-800 transition"><i class="fa-solid fa-delete-left"></i></button>
+      </div>
+      <p id="pinFeedback" class="text-[11px] text-slate-500">PIN inicial de teste: 1234</p>
     </div>
+  </div>
 
-    <!-- Navegação Principal -->
-    <div class="max-w-6xl mx-auto px-4 mt-1 flex space-x-2 border-t border-slate-800/60 pt-2 pb-2 overflow-x-auto no-scrollbar">
-      <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
-        <i class="fa-solid fa-chart-pie"></i> Visão Geral e Lançador
-      </button>
-      <button onclick="switchTab('history')" id="tab-history" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
-        <i class="fa-solid fa-clock-rotate-left"></i> Histórico Mensal
-      </button>
-      <button onclick="switchTab('cards')" id="tab-cards" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
-        <i class="fa-regular fa-credit-card text-purple-400"></i> Cartões de Crédito
-      </button>
-      <button onclick="switchTab('expectations')" id="tab-expectations" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
-        <i class="fa-solid fa-bullseye"></i> Expectativas e Empréstimo
-      </button>
-      <button onclick="switchTab('shifts')" id="tab-shifts" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
-        <i class="fa-solid fa-calendar-days"></i> Agenda de Plantões
-      </button>
-    </div>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4 mt-6">
-
-    <!-- ================================================================= -->
-    <!-- ABA 1: VISÃO GERAL E LANÇADOR INTELIGENTE                         -->
-    <!-- ================================================================= -->
-    <section id="view-dashboard" class="space-y-6">
-      
-      <!-- Cards de Saldo Vivos e Editáveis -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        <!-- Saldo Conta Nubank Vivo -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative group">
-          <div class="flex justify-between items-center text-xs text-slate-400">
-            <span class="flex items-center gap-1.5">
-              Conta Nubank <i class="fa-solid fa-building-columns text-purple-400"></i>
-            </span>
-            <button onclick="adjustBaseBalance('checking')" title="Calibrar Saldo Inicial da Conta" class="text-slate-500 hover:text-emerald-400 transition text-[11px]">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </button>
+  <!-- CONTEÚDO PRINCIPAL DO APP (SÓ EXIBIDO APÓS O PIN) -->
+  <div id="appProtectedContent" class="hidden">
+    <!-- Header Fixo -->
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 p-1.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 shadow-inner flex items-center justify-center">
+            <img src="icon.svg" alt="MedFinance" class="w-7 h-7" />
           </div>
-          <p class="text-2xl font-bold text-white mt-1" id="dashCheckingBalance">R$ 0,00</p>
-          <span class="text-[11px] text-slate-500" id="dashCheckingSubtext">Calculando saldo real...</span>
-        </div>
-
-        <!-- Caixinhas Nubank Vivas -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative group">
-          <div class="flex justify-between items-center text-xs text-slate-400">
-            <span class="flex items-center gap-1.5">
-              Caixinhas Turbo + 100% <i class="fa-solid fa-piggy-bank text-emerald-400"></i>
-            </span>
-            <button onclick="adjustBaseBalance('savings')" title="Calibrar Saldo das Caixinhas" class="text-slate-500 hover:text-emerald-400 transition text-[11px]">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </button>
-          </div>
-          <p class="text-2xl font-bold text-emerald-400 mt-1" id="dashSavingsBalance">R$ 14.402,17</p>
-          <span class="text-[11px] text-slate-500">Reserva de Emergência & Metas</span>
-        </div>
-
-        <!-- Faturas Restantes -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
-          <p class="text-xs font-medium text-slate-400 flex items-center justify-between">
-            Faturas Restantes (Setembro) <i class="fa-regular fa-credit-card text-orange-400"></i>
-          </p>
-          <p class="text-2xl font-bold text-orange-400 mt-1" id="dashCardsTotal">R$ 980,09</p>
-          <span class="text-[11px] text-slate-500">Nu Quitado hoje | Resta Inter (22/09)</span>
-        </div>
-
-        <!-- Previsão Outubro -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
-          <p class="text-xs font-medium text-slate-400 flex items-center justify-between">
-            Outubro Previsto (CEMERG) <i class="fa-solid fa-money-bill-trend-up text-sky-400"></i>
-          </p>
-          <p class="text-2xl font-bold text-sky-400 mt-1" id="dashOctIncome">R$ 10.696,56</p>
-          <span class="text-[11px] text-slate-500">Bolsa + Repasse dos plantões</span>
-        </div>
-      </div>
-
-      <!-- LANÇADOR MULTIFUNCIONAL (DESPESA / ENTRADA / CAIXINHA) -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div class="flex justify-between items-center mb-3">
-            <h2 class="font-bold text-white flex items-center gap-2 text-sm">
-              <i class="fa-solid fa-bolt text-amber-400"></i>
-              Lançador de Movimentações
-            </h2>
-            <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">
-              Sincronizado
-            </span>
-          </div>
-
-          <!-- Seletor do Modo de Lançamento -->
-          <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800 mb-3 text-[11px] font-semibold">
-            <button type="button" onclick="setLauncherMode('expense')" id="btnModeExpense" class="py-1.5 rounded-md bg-slate-800 text-rose-400 shadow-sm transition flex items-center justify-center gap-1">
-              <i class="fa-solid fa-arrow-down"></i> Despesa
-            </button>
-            <button type="button" onclick="setLauncherMode('income')" id="btnModeIncome" class="py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1">
-              <i class="fa-solid fa-arrow-up"></i> Entrada
-            </button>
-            <button type="button" onclick="setLauncherMode('transfer')" id="btnModeTransfer" class="py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1">
-              <i class="fa-solid fa-piggy-bank"></i> Caixinha
-            </button>
-          </div>
-
-          <!-- Formulário Dinâmico -->
-          <form id="txForm" onsubmit="saveTransaction(event)" class="space-y-3">
-            <input type="hidden" id="txFlow" value="expense" />
-
-            <div>
-              <label class="block text-xs text-slate-400 mb-1" id="lblDesc">Descrição do Item</label>
-              <input type="text" id="txDesc" required placeholder="Ex: Farmácia, Salário, Reembolso..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 placeholder-slate-600" />
-            </div>
-
-            <div class="grid grid-cols-2 gap-2" id="valInstallmentRow">
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Valor (R$)</label>
-                <input type="number" step="0.01" id="txValue" required placeholder="0,00" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 placeholder-slate-600" />
-              </div>
-              <div id="installmentsCol">
-                <label class="block text-xs text-slate-400 mb-1">Parcelas</label>
-                <select id="txInstallments" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-                  <option value="1">1x (À vista)</option>
-                  <option value="2">2x</option>
-                  <option value="3">3x</option>
-                  <option value="4">4x</option>
-                  <option value="5">5x</option>
-                  <option value="6">6x</option>
-                  <option value="7">7x</option>
-                  <option value="8">8x</option>
-                  <option value="9">9x</option>
-                  <option value="10">10x</option>
-                  <option value="12">12x</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 gap-2" id="methodCategoryGroup">
-              <div id="paymentMethodCol">
-                <label class="block text-xs text-slate-400 mb-1" id="lblPaymentMethod">Origem / Destino</label>
-                <select id="txType" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-                  <option value="debito" selected>Débito / Pix (Sai da Conta Nubank)</option>
-                  <option value="nubank">Crédito Nubank (Fatura)</option>
-                  <option value="inter">Crédito Inter (Fatura)</option>
-                  <option value="reembolso">Reembolsável (Amigo / Namorada)</option>
-                </select>
-              </div>
-              <div id="categoryCol">
-                <label class="block text-xs text-slate-400 mb-1">Aspecto / Categoria</label>
-                <select id="txCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-                  <option value="Supermercado e Alimentação">Supermercado e Alimentação</option>
-                  <option value="Lazer e Restaurantes">Lazer e Restaurantes</option>
-                  <option value="Farmácia & Saúde">Farmácia & Saúde</option>
-                  <option value="Vestuário e Bens Pessoais">Vestuário e Bens Pessoais</option>
-                  <option value="Transporte e Mobilidade">Transporte e Mobilidade</option>
-                  <option value="Moradia e Contas Básicas">Moradia e Contas Básicas</option>
-                  <option value="Família e Dívidas Estruturais">Família e Dívidas Estruturais</option>
-                  <option value="Estruturação e Formação">Estruturação e Formação</option>
-                  <option value="Outros e Avulsos">Outros e Avulsos</option>
-                </select>
-              </div>
-            </div>
-
-            <button type="submit" id="btnSubmitTx" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-2 mt-2">
-              <i class="fa-solid fa-floppy-disk"></i> <span id="btnSubmitText">Gravar Lançamento</span>
-            </button>
-          </form>
-        </div>
-
-        <!-- Lista de Lançamentos Registrados -->
-        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
           <div>
+            <h1 class="font-bold text-base text-white tracking-tight">MedFinance • Residente HUC</h1>
+            <p class="text-xs text-slate-400">Controle Orçamentário & Plantões CEMERG</p>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <!-- Botão de Segurança (Trocar PIN / Bloquear) -->
+          <button onclick="lockAppNow()" title="Bloquear App com PIN" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-lock text-emerald-400"></i> <span class="hidden sm:inline">Bloquear</span>
+          </button>
+
+          <button id="btnSyncCloud" onclick="syncFromCloud()" title="Sincronizar PC & Celular via Google Sheets" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-arrows-rotate text-sky-400" id="syncIcon"></i>
+            <span class="hidden sm:inline" id="syncLabel">Sincronizar</span>
+          </button>
+
+          <button id="btnToggleNotifications" onclick="enablePushNotifications()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+            <i class="fa-regular fa-bell text-amber-400" id="notifIcon"></i>
+            <span class="hidden sm:inline" id="notifLabel">Lembretes</span>
+          </button>
+
+          <button onclick="exportData()" title="Exportar Backup" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-download text-emerald-400"></i> <span class="hidden sm:inline">Backup</span>
+          </button>
+          
+          <span class="text-xs font-semibold px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full">
+            Set/2026
+          </span>
+        </div>
+      </div>
+
+      <!-- Navegação Principal -->
+      <div class="max-w-6xl mx-auto px-4 mt-1 flex space-x-2 border-t border-slate-800/60 pt-2 pb-2 overflow-x-auto no-scrollbar">
+        <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-chart-pie"></i> Visão Geral e Lançador
+        </button>
+        <button onclick="switchTab('history')" id="tab-history" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-clock-rotate-left"></i> Histórico Mensal
+        </button>
+        <button onclick="switchTab('cards')" id="tab-cards" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-regular fa-credit-card text-purple-400"></i> Cartões de Crédito
+        </button>
+        <button onclick="switchTab('expectations')" id="tab-expectations" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-bullseye"></i> Expectativas e Empréstimo
+        </button>
+        <button onclick="switchTab('shifts')" id="tab-shifts" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 border border-transparent transition flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-calendar-days"></i> Agenda de Plantões
+        </button>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 mt-6">
+
+      <!-- ABA 1: VISÃO GERAL E LANÇADOR INTELIGENTE -->
+      <section id="view-dashboard" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative group">
+            <div class="flex justify-between items-center text-xs text-slate-400">
+              <span class="flex items-center gap-1.5">
+                Conta Nubank <i class="fa-solid fa-building-columns text-purple-400"></i>
+              </span>
+              <button onclick="adjustBaseBalance('checking')" title="Calibrar Saldo Inicial" class="text-slate-500 hover:text-emerald-400 transition text-[11px]">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+            </div>
+            <p class="text-2xl font-bold text-white mt-1" id="dashCheckingBalance">R$ 1.019,61</p>
+            <span class="text-[11px] text-slate-500" id="dashCheckingSubtext">Saldo real em 02/09</span>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative group">
+            <div class="flex justify-between items-center text-xs text-slate-400">
+              <span class="flex items-center gap-1.5">
+                Caixinhas Turbo + 100% <i class="fa-solid fa-piggy-bank text-emerald-400"></i>
+              </span>
+              <button onclick="adjustBaseBalance('savings')" title="Calibrar Saldo das Caixinhas" class="text-slate-500 hover:text-emerald-400 transition text-[11px]">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+            </div>
+            <p class="text-2xl font-bold text-emerald-400 mt-1" id="dashSavingsBalance">R$ 14.402,17</p>
+            <span class="text-[11px] text-slate-500">Reserva de Emergência & Metas</span>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
+            <p class="text-xs font-medium text-slate-400 flex items-center justify-between">
+              Faturas Restantes (Setembro) <i class="fa-regular fa-credit-card text-orange-400"></i>
+            </p>
+            <p class="text-2xl font-bold text-orange-400 mt-1" id="dashCardsTotal">R$ 980,09</p>
+            <span class="text-[11px] text-slate-500">Nu Quitado hoje | Resta Inter (22/09)</span>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
+            <p class="text-xs font-medium text-slate-400 flex items-center justify-between">
+              Outubro Previsto (CEMERG) <i class="fa-solid fa-money-bill-trend-up text-sky-400"></i>
+            </p>
+            <p class="text-2xl font-bold text-sky-400 mt-1" id="dashOctIncome">R$ 10.711,59</p>
+            <span class="text-[11px] text-slate-500">Bolsa (R$ 4.065) + Repasse plantões</span>
+          </div>
+        </div>
+
+        <!-- LANÇADOR MULTIFUNCIONAL -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
             <div class="flex justify-between items-center mb-3">
               <h2 class="font-bold text-white flex items-center gap-2 text-sm">
-                <i class="fa-solid fa-clock-rotate-left text-sky-400"></i>
-                Fluxo de Caixa & Lançamentos do Mês
+                <i class="fa-solid fa-bolt text-amber-400"></i>
+                Lançador de Movimentações
               </h2>
-              <button onclick="clearCustomTransactions()" class="text-[11px] text-slate-500 hover:text-rose-400 transition">
-                <i class="fa-solid fa-trash"></i> Limpar Tudo
+              <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">
+                Sincronizado
+              </span>
+            </div>
+
+            <!-- Seletor do Modo de Lançamento -->
+            <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800 mb-3 text-[11px] font-semibold">
+              <button type="button" onclick="setLauncherMode('expense')" id="btnModeExpense" class="py-1.5 rounded-md bg-slate-800 text-rose-400 shadow-sm transition flex items-center justify-center gap-1">
+                <i class="fa-solid fa-arrow-down"></i> Despesa
+              </button>
+              <button type="button" onclick="setLauncherMode('income')" id="btnModeIncome" class="py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1">
+                <i class="fa-solid fa-arrow-up"></i> Entrada
+              </button>
+              <button type="button" onclick="setLauncherMode('transfer')" id="btnModeTransfer" class="py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1">
+                <i class="fa-solid fa-piggy-bank"></i> Caixinha
               </button>
             </div>
-            
-            <div class="space-y-2 overflow-y-auto max-h-60 pr-1" id="txContainer"></div>
-          </div>
 
-          <div class="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
-            <span class="text-slate-400">Total de Despesas do Mês:</span>
-            <span class="font-bold text-rose-400 text-sm" id="realtimeTotal">R$ 0,00</span>
-          </div>
-        </div>
-      </div>
-    </section>
+            <!-- Formulário -->
+            <form id="txForm" onsubmit="saveTransaction(event)" class="space-y-3">
+              <input type="hidden" id="txFlow" value="expense" />
 
-    <!-- ABA 2: HISTÓRICO MENSAL -->
-    <section id="view-history" class="hidden space-y-6">
-      <div class="flex space-x-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
-        <button onclick="switchHistoryMonth('september')" id="subtab-september" class="flex-1 py-2 text-xs font-semibold rounded-lg transition bg-slate-800 text-emerald-400 border border-slate-700">
-          Setembro / 2026 (Do Zero ⚡)
-        </button>
-        <button onclick="switchHistoryMonth('august')" id="subtab-august" class="flex-1 py-2 text-xs font-semibold rounded-lg transition text-slate-400 hover:text-white">
-          Agosto / 2026 (Auditoria Fechada)
-        </button>
-      </div>
-
-      <div id="hist-september" class="space-y-6">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
-            <div>
-              <h2 class="font-bold text-white text-base flex items-center gap-2">
-                <i class="fa-solid fa-bolt text-amber-400"></i>
-                Aspectos da Vida Adulta (Setembro/2026)
-              </h2>
-              <p class="text-xs text-slate-400">Clique na categoria desejada para abrir os detalhes. Use o botão ✕ ao lado de qualquer item para estornar.</p>
-            </div>
-            <span class="text-xs bg-slate-800 text-emerald-400 px-3 py-1 rounded-lg border border-slate-700 font-bold" id="setTotalBadge">
-              Total Setembro: R$ 0,00
-            </span>
-          </div>
-
-          <div class="space-y-2.5" id="septemberAccordionContainer"></div>
-        </div>
-      </div>
-
-      <div id="hist-august" class="hidden space-y-6">
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
-            <div>
-              <h2 class="font-bold text-white text-base flex items-center gap-2">
-                <i class="fa-solid fa-chart-donut text-emerald-400"></i>
-                Aspectos da Vida Adulta (Agosto/2026)
-              </h2>
-              <p class="text-xs text-slate-400">Auditoria fechada consolidando R$ 9.746,32 consumidos no período.</p>
-            </div>
-            <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-lg border border-slate-700">
-              Total Consumido: <strong>R$ 9.746,32</strong>
-            </span>
-          </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div class="lg:col-span-4 flex justify-center sticky top-24">
-              <div class="relative w-full max-w-[240px] h-[240px]">
-                <canvas id="expensesChart"></canvas>
-              </div>
-            </div>
-
-            <div class="lg:col-span-8 space-y-2.5">
-              <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                  <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-rose-500"></span><span>1. Família & Dívidas Estruturais</span></span>
-                  <div class="flex items-center gap-3"><span class="text-slate-200">R$ 4.300,00 (44,1%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                </summary>
-                <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>03/ago • Pix Apoio Familiar (Mãe / Juazeiro)</span><span class="font-bold text-white">R$ 3.000,00</span></div>
-                  <div class="flex justify-between py-1"><span>19/ago • Pix Empréstimo (Levi - Parcela 8/21)</span><span class="font-bold text-white">R$ 1.300,00</span></div>
-                </div>
-              </details>
-
-              <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                  <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-sky-500"></span><span>2. Moradia & Contas Básicas</span></span>
-                  <div class="flex items-center gap-3"><span class="text-slate-200">R$ 1.669,22 (17,1%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                </summary>
-                <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>10/ago • Pix Claudemir (Aluguel Apartamento)</span><span class="font-bold text-white">R$ 1.450,00</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>08/ago • Pix Alares (Internet Fibra)</span><span class="font-bold text-white">R$ 99,99</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>13/ago • Boleto Enel (Energia Elétrica)</span><span class="font-bold text-white">R$ 81,55</span></div>
-                  <div class="flex justify-between py-1"><span>08/ago • Pix TIM (Telefonia Celular)</span><span class="font-bold text-white">R$ 37,68</span></div>
-                </div>
-              </details>
-
-              <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                  <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-500"></span><span>3. Supermercado & Alimentação em Casa</span></span>
-                  <div class="flex items-center gap-3"><span class="text-slate-200">R$ 1.213,36 (12,4%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                </summary>
-                <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>03/ago • Atacadão 620 AS (Feira Principal - Inter)</span><span class="font-bold text-white">R$ 691,30</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>16/ago • Atacadão Complementar (Nubank)</span><span class="font-bold text-white">R$ 290,54</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>21/ago • Pix Bytedance / BOLD (Barras Proteína)</span><span class="font-bold text-white">R$ 79,60</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>23/ago • Farmácia Pague Menos (Nubank)</span><span class="font-bold text-white">R$ 61,37</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>15/ago • Amazon Brasil (Higiene)</span><span class="font-bold text-white">R$ 55,65</span></div>
-                  <div class="flex justify-between py-1"><span>14/ago • Shopee Nivea (Óleo Banho)</span><span class="font-bold text-white">R$ 34,90</span></div>
-                </div>
-              </details>
-
-              <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                  <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-indigo-500"></span><span>4. Estruturação Pessoal & Formação Médica</span></span>
-                  <div class="flex items-center gap-3"><span class="text-slate-200">R$ 968,96 (9,9%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                </summary>
-                <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Cota CEMERG (5/10 - Nubank)</span><span class="font-bold text-white">R$ 380,00</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Magalu Eletros (7/10)</span><span class="font-bold text-white">R$ 330,98</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Máquina de Lavar (8/10 - Inter)</span><span class="font-bold text-white">R$ 222,04</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Plataforma Médica Pg *Wemeds (9/12)</span><span class="font-bold text-white">R$ 20,81</span></div>
-                  <div class="flex justify-between py-1"><span>Recorrente • Zurich Seguros (Nubank)</span><span class="font-bold text-white">R$ 15,13</span></div>
-                </div>
-              </details>
-
-              <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                  <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-500"></span><span>5. Restaurantes, Lazer & Cafés</span></span>
-                  <div class="flex items-center gap-3"><span class="text-slate-200">R$ 918,90 (9,4%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                </summary>
-                <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>14/ago • Sal e Brasa Fortaleza (Churrascaria)</span><span class="font-bold text-white">R$ 185,02</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>21/ago • Ordones Carne de Sol / Ordomar</span><span class="font-bold text-white">R$ 175,00</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>01/ago • Restaurante Feijão Verde (Débito)</span><span class="font-bold text-white">R$ 142,00</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Almoços Rotina • Arilson Martins (Pix + Inter)</span><span class="font-bold text-white">R$ 190,77</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Sobremesas • Ki Açaí + Açaí no Grau</span><span class="font-bold text-white">R$ 99,52</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Rotina Hospitalar • SESC Fortaleza (Cafés)</span><span class="font-bold text-white">R$ 78,20</span></div>
-                  <div class="flex justify-between py-1"><span>Delivery & Lanches Avulsos (iFood, Pastelaria, Star Midia)</span><span class="font-bold text-white">R$ 48,39</span></div>
-                </div>
-              </details>
-
-              <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                  <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-violet-500"></span><span>6. Compras Gerais, Vestuário & Diversos</span></span>
-                  <div class="flex items-center gap-3"><span class="text-slate-200">R$ 597,60 (6,1%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                </summary>
-                <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Camisas Hering (1/3 antiga - Inter)</span><span class="font-bold text-white">R$ 50,87</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Utilidades • Shopee + Amazon Marketplace</span><span class="font-bold text-white">R$ 238,18</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Pix Avulsos & Serviços (Matheus, Damasceno, Gardem...)</span><span class="font-bold text-white">R$ 513,23</span></div>
-                  <div class="flex justify-between py-1 text-emerald-400"><span>Estornos Recebidos (Shein + Amazon)</span><span class="font-bold">-R$ 204,68</span></div>
-                </div>
-              </details>
-
-              <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                  <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-400"></span><span>7. Mobilidade & Transporte</span></span>
-                  <div class="flex items-center gap-3"><span class="text-slate-200">R$ 78,28 (0,8%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                </summary>
-                <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Corridas • Uber (8 viagens líquidas)</span><span class="font-bold text-white">R$ 53,48</span></div>
-                  <div class="flex justify-between py-1 border-b border-slate-900"><span>Corrida • 99 POP</span><span class="font-bold text-white">R$ 9,80</span></div>
-                  <div class="flex justify-between py-1"><span>Estacionamento • Shopping Ancar</span><span class="font-bold text-white">R$ 15,00</span></div>
-                </div>
-              </details>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABA 3: CARTÕES DE CRÉDITO -->
-    <section id="view-cards" class="hidden space-y-6">
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        <!-- Cartão Nubank -->
-        <div class="bg-slate-900 border border-purple-500/30 rounded-2xl p-5 shadow-lg relative overflow-hidden">
-          <div class="absolute -right-8 -top-8 w-28 h-28 bg-purple-600/10 rounded-full blur-xl pointer-events-none"></div>
-          <div class="flex justify-between items-start mb-3">
-            <div class="flex items-center gap-3">
-              <div class="p-2.5 bg-purple-500/20 text-purple-400 rounded-xl border border-purple-500/30">
-                <i class="fa-solid fa-credit-card text-lg"></i>
-              </div>
               <div>
-                <h3 class="font-bold text-white text-base">Nubank</h3>
-                <p class="text-[11px] text-slate-400">Fecha dia <strong>02</strong> • Vence dia <strong>09</strong></p>
+                <label class="block text-xs text-slate-400 mb-1" id="lblDesc">Descrição do Item</label>
+                <input type="text" id="txDesc" required placeholder="Ex: Farmácia, Aluguel, Salário..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 placeholder-slate-600" />
               </div>
-            </div>
-            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full font-semibold border border-emerald-500/30">
-              Setembro Pago ✓
-            </span>
-          </div>
 
-          <div class="space-y-2 pt-1 text-xs">
-            <div class="flex justify-between items-center pb-1.5 border-b border-slate-800">
-              <span class="text-slate-400">Fatura de Setembro (Fechada 02/09):</span>
-              <span class="font-bold text-emerald-400">R$ 0,00 (Liquidado R$ 2.208,28)</span>
-            </div>
-            <div class="flex justify-between items-center pb-1.5 border-b border-slate-800 text-sky-400">
-              <span class="flex items-center gap-1.5 font-medium">
-                <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> Prevista para Outubro (Vence 09/10):
-              </span>
-              <span class="font-bold text-base" id="cardNuNext">R$ 1.133,58</span>
-            </div>
-            <p class="text-[10px] text-slate-400 pt-0.5">
-              Bruto aberto: <strong>R$ 1.555,89</strong> | Abatimento amigos: <strong class="text-emerald-400">-R$ 422,31</strong>
-            </p>
-          </div>
-        </div>
-
-        <!-- Cartão Banco Inter -->
-        <div class="bg-slate-900 border border-orange-500/30 rounded-2xl p-5 shadow-lg relative overflow-hidden">
-          <div class="absolute -right-8 -top-8 w-28 h-28 bg-orange-600/10 rounded-full blur-xl pointer-events-none"></div>
-          <div class="flex justify-between items-start mb-3">
-            <div class="flex items-center gap-3">
-              <div class="p-2.5 bg-orange-500/20 text-orange-400 rounded-xl border border-orange-500/30">
-                <i class="fa-solid fa-credit-card text-lg"></i>
+              <div class="grid grid-cols-2 gap-2" id="valInstallmentRow">
+                <div>
+                  <label class="block text-xs text-slate-400 mb-1">Valor (R$)</label>
+                  <input type="number" step="0.01" id="txValue" required placeholder="0,00" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 placeholder-slate-600" />
+                </div>
+                <div id="installmentsCol">
+                  <label class="block text-xs text-slate-400 mb-1">Parcelas</label>
+                  <select id="txInstallments" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                    <option value="1">1x (À vista)</option>
+                    <option value="2">2x</option>
+                    <option value="3">3x</option>
+                    <option value="4">4x</option>
+                    <option value="5">5x</option>
+                    <option value="6">6x</option>
+                    <option value="7">7x</option>
+                    <option value="8">8x</option>
+                    <option value="9">9x</option>
+                    <option value="10">10x</option>
+                    <option value="12">12x</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <h3 class="font-bold text-white text-base">Banco Inter</h3>
-                <p class="text-[11px] text-slate-400">Fecha dia <strong>16</strong> • Vence dia <strong>22</strong></p>
+
+              <div class="grid grid-cols-1 gap-2" id="methodCategoryGroup">
+                <div id="paymentMethodCol">
+                  <label class="block text-xs text-slate-400 mb-1" id="lblPaymentMethod">Origem / Meio</label>
+                  <select id="txType" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                    <option value="debito" selected>Débito / Pix (Sai da Conta Nubank)</option>
+                    <option value="nubank">Crédito Nubank (Fatura)</option>
+                    <option value="inter">Crédito Inter (Fatura)</option>
+                    <option value="reembolso">Reembolsável (Amigo / Namorada)</option>
+                    <option value="invoice_pay">Pagamento de Fatura de Cartão (Sem duplicar gasto)</option>
+                  </select>
+                </div>
+                <div id="categoryCol">
+                  <label class="block text-xs text-slate-400 mb-1">Aspecto / Categoria</label>
+                  <select id="txCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                    <option value="Moradia e Contas Básicas">Moradia e Contas Básicas</option>
+                    <option value="Família e Dívidas Estruturais">Família e Dívidas Estruturais</option>
+                    <option value="Supermercado e Alimentação">Supermercado e Alimentação</option>
+                    <option value="Lazer e Restaurantes">Lazer e Restaurantes</option>
+                    <option value="Farmácia & Saúde">Farmácia & Saúde</option>
+                    <option value="Vestuário e Bens Pessoais">Vestuário e Bens Pessoais</option>
+                    <option value="Transporte e Mobilidade">Transporte e Mobilidade</option>
+                    <option value="Estruturação e Formação">Estruturação e Formação</option>
+                    <option value="Outros e Avulsos">Outros e Avulsos</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full font-semibold border border-amber-500/30">
-              Vence em 22/Set
-            </span>
+
+              <button type="submit" id="btnSubmitTx" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-2 mt-2">
+                <i class="fa-solid fa-floppy-disk"></i> <span id="btnSubmitText">Gravar Despesa</span>
+              </button>
+            </form>
           </div>
 
-          <div class="space-y-2 pt-1 text-xs">
-            <div class="flex justify-between items-center pb-1.5 border-b border-slate-800">
-              <span class="text-slate-400">Fatura Aberta (Vence 22/Set):</span>
-              <span class="font-bold text-white" id="cardInterCurrent">R$ 980,09</span>
-            </div>
-            <div class="flex justify-between items-center pb-1.5 border-b border-slate-800 text-sky-400">
-              <span class="flex items-center gap-1.5 font-medium">
-                <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> Prevista para Outubro (Vence 22/10):
-              </span>
-              <span class="font-bold text-base" id="cardInterNext">R$ 272,91</span>
-            </div>
-            <p class="text-[10px] text-slate-400 pt-0.5">
-              Feira Atacadão (R$ 691,30) + Máquina (R$ 222,04) - Estorno Shein (-R$ 114,69).
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Compras no Crédito Adicionadas Este Mês (Apenas Crédito Real) -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-        <div class="flex justify-between items-center mb-3">
-          <h3 class="font-bold text-white text-sm flex items-center gap-2">
-            <i class="fa-solid fa-credit-card text-purple-400"></i>
-            Novas Compras no Cartão de Crédito (Setembro)
-          </h3>
-          <span class="text-[10px] bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded border border-slate-700 font-medium" id="newCreditBadge">
-            0 compras no crédito
-          </span>
-        </div>
-        <div class="space-y-2 overflow-y-auto max-h-48 pr-1" id="newCreditContainer"></div>
-      </div>
-
-      <!-- Raio-X das Compras Parceladas Ativas -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
-          <div>
-            <h3 class="font-bold text-white text-sm flex items-center gap-2">
-              <i class="fa-solid fa-list-ol text-purple-400"></i>
-              Raio-X das Compras Parceladas Ativas
-            </h3>
-            <p class="text-xs text-slate-400 mt-0.5">
-              Base oficial auditada dos extratos Nubank e Banco Inter.
-            </p>
-          </div>
-          <span class="text-xs bg-purple-500/10 text-purple-300 px-3 py-1 rounded-full border border-purple-500/20 font-semibold">
-            Extratos Sincronizados
-          </span>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
-                <th class="p-3">Item / Compra</th>
-                <th class="p-3">Cartão</th>
-                <th class="p-3">Parcela Atual</th>
-                <th class="p-3">Valor / Mês</th>
-                <th class="p-3">Restam</th>
-                <th class="p-3">Término Previsto</th>
-                <th class="p-3 text-right">Saldo Devedor</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800/60 text-slate-300">
+          <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h2 class="font-bold text-white flex items-center gap-2 text-sm">
+                  <i class="fa-solid fa-clock-rotate-left text-sky-400"></i>
+                  Fluxo de Caixa & Lançamentos do Mês
+                </h2>
+                <button onclick="clearCustomTransactions()" class="text-[11px] text-slate-500 hover:text-rose-400 transition">
+                  <i class="fa-solid fa-trash"></i> Limpar Tudo
+                </button>
+              </div>
               
-              <tr class="hover:bg-slate-800/30">
-                <td class="p-3 font-semibold text-white">Cota CEMERG Cooperativa</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                <td class="p-3 font-bold text-white">6 / 10</td>
-                <td class="p-3 font-bold text-white">R$ 380,00</td>
-                <td class="p-3 text-slate-400">4 parcelas</td>
-                <td class="p-3 text-sky-400 font-medium">Janeiro/2027</td>
-                <td class="p-3 text-right font-bold text-white">R$ 1.520,00</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30">
-                <td class="p-3 font-semibold text-white">Magalu Eletrodomésticos (175,09 + 155,89)</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                <td class="p-3 font-bold text-white">8 / 10</td>
-                <td class="p-3 font-bold text-white">R$ 330,98</td>
-                <td class="p-3 text-slate-400">2 parcelas</td>
-                <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
-                <td class="p-3 text-right font-bold text-white">R$ 661,96</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30">
-                <td class="p-3 font-semibold text-white">Máquina de Lavar Roupas</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px]">Inter</span></td>
-                <td class="p-3 font-bold text-white">8 / 10</td>
-                <td class="p-3 font-bold text-white">R$ 222,04</td>
-                <td class="p-3 text-slate-400">2 parcelas</td>
-                <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
-                <td class="p-3 text-right font-bold text-white">R$ 444,08</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30">
-                <td class="p-3 font-semibold text-white">Previstory - Vistorias Apartamento</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                <td class="p-3 font-bold text-white">1 / 2</td>
-                <td class="p-3 font-bold text-white">R$ 197,16</td>
-                <td class="p-3 text-slate-400">1 parcela</td>
-                <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
-                <td class="p-3 text-right font-bold text-white">R$ 197,16</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30">
-                <td class="p-3 font-semibold text-white">Camisas Hering (Compra Setembro)</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                <td class="p-3 font-bold text-white">1 / 6</td>
-                <td class="p-3 font-bold text-white">R$ 78,91</td>
-                <td class="p-3 text-slate-400">5 parcelas</td>
-                <td class="p-3 text-sky-400 font-medium">Fevereiro/2027</td>
-                <td class="p-3 text-right font-bold text-white">R$ 394,55</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30">
-                <td class="p-3 font-semibold text-white">Camisas Hering (Compra Antiga)</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px]">Inter</span></td>
-                <td class="p-3 font-bold text-white">1 / 3</td>
-                <td class="p-3 font-bold text-white">R$ 50,87</td>
-                <td class="p-3 text-slate-400">2 parcelas</td>
-                <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
-                <td class="p-3 text-right font-bold text-white">R$ 101,74</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30">
-                <td class="p-3 font-semibold text-white">Amazon Logcomerc Utilidades</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                <td class="p-3 font-bold text-white">2 / 4</td>
-                <td class="p-3 font-bold text-white">R$ 31,51</td>
-                <td class="p-3 text-slate-400">2 parcelas</td>
-                <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
-                <td class="p-3 text-right font-bold text-white">R$ 63,02</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30">
-                <td class="p-3 font-semibold text-white">Plataforma Médica Wemeds</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                <td class="p-3 font-bold text-white">10 / 12</td>
-                <td class="p-3 font-bold text-white">R$ 20,81</td>
-                <td class="p-3 text-slate-400">2 parcelas</td>
-                <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
-                <td class="p-3 text-right font-bold text-white">R$ 41,62</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30 opacity-75">
-                <td class="p-3 font-semibold text-slate-400">Amazon Marketplace CC (Final)</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                <td class="p-3 font-bold text-emerald-400">6 / 6</td>
-                <td class="p-3 font-bold text-slate-400">R$ 38,57</td>
-                <td class="p-3 text-emerald-400 font-bold">0 parcelas</td>
-                <td class="p-3 text-emerald-400 font-bold">Encerrado Out/26</td>
-                <td class="p-3 text-right font-bold text-emerald-400">R$ 0,00</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30 opacity-75">
-                <td class="p-3 font-semibold text-slate-400">Amazon Br Higiene (Final)</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                <td class="p-3 font-bold text-emerald-400">2 / 2</td>
-                <td class="p-3 font-bold text-slate-400">R$ 55,65</td>
-                <td class="p-3 text-emerald-400 font-bold">0 parcelas</td>
-                <td class="p-3 text-emerald-400 font-bold">Encerrado Out/26</td>
-                <td class="p-3 text-right font-bold text-emerald-400">R$ 0,00</td>
-              </tr>
-
-              <tr class="hover:bg-slate-800/30 opacity-75">
-                <td class="p-3 font-semibold text-slate-400">Mercadolivre * Lojamoto (Amigo - Final)</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                <td class="p-3 font-bold text-emerald-400">2 / 2</td>
-                <td class="p-3 font-bold text-slate-400">R$ 200,58</td>
-                <td class="p-3 text-emerald-400 font-bold">0 parcelas</td>
-                <td class="p-3 text-emerald-400 font-bold">Encerrado Out/26</td>
-                <td class="p-3 text-right font-bold text-emerald-400">R$ 0,00</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Curva de Desafogamento -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-        <h3 class="font-bold text-white text-sm mb-2 flex items-center gap-2">
-          <i class="fa-solid fa-chart-line text-emerald-400"></i>
-          Curva de Desafogamento das Faturas (Comprometimento Futuro)
-        </h3>
-        <p class="text-xs text-slate-400 mb-4">
-          Conforme as parcelas de compras antigas vão acabando, o seu gasto mensal fixo de cartão diminui:
-        </p>
-
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-            <span class="text-[10px] text-slate-400 uppercase font-semibold block">Set/2026</span>
-            <span class="text-sm font-bold text-orange-400 mt-1 block">R$ 980</span>
-            <span class="text-[9px] text-slate-500">Apenas Banco Inter</span>
-          </div>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-            <span class="text-[10px] text-slate-400 uppercase font-semibold block">Out/2026</span>
-            <span class="text-sm font-bold text-amber-400 mt-1 block" id="projOutTotal">R$ 1.406</span>
-            <span class="text-[9px] text-slate-500">Nu Liq + Inter Fixo</span>
-          </div>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-            <span class="text-[10px] text-slate-400 uppercase font-semibold block">Nov/2026</span>
-            <span class="text-sm font-bold text-sky-400 mt-1 block">~R$ 1.090</span>
-            <span class="text-[9px] text-slate-500">Fim: Magalu + Wemeds</span>
-          </div>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-            <span class="text-[10px] text-slate-400 uppercase font-semibold block">Dez/2026</span>
-            <span class="text-sm font-bold text-emerald-400 mt-1 block">~R$ 842</span>
-            <span class="text-[9px] text-slate-500">Inter 100% zerado!</span>
-          </div>
-          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-            <span class="text-[10px] text-slate-400 uppercase font-semibold block">Jan/2027</span>
-            <span class="text-sm font-bold text-emerald-400 mt-1 block">~R$ 458</span>
-            <span class="text-[9px] text-slate-500">Cota CEMERG quitada</span>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ABA 4: EXPECTATIVAS E EMPRÉSTIMO -->
-    <section id="view-expectations" class="hidden space-y-6">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-          <h2 class="font-bold text-white text-sm flex items-center gap-2">
-            <i class="fa-solid fa-map-location-dot text-emerald-400"></i>
-            Planejamento Tático: Rodízios da Residência vs. Finanças
-          </h2>
-          <span class="text-[11px] bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-500/20 font-medium">
-            Atualizado automaticamente com sua escala
-          </span>
-        </div>
-        <p class="text-xs text-slate-400 mb-4">
-          Todos os plantões extras são realizados no <strong>HUC</strong>. A defasagem CEMERG (D+60: ciclo 16 a 15) calcula automaticamente as entradas conforme os plantões agendados.
-        </p>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
-                <th class="p-3">Mês Caixa</th>
-                <th class="p-3">Seu Rodízio da Residência</th>
-                <th class="p-3">Entradas (Bolsa + CEMERG)</th>
-                <th class="p-3">Faturas Estimadas</th>
-                <th class="p-3">Sobra / Superávit</th>
-                <th class="p-3">Diretriz Estratégica</th>
-              </tr>
-            </thead>
-            <tbody id="expectationsTableBody" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-          <div>
-            <h3 class="font-bold text-white text-sm flex items-center gap-2">
-              <i class="fa-solid fa-handshake-simple text-indigo-400"></i>
-              Controle Oficial do Empréstimo (Total: R$ 25.842,00 em 21x)
-            </h3>
-            <p class="text-xs text-slate-400 mt-0.5">
-              Visualização limpa com foco nas parcelas restantes.
-            </p>
-          </div>
-          <span class="text-xs bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full border border-indigo-500/20 font-bold" id="loanStatusBadge">
-            Restam 13 parcelas (R$ 15.682,00)
-          </span>
-        </div>
-
-        <div class="w-full bg-slate-800 rounded-full h-2.5 mt-3 mb-2">
-          <div class="bg-indigo-500 h-2.5 rounded-full transition-all duration-500" id="loanProgressBar" style="width: 39.3%"></div>
-        </div>
-        <div class="flex justify-between text-[11px] text-slate-400 mb-4">
-          <span id="loanPaidSummary">8 pagas (R$ 10.160,00)</span>
-          <span id="loanPercentSummary">39,3% quitado</span>
-        </div>
-
-        <div class="mb-4">
-          <h4 class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5">
-            <i class="fa-regular fa-clock text-amber-400"></i> Parcelas Restantes a Pagar
-          </h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5" id="loanPendingContainer"></div>
-        </div>
-
-        <details class="group bg-slate-950/80 border border-slate-800 rounded-xl overflow-hidden transition mt-4">
-          <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold text-slate-300">
-            <span class="flex items-center gap-2">
-              <i class="fa-solid fa-circle-check text-emerald-400"></i>
-              <span id="loanPaidExpanderTitle">Ver parcelas já quitadas (8 de 21 pagas)</span>
-            </span>
-            <div class="flex items-center gap-2">
-              <span class="text-[11px] text-emerald-400 font-bold" id="loanPaidExpanderTotal">R$ 10.160,00</span>
-              <i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i>
+              <div class="space-y-2 overflow-y-auto max-h-60 pr-1" id="txContainer"></div>
             </div>
-          </summary>
-          <div class="p-3 pt-2 border-t border-slate-900 bg-slate-900/20">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5" id="loanPaidContainer"></div>
-          </div>
-        </details>
-      </div>
-    </section>
 
-    <!-- ABA 5: AGENDA DE PLANTÕES -->
-    <section id="view-shifts" class="hidden space-y-6">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+            <div class="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
+              <span class="text-slate-400">Total de Despesas Lançadas em Setembro:</span>
+              <span class="font-bold text-rose-400 text-sm" id="realtimeTotal">R$ 0,00</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA 2: HISTÓRICO MENSAL -->
+      <section id="view-history" class="hidden space-y-6">
+        <div class="flex space-x-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
+          <button onclick="switchHistoryMonth('september')" id="subtab-september" class="flex-1 py-2 text-xs font-semibold rounded-lg transition bg-slate-800 text-emerald-400 border border-slate-700">
+            Setembro / 2026 (Do Zero ⚡)
+          </button>
+          <button onclick="switchHistoryMonth('august')" id="subtab-august" class="flex-1 py-2 text-xs font-semibold rounded-lg transition text-slate-400 hover:text-white">
+            Agosto / 2026 (Auditoria Fechada)
+          </button>
+        </div>
+
+        <div id="hist-september" class="space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
+              <div>
+                <h2 class="font-bold text-white text-base flex items-center gap-2">
+                  <i class="fa-solid fa-bolt text-amber-400"></i>
+                  Aspectos da Vida Adulta (Setembro/2026)
+                </h2>
+                <p class="text-xs text-slate-400">Adicione os pagamentos de Moradia e Família conforme forem pagos. Clique no ✕ para estornar qualquer item.</p>
+              </div>
+              <span class="text-xs bg-slate-800 text-emerald-400 px-3 py-1 rounded-lg border border-slate-700 font-bold" id="setTotalBadge">
+                Total Setembro: R$ 0,00
+              </span>
+            </div>
+
+            <div class="space-y-2.5" id="septemberAccordionContainer"></div>
+          </div>
+        </div>
+
+        <div id="hist-august" class="hidden space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
+              <div>
+                <h2 class="font-bold text-white text-base flex items-center gap-2">
+                  <i class="fa-solid fa-chart-donut text-emerald-400"></i>
+                  Aspectos da Vida Adulta (Agosto/2026)
+                </h2>
+                <p class="text-xs text-slate-400">Auditoria fechada consolidando R$ 9.746,32 consumidos no período[cite: 2].</p>
+              </div>
+              <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-lg border border-slate-700">
+                Total Consumido: <strong>R$ 9.746,32</strong>
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              <div class="lg:col-span-4 flex justify-center sticky top-24">
+                <div class="relative w-full max-w-[240px] h-[240px]">
+                  <canvas id="expensesChart"></canvas>
+                </div>
+              </div>
+
+              <div class="lg:col-span-8 space-y-2.5">
+                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
+                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-rose-500"></span><span>1. Família & Dívidas Estruturais</span></span>
+                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 4.300,00 (44,1%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
+                  </summary>
+                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>03/ago • Pix Apoio Familiar (Mãe / Juazeiro)</span><span class="font-bold text-white">R$ 3.000,00</span></div>
+                    <div class="flex justify-between py-1"><span>19/ago • Pix Empréstimo (Levi - Parcela 8/21)</span><span class="font-bold text-white">R$ 1.300,00</span></div>
+                  </div>
+                </details>
+
+                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
+                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-sky-500"></span><span>2. Moradia & Contas Básicas</span></span>
+                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 1.669,22 (17,1%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
+                  </summary>
+                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>10/ago • Pix Claudemir (Aluguel Apartamento)</span><span class="font-bold text-white">R$ 1.450,00</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>08/ago • Pix Alares (Internet Fibra)</span><span class="font-bold text-white">R$ 99,99</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>13/ago • Boleto Enel (Energia Elétrica)</span><span class="font-bold text-white">R$ 81,55</span></div>
+                    <div class="flex justify-between py-1"><span>08/ago • Pix TIM (Telefonia Celular)</span><span class="font-bold text-white">R$ 37,68</span></div>
+                  </div>
+                </details>
+
+                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
+                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-500"></span><span>3. Supermercado & Alimentação em Casa</span></span>
+                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 1.213,36 (12,4%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
+                  </summary>
+                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>03/ago • Atacadão 620 AS (Feira Principal - Inter)</span><span class="font-bold text-white">R$ 691,30</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>16/ago • Atacadão Complementar (Nubank)</span><span class="font-bold text-white">R$ 290,54</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>21/ago • Pix Bytedance / BOLD (Barras Proteína)</span><span class="font-bold text-white">R$ 79,60</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>23/ago • Farmácia Pague Menos (Nubank)</span><span class="font-bold text-white">R$ 61,37</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>15/ago • Amazon Brasil (Higiene)</span><span class="font-bold text-white">R$ 55,65</span></div>
+                    <div class="flex justify-between py-1"><span>14/ago • Shopee Nivea (Óleo Banho)</span><span class="font-bold text-white">R$ 34,90</span></div>
+                  </div>
+                </details>
+
+                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
+                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-indigo-500"></span><span>4. Estruturação Pessoal & Formação Médica</span></span>
+                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 968,96 (9,9%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
+                  </summary>
+                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Cota CEMERG (5/10 - Nubank)</span><span class="font-bold text-white">R$ 380,00</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Magalu Eletros (7/10)</span><span class="font-bold text-white">R$ 330,98</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Máquina de Lavar (8/10 - Inter)</span><span class="font-bold text-white">R$ 222,04</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Plataforma Médica Pg *Wemeds (9/12)</span><span class="font-bold text-white">R$ 20,81</span></div>
+                    <div class="flex justify-between py-1"><span>Recorrente • Zurich Seguros (Nubank)</span><span class="font-bold text-white">R$ 15,13</span></div>
+                  </div>
+                </details>
+
+                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
+                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-500"></span><span>5. Restaurantes, Lazer & Cafés</span></span>
+                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 918,90 (9,4%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
+                  </summary>
+                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>14/ago • Sal e Brasa Fortaleza (Churrascaria)</span><span class="font-bold text-white">R$ 185,02</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>21/ago • Ordones Carne de Sol / Ordomar</span><span class="font-bold text-white">R$ 175,00</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>01/ago • Restaurante Feijão Verde (Débito)</span><span class="font-bold text-white">R$ 142,00</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Almoços Rotina • Arilson Martins (Pix + Inter)</span><span class="font-bold text-white">R$ 190,77</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Sobremesas • Ki Açaí + Açaí no Grau</span><span class="font-bold text-white">R$ 99,52</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Rotina Hospitalar • SESC Fortaleza (Cafés)</span><span class="font-bold text-white">R$ 78,20</span></div>
+                    <div class="flex justify-between py-1"><span>Delivery & Lanches Avulsos (iFood, Pastelaria, Star Midia)</span><span class="font-bold text-white">R$ 48,39</span></div>
+                  </div>
+                </details>
+
+                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
+                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-violet-500"></span><span>6. Compras Gerais, Vestuário & Diversos</span></span>
+                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 597,60 (6,1%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
+                  </summary>
+                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Camisas Hering (1/3 antiga - Inter)</span><span class="font-bold text-white">R$ 50,87</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Utilidades • Shopee + Amazon Marketplace</span><span class="font-bold text-white">R$ 238,18</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Pix Avulsos & Serviços (Matheus, Damasceno, Gardem...)</span><span class="font-bold text-white">R$ 513,23</span></div>
+                    <div class="flex justify-between py-1 text-emerald-400"><span>Estornos Recebidos (Shein + Amazon)</span><span class="font-bold">-R$ 204,68</span></div>
+                  </div>
+                </details>
+
+                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
+                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-400"></span><span>7. Mobilidade & Transporte</span></span>
+                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 78,28 (0,8%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
+                  </summary>
+                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Corridas • Uber (8 viagens líquidas)</span><span class="font-bold text-white">R$ 53,48</span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Corrida • 99 POP</span><span class="font-bold text-white">R$ 9,80</span></div>
+                    <div class="flex justify-between py-1"><span>Estacionamento • Shopping Ancar</span><span class="font-bold text-white">R$ 15,00</span></div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA 3: CARTÕES DE CRÉDITO -->
+      <section id="view-cards" class="hidden space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div class="bg-slate-900 border border-purple-500/30 rounded-2xl p-5 shadow-lg relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 w-28 h-28 bg-purple-600/10 rounded-full blur-xl pointer-events-none"></div>
+            <div class="flex justify-between items-start mb-3">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-purple-500/20 text-purple-400 rounded-xl border border-purple-500/30">
+                  <i class="fa-solid fa-credit-card text-lg"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-white text-base">Nubank</h3>
+                  <p class="text-[11px] text-slate-400">Fecha dia <strong>02</strong> • Vence dia <strong>09</strong></p>
+                </div>
+              </div>
+              <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full font-semibold border border-emerald-500/30">
+                Setembro Pago ✓
+              </span>
+            </div>
+
+            <div class="space-y-2 pt-1 text-xs">
+              <div class="flex justify-between items-center pb-1.5 border-b border-slate-800">
+                <span class="text-slate-400">Fatura de Setembro (Fechada 02/09):</span>
+                <span class="font-bold text-emerald-400">R$ 0,00 (Liquidado R$ 2.208,28)</span>
+              </div>
+              <div class="flex justify-between items-center pb-1.5 border-b border-slate-800 text-sky-400">
+                <span class="flex items-center gap-1.5 font-medium">
+                  <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> Prevista para Outubro (Vence 09/10):
+                </span>
+                <span class="font-bold text-base" id="cardNuNext">R$ 1.133,58</span>
+              </div>
+              <p class="text-[10px] text-slate-400 pt-0.5">
+                Bruto aberto: <strong>R$ 1.555,89</strong> | Abatimento amigos: <strong class="text-emerald-400">-R$ 422,31</strong>
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 border border-orange-500/30 rounded-2xl p-5 shadow-lg relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 w-28 h-28 bg-orange-600/10 rounded-full blur-xl pointer-events-none"></div>
+            <div class="flex justify-between items-start mb-3">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-orange-500/20 text-orange-400 rounded-xl border border-orange-500/30">
+                  <i class="fa-solid fa-credit-card text-lg"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-white text-base">Banco Inter</h3>
+                  <p class="text-[11px] text-slate-400">Fecha dia <strong>16</strong> • Vence dia <strong>22</strong></p>
+                </div>
+              </div>
+              <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full font-semibold border border-amber-500/30">
+                Vence em 22/Set
+              </span>
+            </div>
+
+            <div class="space-y-2 pt-1 text-xs">
+              <div class="flex justify-between items-center pb-1.5 border-b border-slate-800">
+                <span class="text-slate-400">Fatura Aberta (Vence 22/Set):</span>
+                <span class="font-bold text-white" id="cardInterCurrent">R$ 980,09</span>
+              </div>
+              <div class="flex justify-between items-center pb-1.5 border-b border-slate-800 text-sky-400">
+                <span class="flex items-center gap-1.5 font-medium">
+                  <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> Prevista para Outubro (Vence 22/10):
+                </span>
+                <span class="font-bold text-base" id="cardInterNext">R$ 272,91</span>
+              </div>
+              <p class="text-[10px] text-slate-400 pt-0.5">
+                Feira Atacadão (R$ 691,30) + Máquina (R$ 222,04) - Estorno Shein (-R$ 114,69).
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Compras no Crédito (Apenas t.type === 'nubank' ou 'inter') -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
           <div class="flex justify-between items-center mb-3">
-            <h2 class="font-bold text-white text-sm flex items-center gap-2">
-              <i class="fa-solid fa-calendar-plus text-sky-400"></i> Agendar Plantão HUC
-            </h2>
-            <span class="text-[10px] bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded border border-sky-500/20">
-              Auto-Sync Nuvem
+            <h3 class="font-bold text-white text-sm flex items-center gap-2">
+              <i class="fa-solid fa-credit-card text-purple-400"></i>
+              Novas Compras no Cartão de Crédito (Setembro)
+            </h3>
+            <span class="text-[10px] bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded border border-slate-700 font-medium" id="newCreditBadge">
+              0 compras no crédito
+            </span>
+          </div>
+          <div class="space-y-2 overflow-y-auto max-h-48 pr-1" id="newCreditContainer"></div>
+        </div>
+
+        <!-- Raio-X das Compras Parceladas Ativas -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+            <div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-2">
+                <i class="fa-solid fa-list-ol text-purple-400"></i>
+                Raio-X das Compras Parceladas Ativas
+              </h3>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Base oficial auditada dos extratos Nubank e Banco Inter[cite: 1, 2].
+              </p>
+            </div>
+            <span class="text-xs bg-purple-500/10 text-purple-300 px-3 py-1 rounded-full border border-purple-500/20 font-semibold">
+              Extratos Sincronizados
             </span>
           </div>
 
-          <form id="shiftForm" onsubmit="saveShift(event)" class="space-y-3">
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Data do Plantão</label>
-              <input type="date" id="shiftDate" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
-            </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                  <th class="p-3">Item / Compra</th>
+                  <th class="p-3">Cartão</th>
+                  <th class="p-3">Parcela Atual</th>
+                  <th class="p-3">Valor / Mês</th>
+                  <th class="p-3">Restam</th>
+                  <th class="p-3">Término Previsto</th>
+                  <th class="p-3 text-right">Saldo Devedor</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-white">Cota CEMERG Cooperativa</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
+                  <td class="p-3 font-bold text-white">6 / 10</td>
+                  <td class="p-3 font-bold text-white">R$ 380,00</td>
+                  <td class="p-3 text-slate-400">4 parcelas</td>
+                  <td class="p-3 text-sky-400 font-medium">Janeiro/2027</td>
+                  <td class="p-3 text-right font-bold text-white">R$ 1.520,00</td>
+                </tr>
 
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Setor / Unidade (HUC)</label>
-              <select id="shiftUnit" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
-                <option value="HUC (PX) - UROLOGIA">HUC (PX) - UROLOGIA</option>
-                <option value="HUC (PX) - CX TORÁCICA">HUC (PX) - CX TORÁCICA</option>
-                <option value="HUC (PX) - CX ONCOLÓGICA">HUC (PX) - CX ONCOLÓGICA</option>
-                <option value="HUC - UCP">HUC - UCP</option>
-                <option value="HUC - UIB">HUC - UIB</option>
-              </select>
-            </div>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-white">Magalu Eletrodomésticos (175,09 + 155,89)</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
+                  <td class="p-3 font-bold text-white">8 / 10</td>
+                  <td class="p-3 font-bold text-white">R$ 330,98</td>
+                  <td class="p-3 text-slate-400">2 parcelas</td>
+                  <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
+                  <td class="p-3 text-right font-bold text-white">R$ 661,96</td>
+                </tr>
 
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Turno & Carga Horária</label>
-              <select id="shiftDuration" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
-                <option value="6_M">Manhã (6h) • R$ 830,82 Líquido</option>
-                <option value="6_T">Tarde (6h) • R$ 830,82 Líquido</option>
-                <option value="12_MT">MT 12h (Manhã + Tarde) • R$ 1.661,64 Líquido</option>
-                <option value="12_SN">SN 12h (Noite) • R$ 1.661,64 Líquido</option>
-              </select>
-            </div>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-white">Máquina de Lavar Roupas</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px]">Inter</span></td>
+                  <td class="p-3 font-bold text-white">8 / 10</td>
+                  <td class="p-3 font-bold text-white">R$ 222,04</td>
+                  <td class="p-3 text-slate-400">2 parcelas</td>
+                  <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
+                  <td class="p-3 text-right font-bold text-white">R$ 444,08</td>
+                </tr>
 
-            <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-medium py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-calendar-check"></i> Adicionar à Escala
-            </button>
-          </form>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-white">Previstory - Vistorias Apartamento</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
+                  <td class="p-3 font-bold text-white">1 / 2</td>
+                  <td class="p-3 font-bold text-white">R$ 197,16</td>
+                  <td class="p-3 text-slate-400">1 parcela</td>
+                  <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
+                  <td class="p-3 text-right font-bold text-white">R$ 197,16</td>
+                </tr>
+
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-white">Camisas Hering (Compra Setembro)</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
+                  <td class="p-3 font-bold text-white">1 / 6</td>
+                  <td class="p-3 font-bold text-white">R$ 78,91</td>
+                  <td class="p-3 text-slate-400">5 parcelas</td>
+                  <td class="p-3 text-sky-400 font-medium">Fevereiro/2027</td>
+                  <td class="p-3 text-right font-bold text-white">R$ 394,55</td>
+                </tr>
+
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-white">Camisas Hering (Compra Antiga)</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px]">Inter</span></td>
+                  <td class="p-3 font-bold text-white">1 / 3</td>
+                  <td class="p-3 font-bold text-white">R$ 50,87</td>
+                  <td class="p-3 text-slate-400">2 parcelas</td>
+                  <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
+                  <td class="p-3 text-right font-bold text-white">R$ 101,74</td>
+                </tr>
+
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-white">Amazon Logcomerc Utilidades</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
+                  <td class="p-3 font-bold text-white">2 / 4</td>
+                  <td class="p-3 font-bold text-white">R$ 31,51</td>
+                  <td class="p-3 text-slate-400">2 parcelas</td>
+                  <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
+                  <td class="p-3 text-right font-bold text-white">R$ 63,02</td>
+                </tr>
+
+                <tr class="hover:bg-slate-800/30">
+                  <td class="p-3 font-semibold text-white">Plataforma Médica Wemeds</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
+                  <td class="p-3 font-bold text-white">10 / 12</td>
+                  <td class="p-3 font-bold text-white">R$ 20,81</td>
+                  <td class="p-3 text-slate-400">2 parcelas</td>
+                  <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
+                  <td class="p-3 text-right font-bold text-white">R$ 41,62</td>
+                </tr>
+
+                <tr class="hover:bg-slate-800/30 opacity-75">
+                  <td class="p-3 font-semibold text-slate-400">Amazon Marketplace CC (Final)</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
+                  <td class="p-3 font-bold text-emerald-400">6 / 6</td>
+                  <td class="p-3 font-bold text-slate-400">R$ 38,57</td>
+                  <td class="p-3 text-emerald-400 font-bold">0 parcelas</td>
+                  <td class="p-3 text-emerald-400 font-bold">Encerrado Out/26</td>
+                  <td class="p-3 text-right font-bold text-emerald-400">R$ 0,00</td>
+                </tr>
+
+                <tr class="hover:bg-slate-800/30 opacity-75">
+                  <td class="p-3 font-semibold text-slate-400">Amazon Br Higiene (Final)</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
+                  <td class="p-3 font-bold text-emerald-400">2 / 2</td>
+                  <td class="p-3 font-bold text-slate-400">R$ 55,65</td>
+                  <td class="p-3 text-emerald-400 font-bold">0 parcelas</td>
+                  <td class="p-3 text-emerald-400 font-bold">Encerrado Out/26</td>
+                  <td class="p-3 text-right font-bold text-emerald-400">R$ 0,00</td>
+                </tr>
+
+                <tr class="hover:bg-slate-800/30 opacity-75">
+                  <td class="p-3 font-semibold text-slate-400">Mercadolivre * Lojamoto (Amigo - Final)</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
+                  <td class="p-3 font-bold text-emerald-400">2 / 2</td>
+                  <td class="p-3 font-bold text-slate-400">R$ 200,58</td>
+                  <td class="p-3 text-emerald-400 font-bold">0 parcelas</td>
+                  <td class="p-3 text-emerald-400 font-bold">Encerrado Out/26</td>
+                  <td class="p-3 text-right font-bold text-emerald-400">R$ 0,00</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
-          <div>
+        <!-- Curva de Desafogamento -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <h3 class="font-bold text-white text-sm mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-chart-line text-emerald-400"></i>
+            Curva de Desafogamento das Faturas (Comprometimento Futuro)
+          </h3>
+          <p class="text-xs text-slate-400 mb-4">
+            Conforme as parcelas de compras antigas vão acabando, o seu gasto mensal fixo de cartão diminui:
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Set/2026</span>
+              <span class="text-sm font-bold text-orange-400 mt-1 block">R$ 980</span>
+              <span class="text-[9px] text-slate-500">Apenas Banco Inter</span>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Out/2026</span>
+              <span class="text-sm font-bold text-amber-400 mt-1 block" id="projOutTotal">R$ 1.406</span>
+              <span class="text-[9px] text-slate-500">Nu Liq + Inter Fixo</span>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Nov/2026</span>
+              <span class="text-sm font-bold text-sky-400 mt-1 block">~R$ 1.090</span>
+              <span class="text-[9px] text-slate-500">Fim: Magalu + Wemeds</span>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Dez/2026</span>
+              <span class="text-sm font-bold text-emerald-400 mt-1 block">~R$ 842</span>
+              <span class="text-[9px] text-slate-500">Inter 100% zerado!</span>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Jan/2027</span>
+              <span class="text-sm font-bold text-emerald-400 mt-1 block">~R$ 458</span>
+              <span class="text-[9px] text-slate-500">Cota CEMERG quitada</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ABA 4: EXPECTATIVAS E EMPRÉSTIMO -->
+      <section id="view-expectations" class="hidden space-y-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+            <h2 class="font-bold text-white text-sm flex items-center gap-2">
+              <i class="fa-solid fa-map-location-dot text-emerald-400"></i>
+              Planejamento Tático: Rodízios da Residência vs. Finanças
+            </h2>
+            <span class="text-[11px] bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-500/20 font-medium">
+              Atualizado automaticamente com sua escala
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 mb-4">
+            Todos os plantões extras são realizados no <strong>HUC</strong>. A defasagem CEMERG (D+60: ciclo 16 a 15) calcula automaticamente as entradas conforme os plantões agendados.
+          </p>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                  <th class="p-3">Mês Caixa</th>
+                  <th class="p-3">Seu Rodízio da Residência</th>
+                  <th class="p-3">Entradas (Bolsa + CEMERG)</th>
+                  <th class="p-3">Faturas Estimadas</th>
+                  <th class="p-3">Sobra / Superávit</th>
+                  <th class="p-3">Diretriz Estratégica</th>
+                </tr>
+              </thead>
+              <tbody id="expectationsTableBody" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+            <div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-2">
+                <i class="fa-solid fa-handshake-simple text-indigo-400"></i>
+                Controle Oficial do Empréstimo (Total: R$ 25.842,00 em 21x)
+              </h3>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Visualização limpa com foco nas parcelas restantes.
+              </p>
+            </div>
+            <span class="text-xs bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full border border-indigo-500/20 font-bold" id="loanStatusBadge">
+              Restam 13 parcelas (R$ 15.682,00)
+            </span>
+          </div>
+
+          <div class="w-full bg-slate-800 rounded-full h-2.5 mt-3 mb-2">
+            <div class="bg-indigo-500 h-2.5 rounded-full transition-all duration-500" id="loanProgressBar" style="width: 39.3%"></div>
+          </div>
+          <div class="flex justify-between text-[11px] text-slate-400 mb-4">
+            <span id="loanPaidSummary">8 pagas (R$ 10.160,00)</span>
+            <span id="loanPercentSummary">39,3% quitado</span>
+          </div>
+
+          <div class="mb-4">
+            <h4 class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5">
+              <i class="fa-regular fa-clock text-amber-400"></i> Parcelas Restantes a Pagar
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5" id="loanPendingContainer"></div>
+          </div>
+
+          <details class="group bg-slate-950/80 border border-slate-800 rounded-xl overflow-hidden transition mt-4">
+            <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold text-slate-300">
+              <span class="flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span id="loanPaidExpanderTitle">Ver parcelas já quitadas (8 de 21 pagas)</span>
+              </span>
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] text-emerald-400 font-bold" id="loanPaidExpanderTotal">R$ 10.160,00</span>
+                <i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i>
+              </div>
+            </summary>
+            <div class="p-3 pt-2 border-t border-slate-900 bg-slate-900/20">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5" id="loanPaidContainer"></div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ABA 5: AGENDA DE PLANTÕES -->
+      <section id="view-shifts" class="hidden space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
             <div class="flex justify-between items-center mb-3">
               <h2 class="font-bold text-white text-sm flex items-center gap-2">
-                <i class="fa-solid fa-list-check text-emerald-400"></i> Escala Registrada (HUC)
+                <i class="fa-solid fa-calendar-plus text-sky-400"></i> Agendar Plantão HUC
               </h2>
-              <button onclick="clearShifts()" class="text-[11px] text-slate-500 hover:text-rose-400 transition">
-                <i class="fa-solid fa-trash"></i> Limpar Escala
-              </button>
+              <span class="text-[10px] bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded border border-sky-500/20">
+                Auto-Sync Nuvem
+              </span>
             </div>
-            <div class="space-y-2 overflow-y-auto max-h-56 pr-1" id="shiftsListContainer"></div>
+
+            <form id="shiftForm" onsubmit="saveShift(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Data do Plantão</label>
+                <input type="date" id="shiftDate" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
+              </div>
+
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Setor / Unidade (HUC)</label>
+                <select id="shiftUnit" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+                  <option value="HUC (PX) - UROLOGIA">HUC (PX) - UROLOGIA</option>
+                  <option value="HUC (PX) - CX TORÁCICA">HUC (PX) - CX TORÁCICA</option>
+                  <option value="HUC (PX) - CX ONCOLÓGICA">HUC (PX) - CX ONCOLÓGICA</option>
+                  <option value="HUC - UCP">HUC - UCP</option>
+                  <option value="HUC - UIB">HUC - UIB</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Turno & Carga Horária</label>
+                <select id="shiftDuration" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+                  <option value="6_M">Manhã (6h) • R$ 830,82 Líquido</option>
+                  <option value="6_T">Tarde (6h) • R$ 830,82 Líquido</option>
+                  <option value="12_MT">MT 12h (Manhã + Tarde) • R$ 1.661,64 Líquido</option>
+                  <option value="12_SN">SN 12h (Noite) • R$ 1.661,64 Líquido</option>
+                </select>
+              </div>
+
+              <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-medium py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-calendar-check"></i> Adicionar à Escala
+              </button>
+            </form>
           </div>
 
-          <div class="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
-            <span class="text-slate-400">Total Líquido Registrado:</span>
-            <span class="font-bold text-emerald-400 text-sm" id="shiftsTotalValue">R$ 0,00</span>
+          <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h2 class="font-bold text-white text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-list-check text-emerald-400"></i> Escala Registrada (HUC)
+                </h2>
+                <button onclick="clearShifts()" class="text-[11px] text-slate-500 hover:text-rose-400 transition">
+                  <i class="fa-solid fa-trash"></i> Limpar Escala
+                </button>
+              </div>
+              <div class="space-y-2 overflow-y-auto max-h-56 pr-1" id="shiftsListContainer"></div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
+              <span class="text-slate-400">Total Líquido Registrado:</span>
+              <span class="font-bold text-emerald-400 text-sm" id="shiftsTotalValue">R$ 0,00</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- CALENDÁRIO COM FERIADOS -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
-          <div class="flex items-center gap-3">
-            <div class="p-2 bg-sky-500/10 text-sky-400 rounded-lg">
-              <i class="fa-solid fa-calendar-alt"></i>
+        <!-- CALENDÁRIO COM FERIADOS -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-sky-500/10 text-sky-400 rounded-lg">
+                <i class="fa-solid fa-calendar-alt"></i>
+              </div>
+              <h2 class="font-bold text-white text-sm" id="calMonthTitle">Setembro de 2026</h2>
             </div>
-            <h2 class="font-bold text-white text-sm" id="calMonthTitle">Setembro de 2026</h2>
+
+            <div class="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-end">
+              <div class="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
+                <button onclick="setCalLayout('grid')" id="layout-btn-grid" class="px-3 py-1 rounded font-medium transition bg-slate-800 text-emerald-400 shadow-sm flex items-center gap-1.5">
+                  <i class="fa-solid fa-table-cells"></i> <span class="hidden sm:inline">Grade</span>
+                </button>
+                <button onclick="setCalLayout('timeline')" id="layout-btn-timeline" class="px-3 py-1 rounded font-medium transition text-slate-400 hover:text-white flex items-center gap-1.5">
+                  <i class="fa-solid fa-list-ul"></i> <span class="hidden sm:inline">Agenda Diária</span>
+                </button>
+              </div>
+
+              <div class="flex items-center space-x-1">
+                <button onclick="changeCalMonth(-1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition">
+                  <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button onclick="changeCalMonth(1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div class="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-end">
-            <div class="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
-              <button onclick="setCalLayout('grid')" id="layout-btn-grid" class="px-3 py-1 rounded font-medium transition bg-slate-800 text-emerald-400 shadow-sm flex items-center gap-1.5">
-                <i class="fa-solid fa-table-cells"></i> <span class="hidden sm:inline">Grade</span>
-              </button>
-              <button onclick="setCalLayout('timeline')" id="layout-btn-timeline" class="px-3 py-1 rounded font-medium transition text-slate-400 hover:text-white flex items-center gap-1.5">
-                <i class="fa-solid fa-list-ul"></i> <span class="hidden sm:inline">Agenda Diária</span>
-              </button>
-            </div>
-
-            <div class="flex items-center space-x-1">
-              <button onclick="changeCalMonth(-1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition">
-                <i class="fa-solid fa-chevron-left"></i>
-              </button>
-              <button onclick="changeCalMonth(1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition">
-                <i class="fa-solid fa-chevron-right"></i>
-              </button>
-            </div>
-          </div>
+          <div id="calendarViewContainer"></div>
         </div>
+      </section>
 
-        <div id="calendarViewContainer"></div>
-      </div>
-    </section>
-
-  </main>
+    </main>
+  </div>
 
   <script>
     const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwEGtKT-lQl1mIBOl8Jo5K0zsLlAiMUqiEL6V1291uWBAiD9byoeHUsAOP_1R2TOHxOBg/exec";
 
+    // =================================================================
+    // COFRE E TELA DE BLOQUEIO POR PIN
+    // =================================================================
+    let currentPinInput = "";
+    
+    function getStoredPin() {
+      return localStorage.getItem('medfinance_user_pin') || '1234';
+    }
+
+    function pressPin(digit) {
+      if (currentPinInput.length < 4) {
+        currentPinInput += digit;
+        updatePinDots();
+      }
+      if (currentPinInput.length === 4) {
+        setTimeout(verifyPin, 100);
+      }
+    }
+
+    function deletePinDigit() {
+      if (currentPinInput.length > 0) {
+        currentPinInput = currentPinInput.slice(0, -1);
+        updatePinDots();
+      }
+    }
+
+    function clearPin() {
+      currentPinInput = "";
+      updatePinDots();
+      document.getElementById('pinFeedback').innerText = "Digite seu PIN";
+      document.getElementById('pinFeedback').className = "text-[11px] text-slate-500";
+    }
+
+    function updatePinDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (i < currentPinInput.length) {
+          dot.className = "w-3.5 h-3.5 rounded-full border border-emerald-400 bg-emerald-400 shadow-sm shadow-emerald-500/50 transition";
+        } else {
+          dot.className = "w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950 transition";
+        }
+      }
+    }
+
+    function verifyPin() {
+      const correctPin = getStoredPin();
+      if (currentPinInput === correctPin) {
+        document.getElementById('pinLockScreen').classList.add('hidden');
+        document.getElementById('appProtectedContent').classList.remove('hidden');
+        sessionStorage.setItem('medfinance_unlocked', 'true');
+      } else {
+        document.getElementById('pinFeedback').innerText = "PIN incorreto! Tente novamente.";
+        document.getElementById('pinFeedback').className = "text-[11px] text-rose-400 font-bold";
+        setTimeout(clearPin, 600);
+      }
+    }
+
+    function lockAppNow() {
+      sessionStorage.removeItem('medfinance_unlocked');
+      currentPinInput = "";
+      updatePinDots();
+      document.getElementById('appProtectedContent').classList.add('hidden');
+      document.getElementById('pinLockScreen').classList.remove('hidden');
+    }
+
+    // Auto-desbloqueio durante a mesma sessão do navegador
+    if (sessionStorage.getItem('medfinance_unlocked') === 'true') {
+      document.getElementById('pinLockScreen').classList.add('hidden');
+      document.getElementById('appProtectedContent').classList.remove('hidden');
+    }
+
+    // =================================================================
+    // BANCO DE DADOS E FERIADOS
+    // =================================================================
     const HOLIDAYS_DATABASE = {
       '2026-01-01': 'Ano Novo',
       '2026-02-17': 'Carnaval',
@@ -948,1284 +1066,6 @@
       }
       const monthNames = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
       return `${monthNames[targetM]}/${targetY}`;
-    }
-
-    // =================================================================
-    // CONTROLE DE SALDO VIVO (CONTA CORRENTE E CAIXINHAS)
-    // =================================================================
-    function getBaseBalances() {
-      const stored = localStorage.getItem('med_finance_base_balances');
-      if (stored) return JSON.parse(stored);
-      // Saldo base de partida em 31/08/2026
-      return { checking: 1754.58, savings: 14402.17 };
-    }
-
-    function adjustBaseBalance(type) {
-      const current = getBaseBalances();
-      const label = type === 'checking' ? 'Saldo Inicial da Conta Nubank' : 'Saldo das Caixinhas Nubank';
-      const defaultVal = type === 'checking' ? current.checking : current.savings;
-
-      const input = prompt(`Digite o novo valor para calibrar o ${label}:`, defaultVal.toFixed(2));
-      if (input !== null) {
-        const val = parseFloat(input.replace(',', '.'));
-        if (!isNaN(val)) {
-          if (type === 'checking') current.checking = val;
-          else current.savings = val;
-          localStorage.setItem('med_finance_base_balances', JSON.stringify(current));
-          renderLiveBalances();
-        }
-      }
-    }
-
-    function renderLiveBalances() {
-      const base = getBaseBalances();
-      const txs = getStoredTxs();
-
-      let checking = base.checking;
-      let savings = base.savings;
-      let totalDebitsThisMonth = 0;
-
-      txs.forEach(t => {
-        const val = t.installmentValue || t.value;
-        const flow = t.flow || 'expense';
-
-        if (flow === 'income') {
-          checking += val;
-        } else if (flow === 'transfer_to_savings') {
-          checking -= val;
-          savings += val;
-        } else if (flow === 'transfer_to_checking') {
-          savings -= val;
-          checking += val;
-        } else {
-          // Despesa
-          if (t.type === 'debito') {
-            checking -= val;
-            totalDebitsThisMonth += val;
-          }
-        }
-      });
-
-      const checkingElem = document.getElementById('dashCheckingBalance');
-      const savingsElem = document.getElementById('dashSavingsBalance');
-      const subtextElem = document.getElementById('dashCheckingSubtext');
-
-      if (checkingElem) checkingElem.innerText = 'R$ ' + checking.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-      if (savingsElem) savingsElem.innerText = 'R$ ' + savings.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-      if (subtextElem) {
-        subtextElem.innerText = `Saldo atualizado em conta`;
-      }
-    }
-
-    // =================================================================
-    // ALTERNADOR DO MODO DO LANÇADOR (DESPESA / ENTRADA / CAIXINHA)
-    // =================================================================
-    let currentLauncherMode = 'expense';
-
-    function setLauncherMode(mode) {
-      currentLauncherMode = mode;
-      document.getElementById('txFlow').value = mode;
-
-      const btnExp = document.getElementById('btnModeExpense');
-      const btnInc = document.getElementById('btnModeIncome');
-      const btnTra = document.getElementById('btnModeTransfer');
-
-      [btnExp, btnInc, btnTra].forEach(b => {
-        b.className = "py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1";
-      });
-
-      const installmentsCol = document.getElementById('installmentsCol');
-      const categoryCol = document.getElementById('categoryCol');
-      const methodSelect = document.getElementById('txType');
-      const lblPaymentMethod = document.getElementById('lblPaymentMethod');
-      const btnSubmitText = document.getElementById('btnSubmitText');
-
-      if (mode === 'expense') {
-        btnExp.className = "py-1.5 rounded-md bg-slate-800 text-rose-400 shadow-sm transition flex items-center justify-center gap-1 font-bold";
-        installmentsCol.classList.remove('hidden');
-        categoryCol.classList.remove('hidden');
-        lblPaymentMethod.innerText = "Forma de Pagamento";
-        methodSelect.innerHTML = `
-          <option value="debito" selected>Débito / Pix (Sai da Conta Nubank)</option>
-          <option value="nubank">Crédito Nubank (Fatura)</option>
-          <option value="inter">Crédito Inter (Fatura)</option>
-          <option value="reembolso">Reembolsável (Amigo / Namorada)</option>
-        `;
-        btnSubmitText.innerText = "Gravar Despesa";
-
-      } else if (mode === 'income') {
-        btnInc.className = "py-1.5 rounded-md bg-slate-800 text-emerald-400 shadow-sm transition flex items-center justify-center gap-1 font-bold";
-        installmentsCol.classList.add('hidden');
-        categoryCol.classList.add('hidden');
-        lblPaymentMethod.innerText = "Destino do Recebimento";
-        methodSelect.innerHTML = `
-          <option value="income_checking" selected>Entra na Conta Nubank (Pix / TED / Salário)</option>
-        `;
-        btnSubmitText.innerText = "Registrar Entrada (+ Saldo)";
-
-      } else if (mode === 'transfer') {
-        btnTra.className = "py-1.5 rounded-md bg-slate-800 text-amber-400 shadow-sm transition flex items-center justify-center gap-1 font-bold";
-        installmentsCol.classList.add('hidden');
-        categoryCol.classList.add('hidden');
-        lblPaymentMethod.innerText = "Operação da Caixinha";
-        methodSelect.innerHTML = `
-          <option value="to_savings" selected>Guardar (Conta Nubank ➔ Caixinha)</option>
-          <option value="to_checking">Resgatar (Caixinha ➔ Conta Nubank)</option>
-        `;
-        btnSubmitText.innerText = "Transferir Caixinha";
-      }
-    }
-
-    // =================================================================
-    // SINCRONIZAÇÃO EM DUAS VIAS BLINDADA CONTRA CACHE
-    // =================================================================
-    async function syncFromCloud(silent = false) {
-      const syncIcon = document.getElementById('syncIcon');
-      const syncLabel = document.getElementById('syncLabel');
-      
-      if (!silent && syncIcon) syncIcon.classList.add('fa-spin');
-      if (!silent && syncLabel) syncLabel.innerText = "Atualizando...";
-
-      try {
-        const noCacheUrl = GOOGLE_SHEETS_URL + (GOOGLE_SHEETS_URL.includes('?') ? '&' : '?') + 't=' + Date.now();
-        const res = await fetch(noCacheUrl);
-        const data = await res.json();
-
-        if (data && data.status === "success") {
-          if (Array.isArray(data.expenses)) {
-            // Normaliza types garantindo que debito seja estritamente debito
-            const cleanExpenses = data.expenses.map(t => {
-              let typeKey = t.type || 'debito';
-              const nameLower = (t.typeName || '').toLowerCase();
-              if (nameLower.includes('crédito nubank')) typeKey = 'nubank';
-              else if (nameLower.includes('crédito inter')) typeKey = 'inter';
-              else if (nameLower.includes('débito') || nameLower.includes('pix')) typeKey = 'debito';
-              return { ...t, type: typeKey };
-            });
-            localStorage.setItem('med_finance_txs', JSON.stringify(cleanExpenses));
-          }
-
-          if (Array.isArray(data.shifts) && data.shifts.length > 0) {
-            const cleanShifts = data.shifts.map(s => {
-              const parsed = parseDateParts(s.date);
-              const payoutCalculated = s.payout && !s.payout.includes('GMT') ? s.payout : calculatePayoutMonth(parsed.dateKey);
-              return {
-                ...s,
-                date: parsed.dateKey,
-                payout: payoutCalculated
-              };
-            });
-            localStorage.setItem('med_finance_shifts', JSON.stringify(cleanShifts));
-          }
-
-          renderTxs();
-          renderShifts();
-          renderSeptemberRealtimeHistory();
-          renderCardsTab();
-          renderLiveBalances();
-          renderExpectationsTable();
-          renderCalendar();
-
-          if (!silent && syncLabel) syncLabel.innerText = "Sincronizado ✓";
-        }
-      } catch (err) {
-        console.warn("Sincronização offline. Usando cache local.", err);
-        if (!silent && syncLabel) syncLabel.innerText = "Offline";
-      } finally {
-        if (!silent && syncIcon) syncIcon.classList.remove('fa-spin');
-        setTimeout(() => {
-          if (syncLabel) syncLabel.innerText = "Sincronizar";
-        }, 2000);
-      }
-    }
-
-    // Navegação Principal de Abas
-    function switchTab(tabId) {
-      ['dashboard', 'history', 'cards', 'expectations', 'shifts'].forEach(id => {
-        document.getElementById(`view-${id}`).classList.add('hidden');
-        document.getElementById(`tab-${id}`).classList.remove('active');
-      });
-      document.getElementById(`view-${tabId}`).classList.remove('hidden');
-      document.getElementById(`tab-${tabId}`).classList.add('active');
-      if (tabId === 'history') renderSeptemberRealtimeHistory();
-      if (tabId === 'cards') renderCardsTab();
-      if (tabId === 'expectations') {
-        renderExpectationsTable();
-        renderLoanInstallments();
-      }
-      if (tabId === 'shifts') renderCalendar();
-    }
-
-    function switchHistoryMonth(month) {
-      if (month === 'august') {
-        document.getElementById('hist-august').classList.remove('hidden');
-        document.getElementById('hist-september').classList.add('hidden');
-        document.getElementById('subtab-august').className = "flex-1 py-2 text-xs font-semibold rounded-lg transition bg-slate-800 text-emerald-400 border border-slate-700";
-        document.getElementById('subtab-september').className = "flex-1 py-2 text-xs font-semibold rounded-lg transition text-slate-400 hover:text-white";
-      } else {
-        document.getElementById('hist-august').classList.add('hidden');
-        document.getElementById('hist-september').classList.remove('hidden');
-        document.getElementById('subtab-september').className = "flex-1 py-2 text-xs font-semibold rounded-lg transition bg-slate-800 text-emerald-400 border border-slate-700";
-        document.getElementById('subtab-august').className = "flex-1 py-2 text-xs font-semibold rounded-lg transition text-slate-400 hover:text-white";
-        renderSeptemberRealtimeHistory();
-      }
-    }
-
-    // Gráfico de Agosto
-    const ctx = document.getElementById('expensesChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Família & Dívidas', 'Moradia & Contas', 'Supermercado & Casa', 'Estruturação & Bens', 'Restaurantes & Lazer', 'Compras Gerais', 'Transporte'],
-        datasets: [{
-          data: [4300.00, 1669.22, 1213.36, 968.96, 918.90, 597.60, 78.28],
-          backgroundColor: ['#f43f5e', '#0284c7', '#10b981', '#6366f1', '#f59e0b', '#8b5cf6', '#94a3b8'],
-          borderWidth: 2,
-          borderColor: '#0f172a'
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '70%',
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: function(c) {
-                const val = c.raw;
-                const pct = ((val / 9746.32) * 100).toFixed(1);
-                return ` R$ ${val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (${pct}%)`;
-              }
-            }
-          }
-        }
-      }
-    });
-
-    // Lançamentos Manuais
-    function getStoredTxs() {
-      const data = localStorage.getItem('med_finance_txs');
-      return data ? JSON.parse(data) : [];
-    }
-
-    function renderTxs() {
-      const container = document.getElementById('txContainer');
-      const list = getStoredTxs();
-      let totalExpense = 0;
-
-      if (list.length === 0) {
-        container.innerHTML = `
-          <div class="text-center py-8 text-slate-500 text-xs">
-            <i class="fa-regular fa-folder-open text-2xl mb-2 block"></i>
-            Nenhuma movimentação registrada em Setembro.<br>Utilize o formulário ao lado para registrar entradas ou saídas.
-          </div>
-        `;
-        document.getElementById('realtimeTotal').innerText = 'R$ 0,00';
-        return;
-      }
-
-      let html = '';
-      list.forEach((item, index) => {
-        const val = item.installmentValue || item.value;
-        const flow = item.flow || 'expense';
-        
-        let flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold">Saída</span>`;
-        let valColor = 'text-white';
-        let valSign = '';
-
-        if (flow === 'income') {
-          flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">Entrada</span>`;
-          valColor = 'text-emerald-400 font-bold';
-          valSign = '+ ';
-        } else if (flow.includes('transfer')) {
-          flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold">Caixinha</span>`;
-          valColor = 'text-amber-300 font-bold';
-        } else {
-          totalExpense += val;
-        }
-
-        const parcelInfo = item.installments > 1 ? ` (${item.installments}x de R$ ${val.toFixed(2)})` : '';
-
-        html += `
-          <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
-            <div>
-              <p class="font-medium text-slate-200">${item.desc}${parcelInfo}</p>
-              <div class="flex items-center gap-2 mt-0.5">
-                ${flowBadge}
-                <span class="text-[10px] text-slate-400">${item.category || 'Movimentação'}</span>
-                <span class="text-[10px] text-slate-600">•</span>
-                <span class="text-[10px] text-slate-500">${item.typeName}</span>
-              </div>
-            </div>
-            <div class="text-right">
-              <span class="${valColor}">${valSign}R$ ${val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-              <button onclick="removeTx(${index})" class="block text-[10px] text-slate-600 hover:text-rose-400 ml-auto mt-0.5">Remover</button>
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-      document.getElementById('realtimeTotal').innerText = 'R$ ' + totalExpense.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-    }
-
-    async function saveTransaction(e) {
-      e.preventDefault();
-      const btn = document.getElementById('btnSubmitTx');
-      const btnText = document.getElementById('btnSubmitText');
-      
-      const mode = currentLauncherMode;
-      const desc = document.getElementById('txDesc').value;
-      const totalVal = parseFloat(document.getElementById('txValue').value);
-      const installments = (mode === 'expense') ? parseInt(document.getElementById('txInstallments').value) : 1;
-      const rawType = document.getElementById('txType').value;
-      const category = (mode === 'expense') ? document.getElementById('txCategory').value : (mode === 'income' ? 'Entradas & Receitas' : 'Caixinha');
-
-      let typeKey = 'debito';
-      let typeName = 'Débito / Pix (Nubank)';
-      let flow = 'expense';
-
-      if (mode === 'income') {
-        typeKey = 'income';
-        typeName = 'Entrada Conta Nubank';
-        flow = 'income';
-      } else if (mode === 'transfer') {
-        if (rawType === 'to_savings') {
-          typeKey = 'transfer_savings';
-          typeName = 'Guardado na Caixinha';
-          flow = 'transfer_to_savings';
-        } else {
-          typeKey = 'transfer_checking';
-          typeName = 'Resgate da Caixinha';
-          flow = 'transfer_to_checking';
-        }
-      } else {
-        // Despesa
-        typeKey = rawType;
-        const typeNames = {
-          'debito': 'Débito / Pix (Nubank)',
-          'nubank': 'Crédito Nubank',
-          'inter': 'Crédito Inter',
-          'reembolso': 'Reembolsável'
-        };
-        typeName = typeNames[rawType];
-        flow = 'expense';
-      }
-
-      const installmentValue = Number((totalVal / installments).toFixed(2));
-      const formattedDesc = installments > 1 ? `${desc} (1/${installments})` : desc;
-
-      const newItem = {
-        desc: formattedDesc,
-        totalValue: totalVal,
-        installments: installments,
-        installmentValue: installmentValue,
-        value: installmentValue,
-        type: typeKey,
-        typeName: typeName,
-        category: category,
-        flow: flow,
-        date: new Date().toLocaleString('pt-BR')
-      };
-
-      const list = getStoredTxs();
-      list.unshift(newItem);
-      localStorage.setItem('med_finance_txs', JSON.stringify(list));
-
-      document.getElementById('txForm').reset();
-      renderTxs();
-      renderSeptemberRealtimeHistory();
-      renderCardsTab();
-      renderLiveBalances();
-
-      if (btnText) btnText.innerText = "Gravando na Nuvem...";
-      if (btn) btn.classList.add('opacity-75');
-
-      if (GOOGLE_SHEETS_URL) {
-        try {
-          await fetch(GOOGLE_SHEETS_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              entity: 'expense',
-              desc: `${desc} [${typeName}]`,
-              value: (flow === 'income') ? -installmentValue : installmentValue,
-              typeName: typeName,
-              category: category,
-              date: new Date().toLocaleString('pt-BR')
-            })
-          });
-        } catch (err) {
-          console.error("Erro ao sincronizar com Google Sheets:", err);
-        }
-      }
-
-      if (btnText) btnText.innerText = (mode === 'income') ? "Registrar Entrada (+ Saldo)" : ((mode === 'transfer') ? "Transferir Caixinha" : "Gravar Despesa");
-      if (btn) btn.classList.remove('opacity-75');
-    }
-
-    function removeTx(index) {
-      const list = getStoredTxs();
-      const removed = list[index];
-      list.splice(index, 1);
-      localStorage.setItem('med_finance_txs', JSON.stringify(list));
-      renderTxs();
-      renderSeptemberRealtimeHistory();
-      renderCardsTab();
-      renderLiveBalances();
-
-      if (GOOGLE_SHEETS_URL && removed) {
-        try {
-          fetch(GOOGLE_SHEETS_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              entity: 'expense',
-              desc: `[ESTORNO / EXCLUSÃO] ${removed.desc}`,
-              value: -(removed.installmentValue || removed.value),
-              typeName: removed.typeName,
-              category: removed.category,
-              date: new Date().toLocaleString('pt-BR')
-            })
-          });
-        } catch (err) {
-          console.error("Erro ao sincronizar estorno:", err);
-        }
-      }
-    }
-
-    function clearCustomTransactions() {
-      if (confirm('Deseja apagar todos os lançamentos manuais registrados?')) {
-        localStorage.removeItem('med_finance_txs');
-        renderTxs();
-        renderSeptemberRealtimeHistory();
-        renderCardsTab();
-        renderLiveBalances();
-      }
-    }
-
-    // Histórico de Setembro
-    function renderSeptemberRealtimeHistory() {
-      const container = document.getElementById('septemberAccordionContainer');
-      if (!container) return;
-
-      const customTxs = getStoredTxs();
-
-      const categories = [
-        { id: 'sup', title: '1. Supermercado e Alimentação', color: 'bg-emerald-500', baseItems: [] },
-        { id: 'res', title: '2. Lazer e Restaurantes', color: 'bg-amber-500', baseItems: [] },
-        { id: 'far', title: '3. Farmácia & Saúde', color: 'bg-teal-500', baseItems: [] },
-        { id: 'ves', title: '4. Vestuário e Bens Pessoais', color: 'bg-violet-500', baseItems: [] },
-        { id: 'tra', title: '5. Transporte e Mobilidade', color: 'bg-slate-400', baseItems: [] },
-        { id: 'mor', title: '6. Moradia e Contas Básicas', color: 'bg-sky-500', baseItems: [
-          { text: 'Aluguel Apartamento (Claudemir)', val: 1450.00, isFixed: true },
-          { text: 'Internet Fibra (Alares)', val: 99.99, isFixed: true },
-          { text: 'Telefonia Celular (TIM)', val: 37.68, isFixed: true }
-        ]},
-        { id: 'fam', title: '7. Família e Dívidas Estruturais', color: 'bg-rose-500', baseItems: [] },
-        { id: 'est', title: '8. Estruturação e Formação', color: 'bg-indigo-500', baseItems: [] },
-        { id: 'out', title: '9. Outros e Avulsos', color: 'bg-yellow-500', baseItems: [] }
-      ];
-
-      const categoryMap = {
-        'supermercado e alimentação': 0,
-        'lazer e restaurantes': 1,
-        'farmácia & saúde': 2,
-        'vestuário e bens pessoais': 3,
-        'transporte e mobilidade': 4,
-        'moradia e contas básicas': 5,
-        'família e dívidas estruturais': 6,
-        'estruturação e formação': 7,
-        'outros e avulsos': 8
-      };
-
-      customTxs.forEach((tx, globalIdx) => {
-        // Apenas despesas entram no histórico mensal
-        if (tx.flow === 'income' || (tx.flow && tx.flow.includes('transfer'))) return;
-
-        const val = tx.installmentValue || tx.value;
-        const normalized = (tx.category || '').toLowerCase().trim();
-        const targetIdx = categoryMap[normalized] !== undefined ? categoryMap[normalized] : 8;
-
-        categories[targetIdx].baseItems.push({
-          text: `${tx.desc} (${tx.typeName})`,
-          val: val,
-          isFixed: false,
-          txIndex: globalIdx
-        });
-      });
-
-      let grandTotal = 0;
-      categories.forEach(c => {
-        c.subtotal = c.baseItems.reduce((acc, it) => acc + it.val, 0);
-        grandTotal += c.subtotal;
-      });
-
-      const badgeElem = document.getElementById('setTotalBadge');
-      if (badgeElem) badgeElem.innerText = `Total Setembro: R$ ${grandTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-
-      let html = '';
-      categories.forEach(cat => {
-        const pct = grandTotal > 0 ? ((cat.subtotal / grandTotal) * 100).toFixed(1) : '0.0';
-        const hasItems = cat.baseItems.length > 0;
-
-        html += `
-          <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-            <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-              <span class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full ${cat.color}"></span>
-                <span>${cat.title}</span>
-              </span>
-              <div class="flex items-center gap-3">
-                <span class="text-slate-200">R$ ${cat.subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (${pct}%)</span>
-                <i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i>
-              </div>
-            </summary>
-            <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-              ${hasItems ? cat.baseItems.map(it => `
-                <div class="flex justify-between items-center py-1 border-b border-slate-900/80">
-                  <span class="text-slate-200">${it.text}</span>
-                  <div class="flex items-center gap-2">
-                    <span class="font-bold text-white">R$ ${it.val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-                    ${!it.isFixed ? `
-                      <button onclick="removeTx(${it.txIndex})" title="Excluir ou estornar este item" class="text-slate-500 hover:text-rose-400 p-1 transition">
-                        <i class="fa-solid fa-xmark text-xs"></i>
-                      </button>
-                    ` : ''}
-                  </div>
-                </div>
-              `).join('') : '<div class="py-1 text-slate-600 italic">Nenhum gasto registrado nesta categoria em setembro.</div>'}
-            </div>
-          </details>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-
-    // =================================================================
-    // RENDERIZADOR DA ABA DE CARTÕES (APENAS COMPRAS NO CRÉDITO)
-    // =================================================================
-    function renderCardsTab() {
-      const txs = getStoredTxs();
-
-      // CORREÇÃO CRÍTICA: Filtra estritamente compras no crédito (t.type === 'nubank' ou 'inter')
-      // Débitos em conta e Pix NUNCA entram aqui
-      const nuNewTxs = txs.filter(t => t.type === 'nubank');
-      const interNewTxs = txs.filter(t => t.type === 'inter');
-
-      const nuNewTotal = nuNewTxs.reduce((acc, t) => acc + (t.installmentValue || t.value), 0);
-      const interNewTotal = interNewTxs.reduce((acc, t) => acc + (t.installmentValue || t.value), 0);
-
-      // Fatura de Setembro: Nubank quitado em 02/09; resta Inter (R$ 980,09)
-      const interSeptCurrent = 980.09 + interNewTotal;
-      document.getElementById('cardInterCurrent').innerText = 'R$ ' + interSeptCurrent.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-      document.getElementById('dashCardsTotal').innerText = 'R$ ' + interSeptCurrent.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-
-      // Previsão Real de Outubro/2026:
-      // Nubank Líquido Pessoal apurado no OFX: R$ 1.133,58 (R$ 1.555,89 bruto - R$ 422,31 amigos)
-      // Banco Inter Outubro apurado: R$ 272,91 (Máquina R$ 222,04 + Hering R$ 50,87)
-      const nuNextTotal = 1133.58 + nuNewTotal;
-      const interNextTotal = 272.91 + interNewTotal;
-      const cartoesOutubroTotal = nuNextTotal + interNextTotal;
-
-      document.getElementById('cardNuNext').innerText = 'R$ ' + nuNextTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-      document.getElementById('cardInterNext').innerText = 'R$ ' + interNextTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-      
-      const projOutElem = document.getElementById('projOutTotal');
-      if (projOutElem) {
-        projOutElem.innerText = 'R$ ' + Math.round(cartoesOutubroTotal).toLocaleString('pt-BR');
-      }
-
-      // Container de novos lançamentos no crédito
-      const newCreditContainer = document.getElementById('newCreditContainer');
-      const allCreditNew = [...nuNewTxs, ...interNewTxs];
-      document.getElementById('newCreditBadge').innerText = `${allCreditNew.length} compras no crédito`;
-
-      if (allCreditNew.length === 0) {
-        newCreditContainer.innerHTML = `
-          <div class="text-center py-4 text-slate-500 text-xs">
-            Nenhuma nova compra além das parcelas contratuais já apuradas no extrato.
-          </div>
-        `;
-      } else {
-        let html = '';
-        allCreditNew.forEach(t => {
-          const isNu = (t.type === 'nubank');
-          const badgeClass = isNu ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-orange-500/20 text-orange-300 border-orange-500/30';
-          const cardName = isNu ? 'Nubank' : 'Inter';
-          const val = t.installmentValue || t.value;
-          const parcelText = t.installments > 1 ? ` (${t.installments}x de R$ ${val.toFixed(2)})` : ' (À vista)';
-
-          html += `
-            <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
-              <div>
-                <p class="font-medium text-white">${t.desc}${parcelText}</p>
-                <div class="flex items-center gap-2 mt-0.5">
-                  <span class="text-[9px] px-1.5 py-0.5 rounded border font-semibold ${badgeClass}">${cardName}</span>
-                  <span class="text-[10px] text-slate-500">${t.category}</span>
-                </div>
-              </div>
-              <span class="font-bold text-white">R$ ${val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-            </div>
-          `;
-        });
-        newCreditContainer.innerHTML = html;
-      }
-    }
-
-    // Controle do Empréstimo
-    const defaultLoanSchedule = [
-      { num: 1, month: 'janeiro/26', val: 1162.00, paid: true },
-      { num: 2, month: 'fevereiro/26', val: 1162.00, paid: true },
-      { num: 3, month: 'março/26', val: 1306.00, paid: true },
-      { num: 4, month: 'abril/26', val: 1306.00, paid: true },
-      { num: 5, month: 'maio/26', val: 1306.00, paid: true },
-      { num: 6, month: 'junho/26', val: 1306.00, paid: true },
-      { num: 7, month: 'julho/26', val: 1306.00, paid: true },
-      { num: 8, month: 'agosto/26', val: 1306.00, paid: true },
-      { num: 9, month: 'setembro/26', val: 1306.00, paid: false },
-      { num: 10, month: 'outubro/26', val: 1306.00, paid: false },
-      { num: 11, month: 'novembro/26', val: 1306.00, paid: false },
-      { num: 12, month: 'dezembro/26', val: 1306.00, paid: false },
-      { num: 13, month: 'janeiro/27', val: 1162.00, paid: false },
-      { num: 14, month: 'fevereiro/27', val: 1162.00, paid: false },
-      { num: 15, month: 'março/27', val: 1162.00, paid: false },
-      { num: 16, month: 'abril/27', val: 1162.00, paid: false },
-      { num: 17, month: 'maio/27', val: 1162.00, paid: false },
-      { num: 18, month: 'junho/27', val: 1162.00, paid: false },
-      { num: 19, month: 'julho/27', val: 1162.00, paid: false },
-      { num: 20, month: 'agosto/27', val: 1162.00, paid: false },
-      { num: 21, month: 'setembro/27', val: 1162.00, paid: false }
-    ];
-
-    function getStoredLoan() {
-      const data = localStorage.getItem('med_finance_loan_v2');
-      return data ? JSON.parse(data) : defaultLoanSchedule;
-    }
-
-    function renderLoanInstallments() {
-      const pendingContainer = document.getElementById('loanPendingContainer');
-      const paidContainer = document.getElementById('loanPaidContainer');
-      if (!pendingContainer || !paidContainer) return;
-
-      const schedule = getStoredLoan();
-      const totalLoan = 25842.00;
-
-      let paidTotal = 0;
-      let paidCount = 0;
-      let remainingCount = 0;
-      let remainingTotal = 0;
-
-      schedule.forEach(p => {
-        if (p.paid) {
-          paidTotal += p.val;
-          paidCount++;
-        } else {
-          remainingCount++;
-          remainingTotal += p.val;
-        }
-      });
-
-      const pct = ((paidTotal / totalLoan) * 100).toFixed(1);
-
-      document.getElementById('loanStatusBadge').innerText = `Restam ${remainingCount} parcelas (R$ ${remainingTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })})`;
-      document.getElementById('loanProgressBar').style.width = `${pct}%`;
-      document.getElementById('loanPaidSummary').innerText = `${paidCount} pagas (R$ ${paidTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })})`;
-      document.getElementById('loanPercentSummary').innerText = `${pct}% quitado`;
-
-      document.getElementById('loanPaidExpanderTitle').innerText = `Ver parcelas já quitadas (${paidCount} de 21 pagas)`;
-      document.getElementById('loanPaidExpanderTotal').innerText = `R$ ${paidTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-
-      let pendingHtml = '';
-      schedule.forEach((p, idx) => {
-        if (!p.paid) {
-          const isCurrent = (p.num === 9);
-          const borderStyle = isCurrent ? 'border-amber-500/70 bg-amber-950/25 ring-1 ring-amber-500/30' : 'border-slate-800 bg-slate-950';
-          const badgeText = isCurrent ? 'Pagar Agora' : 'Marcar Pago';
-          const badgeColor = isCurrent ? 'bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700';
-
-          pendingHtml += `
-            <div class="p-3 rounded-lg border ${borderStyle} flex justify-between items-center text-xs transition">
-              <div>
-                <div class="flex items-center gap-2">
-                  <span class="font-bold text-white">#${p.num}</span>
-                  <span class="text-slate-300 capitalize">${p.month}</span>
-                  ${isCurrent ? '<span class="text-[9px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold border border-amber-500/30">Mês Atual</span>' : ''}
-                </div>
-                <span class="font-semibold text-emerald-400 text-sm block mt-0.5">R$ ${p.val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-              </div>
-              <button onclick="toggleLoanInstallment(${idx})" class="text-[11px] px-3 py-1.5 rounded-md font-medium transition cursor-pointer ${badgeColor}">
-                ${badgeText}
-              </button>
-            </div>
-          `;
-        }
-      });
-
-      if (remainingCount === 0) {
-        pendingHtml = `<div class="col-span-3 text-center py-6 text-emerald-400 font-bold text-xs bg-slate-950 border border-emerald-500/30 rounded-lg">🎉 Todas as 21 parcelas do empréstimo foram quitadas!</div>`;
-      }
-      pendingContainer.innerHTML = pendingHtml;
-
-      let paidHtml = '';
-      schedule.forEach((p, idx) => {
-        if (p.paid) {
-          paidHtml += `
-            <div class="p-2.5 rounded-lg border border-emerald-500/20 bg-slate-950/60 flex justify-between items-center text-xs opacity-85 hover:opacity-100 transition">
-              <div>
-                <div class="flex items-center gap-2">
-                  <span class="font-bold text-slate-400">#${p.num}</span>
-                  <span class="text-slate-400 capitalize">${p.month}</span>
-                  <span class="text-[9px] text-emerald-400 font-bold">✓ Quitado</span>
-                </div>
-                <span class="text-slate-300 text-xs block font-medium mt-0.5">R$ ${p.val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-              </div>
-              <button onclick="toggleLoanInstallment(${idx})" title="Desmarcar se foi engano" class="text-[10px] text-slate-500 hover:text-rose-400 px-2 py-1 rounded transition">
-                Desfazer
-              </button>
-            </div>
-          `;
-        }
-      });
-      paidContainer.innerHTML = paidHtml;
-    }
-
-    function toggleLoanInstallment(idx) {
-      const schedule = getStoredLoan();
-      schedule[idx].paid = !schedule[idx].paid;
-      localStorage.setItem('med_finance_loan_v2', JSON.stringify(schedule));
-      renderLoanInstallments();
-
-      if (GOOGLE_SHEETS_URL) {
-        try {
-          fetch(GOOGLE_SHEETS_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              entity: 'expense',
-              desc: `[Empréstimo Levi] Parcela #${schedule[idx].num} (${schedule[idx].month})`,
-              value: schedule[idx].val,
-              typeName: schedule[idx].paid ? 'QUITADO' : 'PENDENTE',
-              category: 'Família e Dívidas Estruturais',
-              date: new Date().toLocaleString('pt-BR')
-            })
-          });
-        } catch (err) {
-          console.error("Erro ao sincronizar empréstimo:", err);
-        }
-      }
-    }
-
-    // =================================================================
-    // PLANTÕES HUC
-    // =================================================================
-    function getStoredShifts() {
-      const data = localStorage.getItem('med_finance_shifts');
-      if (data) {
-        try {
-          const list = JSON.parse(data);
-          return list.map(s => {
-            const parsed = parseDateParts(s.date);
-            return {
-              ...s,
-              date: parsed.dateKey,
-              payout: s.payout || calculatePayoutMonth(parsed.dateKey)
-            };
-          });
-        } catch(e) {
-          console.warn("Erro ao parsear plantões locais:", e);
-        }
-      }
-
-      return [
-        { date: '2026-07-04', unit: 'HUC (PX) - UROLOGIA', hours: 6, net: 830.82, payout: 'Agosto/2026', shiftType: 'Manhã (6h)' },
-        { date: '2026-08-15', unit: 'HUC (PX) - UROLOGIA', hours: 6, net: 830.82, payout: 'Setembro/2026', shiftType: 'Manhã (6h)' },
-        { date: '2026-08-16', unit: 'HUC (PX) - UROLOGIA', hours: 6, net: 830.82, payout: 'Outubro/2026', shiftType: 'Manhã (6h)' },
-        { date: '2026-08-22', unit: 'HUC - UCP', hours: 6, net: 830.82, payout: 'Outubro/2026', shiftType: 'Manhã (6h)' },
-        { date: '2026-08-23', unit: 'HUC - UCP', hours: 6, net: 830.82, payout: 'Outubro/2026', shiftType: 'Manhã (6h)' },
-        { date: '2026-08-29', unit: 'HUC (PX) - UROLOGIA', hours: 6, net: 830.82, payout: 'Outubro/2026', shiftType: 'Manhã (6h)' },
-        { date: '2026-08-30', unit: 'HUC (PX) - UROLOGIA', hours: 6, net: 830.82, payout: 'Outubro/2026', shiftType: 'Manhã (6h)' },
-        { date: '2026-09-12', unit: 'HUC (PX) - UROLOGIA', hours: 6, net: 830.82, payout: 'Outubro/2026', shiftType: 'Manhã (6h)' },
-        { date: '2026-09-19', unit: 'HUC - UCP', hours: 6, net: 830.82, payout: 'Novembro/2026', shiftType: 'Manhã (6h)' },
-        { date: '2026-09-20', unit: 'HUC - UCP', hours: 6, net: 830.82, payout: 'Novembro/2026', shiftType: 'Manhã (6h)' }
-      ];
-    }
-
-    function renderShifts() {
-      const container = document.getElementById('shiftsListContainer');
-      const list = getStoredShifts();
-      let total = 0;
-
-      if (list.length === 0) {
-        container.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs">Nenhum plantão agendado.</div>`;
-        document.getElementById('shiftsTotalValue').innerText = 'R$ 0,00';
-        return;
-      }
-
-      const sortedList = [...list].map((s, originalIdx) => ({ ...s, originalIdx }));
-      sortedList.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-      let html = '';
-      sortedList.forEach(s => {
-        total += s.net;
-        const parsed = parseDateParts(s.date);
-        const payoutStr = s.payout || calculatePayoutMonth(parsed.dateKey);
-        const isPastPayout = payoutStr.toLowerCase().includes('agosto/2026') || payoutStr.toLowerCase().includes('julho/2026');
-
-        html += `
-          <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
-            <div>
-              <p class="font-bold text-sky-400">${parsed.displayBR} • <span class="text-white font-medium">${s.unit}</span> <span class="text-[10px] text-slate-400">(${s.shiftType || s.hours + 'h'})</span></p>
-              ${isPastPayout ? `
-                <p class="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Repasse CEMERG: <strong class="text-emerald-400">Liquidado (${payoutStr})</strong>
-                </p>
-              ` : `
-                <p class="text-[10px] text-slate-500 mt-0.5">
-                  Repasse CEMERG previsto em: <strong class="text-emerald-400">${payoutStr}</strong>
-                </p>
-              `}
-            </div>
-            <div class="text-right">
-              <span class="font-bold text-white">R$ ${s.net.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-              <button onclick="removeShift(${s.originalIdx})" class="block text-[10px] text-slate-600 hover:text-rose-400 ml-auto mt-0.5">Excluir</button>
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-      document.getElementById('shiftsTotalValue').innerText = 'R$ ' + total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-      renderExpectationsTable();
-      renderCalendar();
-    }
-
-    function saveShift(e) {
-      e.preventDefault();
-      const rawDate = document.getElementById('shiftDate').value;
-      const parsed = parseDateParts(rawDate);
-      const unit = document.getElementById('shiftUnit').value;
-      const durCode = document.getElementById('shiftDuration').value;
-
-      let hours = 6;
-      let net = 830.82;
-      let shiftType = 'Manhã (6h)';
-
-      if (durCode === '6_T') {
-        hours = 6; net = 830.82; shiftType = 'Tarde (6h)';
-      } else if (durCode === '12_MT') {
-        hours = 12; net = 1661.64; shiftType = 'MT 12h';
-      } else if (durCode === '12_SN') {
-        hours = 12; net = 1661.64; shiftType = 'SN 12h';
-      }
-
-      const payout = calculatePayoutMonth(parsed.dateKey);
-      const list = getStoredShifts();
-      const newShift = { date: parsed.dateKey, unit, hours, net, payout, shiftType };
-      list.push(newShift);
-      list.sort((a, b) => new Date(a.date) - new Date(b.date));
-      localStorage.setItem('med_finance_shifts', JSON.stringify(list));
-
-      document.getElementById('shiftForm').reset();
-      renderShifts();
-
-      if (GOOGLE_SHEETS_URL) {
-        try {
-          fetch(GOOGLE_SHEETS_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              entity: 'shift',
-              date: parsed.dateKey,
-              unit: unit,
-              shiftType: shiftType,
-              net: net,
-              payout: payout,
-              action: 'AGENDADO'
-            })
-          });
-        } catch (err) {
-          console.error("Erro ao sincronizar plantão:", err);
-        }
-      }
-    }
-
-    function removeShift(index) {
-      const list = getStoredShifts();
-      const removed = list[index];
-      list.splice(index, 1);
-      localStorage.setItem('med_finance_shifts', JSON.stringify(list));
-      renderShifts();
-
-      if (GOOGLE_SHEETS_URL && removed) {
-        try {
-          fetch(GOOGLE_SHEETS_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              entity: 'shift',
-              date: removed.date,
-              unit: removed.unit,
-              shiftType: removed.shiftType,
-              net: removed.net,
-              payout: removed.payout,
-              action: 'REMOVIDO / TROCADO'
-            })
-          });
-        } catch (err) {
-          console.error("Erro ao sincronizar exclusão:", err);
-        }
-      }
-    }
-
-    function clearShifts() {
-      if (confirm('Deseja limpar todos os plantões cadastrados localmente?')) {
-        localStorage.removeItem('med_finance_shifts');
-        renderShifts();
-      }
-    }
-
-    function renderExpectationsTable() {
-      const shifts = getStoredShifts();
-      const tbody = document.getElementById('expectationsTableBody');
-      const bolsa = 4050.00;
-      const custosFixos = 5976.00;
-
-      const months = [
-        { key: 'Outubro/2026', label: 'Out/2026', rotation: 'Enfermaria Clínica (Puxada)', cards: 1406.00, desc: 'Recompõe reservas; foque na residência sem dar plantão extra.' },
-        { key: 'Novembro/2026', label: 'Nov/2026', rotation: 'HGF (Fins de semana livres)', cards: 1090.00, desc: 'Roda no HGF durante o dia; fins de semana livres para plantão no HUC.' },
-        { key: 'Dezembro/2026', label: 'Dez/2026', rotation: 'Férias (3 semanas de gás)', cards: 842.00, desc: 'Inter quitado; esforço nas férias para abastecer Janeiro.' },
-        { key: 'Janeiro/2027', label: 'Jan/2027', rotation: 'Retorno Clínica Médica', cards: 458.89, desc: 'Faturas no menor valor da história; parcelas de Levi caem para R$ 1.162.' },
-        { key: 'Fevereiro/2027', label: 'Fev/2027', rotation: 'Messejana (Cardio)', cards: 458.89, desc: 'Roda em Messejana; plantões no HUC continuam normalmente.' }
-      ];
-
-      let octIncomeTotal = bolsa;
-      let html = '';
-
-      months.forEach(m => {
-        const mKeyNorm = m.key.toLowerCase().replace('/', '');
-
-        const cemergIncome = shifts
-          .filter(s => {
-            const parsed = parseDateParts(s.date);
-            const payoutStr = (s.payout || calculatePayoutMonth(parsed.dateKey)).toLowerCase().replace('/', '');
-            return payoutStr.includes(mKeyNorm) || payoutStr.includes(m.key.toLowerCase().split('/')[0]);
-          })
-          .reduce((acc, s) => acc + s.net, 0);
-
-        const totalIn = bolsa + cemergIncome;
-        if (m.key === 'Outubro/2026') octIncomeTotal = totalIn;
-
-        const totalOut = custosFixos + m.cards;
-        const saldo = totalIn - totalOut;
-        const saldoColor = saldo >= 0 ? 'text-emerald-400' : 'text-rose-400';
-        const saldoSign = saldo >= 0 ? '+' : '';
-
-        html += `
-          <tr class="hover:bg-slate-800/30">
-            <td class="p-3 font-bold text-white">${m.label}</td>
-            <td class="p-3 text-sky-400 font-medium">${m.rotation}</td>
-            <td class="p-3 font-bold text-white">R$ ${totalIn.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} <span class="text-[10px] text-slate-400 font-normal">(${cemergIncome > 0 ? 'CEMERG R$ ' + cemergIncome.toFixed(0) : 'Sem CEMERG'})</span></td>
-            <td class="p-3 text-slate-400">~R$ ${m.cards.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-            <td class="p-3 font-bold ${saldoColor}">${saldoSign}R$ ${saldo.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-            <td class="p-3 text-slate-400 text-[11px]">${m.desc}</td>
-          </tr>
-        `;
-      });
-
-      tbody.innerHTML = html;
-      const octElem = document.getElementById('dashOctIncome');
-      if (octElem) octElem.innerText = 'R$ ' + octIncomeTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-    }
-
-    // =================================================================
-    // CALENDÁRIO VISUAL COM FERIADOS
-    // =================================================================
-    let currentCalDate = new Date(2026, 8, 1);
-    let currentCalLayout = localStorage.getItem('cal_layout_pref') || 'grid';
-
-    function setCalLayout(layout) {
-      currentCalLayout = layout;
-      localStorage.setItem('cal_layout_pref', layout);
-
-      if (layout === 'grid') {
-        document.getElementById('layout-btn-grid').className = "px-3 py-1 rounded font-medium transition bg-slate-800 text-emerald-400 shadow-sm flex items-center gap-1.5";
-        document.getElementById('layout-btn-timeline').className = "px-3 py-1 rounded font-medium transition text-slate-400 hover:text-white flex items-center gap-1.5";
-      } else {
-        document.getElementById('layout-btn-timeline').className = "px-3 py-1 rounded font-medium transition bg-slate-800 text-emerald-400 shadow-sm flex items-center gap-1.5";
-        document.getElementById('layout-btn-grid').className = "px-3 py-1 rounded font-medium transition text-slate-400 hover:text-white flex items-center gap-1.5";
-      }
-      renderCalendar();
-    }
-
-    function changeCalMonth(delta) {
-      currentCalDate.setMonth(currentCalDate.getMonth() + delta);
-      renderCalendar();
-    }
-
-    function renderCalendar() {
-      const year = currentCalDate.getFullYear();
-      const month = currentCalDate.getMonth();
-      const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-      document.getElementById('calMonthTitle').innerText = `${monthNames[month]} de ${year}`;
-
-      const container = document.getElementById('calendarViewContainer');
-      const shifts = getStoredShifts();
-      const totalDays = new Date(year, month + 1, 0).getDate();
-
-      if (currentCalLayout === 'grid') {
-        const firstDayIndex = new Date(year, month, 1).getDay();
-        let html = `
-          <div class="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-slate-400 pb-2 border-b border-slate-800 mb-2">
-            <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
-          </div>
-          <div class="grid grid-cols-7 gap-1 text-xs">
-        `;
-
-        for (let i = 0; i < firstDayIndex; i++) {
-          html += `<div class="p-2 text-slate-800 bg-slate-950/40 rounded-lg min-h-[52px]"></div>`;
-        }
-
-        for (let d = 1; d <= totalDays; d++) {
-          const dStr = d < 10 ? '0' + d : '' + d;
-          const mStr = (month + 1) < 10 ? '0' + (month + 1) : '' + (month + 1);
-          const dateKey = `${year}-${mStr}-${dStr}`;
-
-          const dayShifts = shifts.filter(s => {
-            const parsed = parseDateParts(s.date);
-            return parsed.dateKey === dateKey;
-          });
-          const hasShift = dayShifts.length > 0;
-          const holidayName = HOLIDAYS_DATABASE[dateKey];
-
-          let bgStyle = hasShift 
-            ? 'bg-emerald-950/60 border border-emerald-500/50 text-emerald-300 shadow-sm' 
-            : (holidayName ? 'bg-amber-950/20 border border-amber-500/30 text-amber-200' : 'bg-slate-950 border border-slate-800/80 text-slate-300');
-
-          html += `
-            <div class="p-1.5 rounded-lg min-h-[56px] flex flex-col justify-between ${bgStyle} text-left transition hover:border-slate-600">
-              <div class="flex justify-between items-start">
-                <span class="font-bold text-[11px] ${holidayName && !hasShift ? 'text-amber-400' : ''}">${d}</span>
-                ${holidayName ? `
-                  <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1 py-0.2 rounded font-semibold truncate max-w-[55px]" title="${holidayName}">
-                    ★ Feriado
-                  </span>
-                ` : ''}
-              </div>
-              ${hasShift ? `
-                <div class="mt-1 space-y-0.5">
-                  ${dayShifts.map(s => `
-                    <span class="text-[9px] px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-300 block truncate font-medium" title="${s.unit} (${s.shiftType})">
-                      ${s.unit.replace('HUC (PX) - ', '').replace('HUC - ', '')}
-                    </span>
-                  `).join('')}
-                </div>
-              ` : (holidayName ? `
-                <span class="text-[8px] text-amber-400/80 block truncate font-medium mt-1" title="${holidayName}">
-                  ${holidayName}
-                </span>
-              ` : '')}
-            </div>
-          `;
-        }
-        html += `</div>`;
-        container.innerHTML = html;
-
-      } else {
-        const dayNames = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-        const currentMonthShifts = shifts.filter(s => {
-          const parsed = parseDateParts(s.date);
-          return parsed.year === year && parsed.month === (month + 1);
-        });
-
-        const monthHolidays = [];
-        for (let d = 1; d <= totalDays; d++) {
-          const dStr = d < 10 ? '0' + d : '' + d;
-          const mStr = (month + 1) < 10 ? '0' + (month + 1) : '' + (month + 1);
-          const dateKey = `${year}-${mStr}-${dStr}`;
-          if (HOLIDAYS_DATABASE[dateKey]) {
-            monthHolidays.push({ day: d, dateKey, name: HOLIDAYS_DATABASE[dateKey] });
-          }
-        }
-
-        if (currentMonthShifts.length === 0 && monthHolidays.length === 0) {
-          container.innerHTML = `
-            <div class="text-center py-10 text-slate-500 text-xs">
-              <i class="fa-regular fa-calendar-xmark text-2xl mb-2 block"></i>
-              Nenhum plantão ou feriado agendado para ${monthNames[month]} de ${year}.
-            </div>
-          `;
-          return;
-        }
-
-        let html = `<div class="space-y-2.5">`;
-
-        for (let d = 1; d <= totalDays; d++) {
-          const dStr = d < 10 ? '0' + d : '' + d;
-          const mStr = (month + 1) < 10 ? '0' + (month + 1) : '' + (month + 1);
-          const dateKey = `${year}-${mStr}-${dStr}`;
-          const dayOfWeek = dayNames[new Date(year, month, d).getDay()];
-
-          const dayShifts = currentMonthShifts.filter(s => parseDateParts(s.date).dateKey === dateKey);
-          const holiday = HOLIDAYS_DATABASE[dateKey];
-
-          if (dayShifts.length > 0) {
-            dayShifts.forEach(s => {
-              const payoutStr = s.payout || calculatePayoutMonth(dateKey);
-              html += `
-                <div class="flex items-center justify-between bg-slate-950 p-3.5 rounded-xl border border-emerald-500/30 text-xs hover:border-emerald-500/60 transition">
-                  <div class="flex items-center space-x-3.5">
-                    <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-2.5 text-center min-w-[50px]">
-                      <span class="block text-base font-extrabold text-emerald-400 leading-none">${d}</span>
-                      <span class="text-[9px] uppercase font-semibold text-slate-400 tracking-wider">${monthNames[month].slice(0,3)}</span>
-                    </div>
-                    <div>
-                      <p class="font-bold text-white text-sm flex items-center gap-2">
-                        ${s.unit}
-                        <span class="text-[10px] font-normal px-2 py-0.5 rounded-full bg-slate-800 text-sky-300 border border-slate-700">
-                          ${s.shiftType || s.hours + 'h'}
-                        </span>
-                        ${holiday ? `<span class="text-[9px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold border border-amber-500/30">★ ${holiday}</span>` : ''}
-                      </p>
-                      <p class="text-[11px] text-slate-400 mt-0.5">${dayOfWeek} • Repasse CEMERG previsto em: <strong class="text-emerald-400">${payoutStr}</strong></p>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <span class="font-bold text-emerald-400 text-sm">R$ ${s.net.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-                  </div>
-                </div>
-              `;
-            });
-          } else if (holiday) {
-            html += `
-              <div class="flex items-center justify-between bg-slate-950/60 p-3 rounded-xl border border-amber-500/30 text-xs transition">
-                <div class="flex items-center space-x-3.5">
-                  <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2.5 text-center min-w-[50px]">
-                    <span class="block text-base font-extrabold text-amber-400 leading-none">${d}</span>
-                    <span class="text-[9px] uppercase font-semibold text-slate-400 tracking-wider">${monthNames[month].slice(0,3)}</span>
-                  </div>
-                  <div>
-                    <p class="font-bold text-amber-300 text-sm flex items-center gap-2">
-                      <i class="fa-solid fa-star text-amber-400 text-xs"></i> ${holiday}
-                    </p>
-                    <p class="text-[11px] text-slate-400 mt-0.5">${dayOfWeek} • Feriado / Data Comemorativa</p>
-                  </div>
-                </div>
-                <span class="text-[11px] px-2.5 py-1 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-medium">Folga / Escala</span>
-              </div>
-            `;
-          }
-        }
-
-        html += `</div>`;
-        container.innerHTML = html;
-      }
-    }
-
-    // Web Push / Notificações
-    let swRegistration = null;
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').then(reg => {
-        swRegistration = reg;
-        checkNotificationStatus();
-        scheduleLocalAlerts();
-      }).catch(err => {
-        console.warn('Service Worker não registrado:', err);
-      });
-    }
-
-    function checkNotificationStatus() {
-      const icon = document.getElementById('notifIcon');
-      const label = document.getElementById('notifLabel');
-      if (Notification.permission === 'granted') {
-        if (icon) icon.className = "fa-solid fa-bell text-emerald-400";
-        if (label) label.innerText = "Alertas Ativos";
-      } else {
-        if (icon) icon.className = "fa-regular fa-bell text-amber-400";
-        if (label) label.innerText = "Ativar Lembretes";
-      }
-    }
-
-    async function enablePushNotifications() {
-      if (!('Notification' in window)) {
-        alert('Este navegador não suporta notificações.');
-        return;
-      }
-
-      const permission = await Notification.requestPermission();
-      checkNotificationStatus();
-
-      if (permission === 'granted') {
-        sendDirectNotification("🔔 Lembretes Ativados!", "O MedFinance notificará você sobre plantões no HUC e faturas próximas.");
-        scheduleLocalAlerts();
-      }
-    }
-
-    function sendDirectNotification(title, body, tag = 'alert') {
-      if (Notification.permission === 'granted' && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({
-          type: 'SHOW_NOTIFICATION',
-          title: title,
-          body: body,
-          tag: tag
-        });
-      }
-    }
-
-    function scheduleLocalAlerts() {
-      if (Notification.permission !== 'granted') return;
-
-      const now = new Date();
-      const todayKey = parseDateParts(now).dateKey;
-
-      const tomorrow = new Date(now);
-      tomorrow.setDate(now.getDate() + 1);
-      const tomorrowKey = parseDateParts(tomorrow).dateKey;
-
-      const shifts = getStoredShifts();
-
-      const todayShift = shifts.find(s => parseDateParts(s.date).dateKey === todayKey);
-      if (todayShift) {
-        sendDirectNotification("🩺 Plantão Hoje no HUC!", `Você tem plantão agendado: ${todayShift.unit} (${todayShift.shiftType}).`, 'shift-today');
-      }
-
-      const tomorrowShift = shifts.find(s => parseDateParts(s.date).dateKey === tomorrowKey);
-      if (tomorrowShift && now.getHours() >= 18) {
-        sendDirectNotification("⏰ Plantão Amanhã no HUC", `Prepare-se: ${tomorrowShift.unit} (${tomorrowShift.shiftType}).`, 'shift-tomorrow');
-      }
-
-      const dayOfMonth = now.getDate();
-      if (dayOfMonth === 7 || dayOfMonth === 8) {
-        sendDirectNotification("💳 Fatura Nubank Vence Dia 09!", "Lembrete: verifique os débitos e pagamentos da fatura corrente.", 'fat-nubank');
-      }
-
-      if (dayOfMonth === 20 || dayOfMonth === 21) {
-        sendDirectNotification("💳 Fatura Banco Inter Vence Dia 22!", "Lembrete: confira os vencimentos para o dia 22.", 'fat-inter');
-      }
-    }
-
-    function exportData() {
-      const backup = {
-        txs: getStoredTxs(),
-        shifts: getStoredShifts(),
-        loan: getStoredLoan(),
-        baseBalances: getBaseBalances(),
-        exportDate: new Date().toISOString()
-      };
-      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `backup_medfinance_${new Date().toISOString().slice(0,10)}.json`;
-      a.click();
     }
 
     // Inicialização
