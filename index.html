@@ -599,7 +599,7 @@
                 </tr>
 
                 <tr class="hover:bg-slate-800/30">
-                  <td class="p-3 font-semibold text-white">Previstory - Vistorias Apartamento</td>
+                  <td class="p-3 font-semibold text-white">Previstory - Revisão Carro da Vitória</td>
                   <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
                   <td class="p-3 font-bold text-white">1 / 2</td>
                   <td class="p-3 font-bold text-white">R$ 197,16</td>
@@ -1498,8 +1498,8 @@ const newItem = {
         const val = tx.installmentValue || tx.value;
         const normalized = (tx.category || '').toLowerCase().trim();
         const targetIdx = categoryMap[normalized] !== undefined ? categoryMap[normalized] : 8;
-        const dateTag = tx.date ? `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date.slice(0, 5)}]</span> ` : '';
-
+const cleanDate = tx.date ? tx.date.split(',')[0].trim() : new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+const dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${cleanDate}]</span> `;
         categories[targetIdx].baseItems.push({
           text: `${dateTag}${tx.desc} (${tx.typeName})`,
           val: val,
