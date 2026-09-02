@@ -1369,7 +1369,7 @@
       const installmentValue = Number((totalVal / installments).toFixed(2));
       const formattedDesc = installments > 1 ? `${desc} (1/${installments})` : desc;
 
-      const newItem = {
+const newItem = {
         desc: formattedDesc,
         totalValue: totalVal,
         installments: installments,
@@ -1379,7 +1379,7 @@
         typeName: typeName,
         category: category,
         flow: flow,
-        isAfterCalibration: true,
+        isAfterCalibration: true, // <--- Esta linha é a que desconta da conta corrente!
         date: new Date().toLocaleString('pt-BR')
       };
 
