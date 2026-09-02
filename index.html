@@ -1493,30 +1493,36 @@ const newItem = {
       };
 
       customTxs.forEach((tx, globalIdx) => {
-        if (tx.flow === 'income' || (tx.flow && tx.flow.includes('transfer')) || tx.type === 'invoice_pay') return;
+        if (
+          tx.flow === 'income' || 
+          (tx.flow && tx.flow.includes('transfer')) || 
+          tx.type === 'invoice_pay' ||
+          (tx.desc && tx.desc.toUpperCase().includes('ESTORNO'))
+        ) return;
 
         const val = tx.installmentValue || tx.value;
         const normalized = (tx.category || '').toLowerCase().trim();
         const targetIdx = categoryMap[normalized] !== undefined ? categoryMap[normalized] : 8;
-let dateTag = '';
-if (tx.date) {
-  try {
-    // Tenta extrair dia, mês e hora de formatos longos ou curtos
-    const dObj = new Date(tx.date.includes('GMT') || tx.date.includes('/') || tx.date.includes('-') ? tx.date : tx.date);
-    if (!isNaN(dObj.getTime())) {
-      const day = String(dObj.getDate()).padStart(2, '0');
-      const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-      const month = months[dObj.getMonth()];
-      const hours = String(dObj.getHours()).padStart(2, '0');
-      const mins = String(dObj.getMinutes()).padStart(2, '0');
-      DateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${day} ${month} ${hours}h${mins}min]</span> `;
-    } else {
-      DateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date.slice(0, 10)}]</span> `;
-    }
-  } catch(e) {
-    DateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date}]</span> `;
-  }
-}
+        
+        let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span> ';
+        if (tx.date) {
+          try {
+            const dObj = new Date(tx.date.includes('/') || tx.date.includes('-') ? tx.date : tx.date);
+            if (!isNaN(dObj.getTime())) {
+              const day = String(dObj.getDate()).padStart(2, '0');
+              const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+              const month = months[dObj.getMonth()];
+              const hours = String(dObj.getHours()).padStart(2, '0');
+              const mins = String(dObj.getMinutes()).padStart(2, '0');
+              dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${day} ${month} ${hours}h${mins}min]</span> `;
+            } else {
+              dateTag = `<span class="text-[10px] text-slate-400 font-mono">[${tx.date.slice(0, 10)}]</span> `;
+            }
+          } catch(e) {
+            dateTag = `<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span> `;
+          }
+        }
+
         categories[targetIdx].baseItems.push({
           text: `${dateTag}${tx.desc} (${tx.typeName})`,
           val: val,
