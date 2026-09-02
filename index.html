@@ -1498,7 +1498,7 @@ const newItem = {
         const val = tx.installmentValue || tx.value;
         const normalized = (tx.category || '').toLowerCase().trim();
         const targetIdx = categoryMap[normalized] !== undefined ? categoryMap[normalized] : 8;
-let formattedDateTag = '';
+let dateTag = '';
 if (tx.date) {
   try {
     // Tenta extrair dia, mês e hora de formatos longos ou curtos
@@ -1509,12 +1509,12 @@ if (tx.date) {
       const month = months[dObj.getMonth()];
       const hours = String(dObj.getHours()).padStart(2, '0');
       const mins = String(dObj.getMinutes()).padStart(2, '0');
-      formattedDateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${day} ${month} ${hours}h${mins}min]</span> `;
+      DateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${day} ${month} ${hours}h${mins}min]</span> `;
     } else {
-      formattedDateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date.slice(0, 10)}]</span> `;
+      DateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date.slice(0, 10)}]</span> `;
     }
   } catch(e) {
-    formattedDateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date}]</span> `;
+    DateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date}]</span> `;
   }
 }
         categories[targetIdx].baseItems.push({
