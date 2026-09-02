@@ -1498,8 +1498,25 @@ const newItem = {
         const val = tx.installmentValue || tx.value;
         const normalized = (tx.category || '').toLowerCase().trim();
         const targetIdx = categoryMap[normalized] !== undefined ? categoryMap[normalized] : 8;
-const cleanDate = tx.date ? tx.date.split(',')[0].trim() : new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-const dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${cleanDate}]</span> `;
+let formattedDateTag = '';
+if (tx.date) {
+  try {
+    // Tenta extrair dia, mês e hora de formatos longos ou curtos
+    const dObj = new Date(tx.date.includes('GMT') || tx.date.includes('/') || tx.date.includes('-') ? tx.date : tx.date);
+    if (!isNaN(dObj.getTime())) {
+      const day = String(dObj.getDate()).padStart(2, '0');
+      const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+      const month = months[dObj.getMonth()];
+      const hours = String(dObj.getHours()).padStart(2, '0');
+      const mins = String(dObj.getMinutes()).padStart(2, '0');
+      formattedDateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${day} ${month} ${hours}h${mins}min]</span> `;
+    } else {
+      formattedDateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date.slice(0, 10)}]</span> `;
+    }
+  } catch(e) {
+    formattedDateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date}]</span> `;
+  }
+}
         categories[targetIdx].baseItems.push({
           text: `${dateTag}${tx.desc} (${tx.typeName})`,
           val: val,
