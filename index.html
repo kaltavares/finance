@@ -45,20 +45,20 @@
       </div>
 
       <div class="grid grid-cols-3 gap-2.5 pt-2">
-        <button onclick="pressPin('1')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">1</button>
-        <button onclick="pressPin('2')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">2</button>
-        <button onclick="pressPin('3')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">3</button>
-        <button onclick="pressPin('4')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">4</button>
-        <button onclick="pressPin('5')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">5</button>
-        <button onclick="pressPin('6')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">6</button>
-        <button onclick="pressPin('7')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">7</button>
-        <button onclick="pressPin('8')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">8</button>
-        <button onclick="pressPin('9')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">9</button>
-        <button onclick="clearPin()" class="py-3 bg-slate-950/60 hover:bg-slate-800 text-slate-400 font-medium text-xs rounded-xl border border-slate-800 transition">Limpar</button>
-        <button onclick="pressPin('0')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">0</button>
-        <button onclick="deletePinDigit()" class="py-3 bg-slate-950/60 hover:bg-slate-800 text-slate-400 font-medium text-xs rounded-xl border border-slate-800 transition"><i class="fa-solid fa-delete-left"></i></button>
+        <button type="button" onclick="pressPin('1')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">1</button>
+        <button type="button" onclick="pressPin('2')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">2</button>
+        <button type="button" onclick="pressPin('3')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">3</button>
+        <button type="button" onclick="pressPin('4')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">4</button>
+        <button type="button" onclick="pressPin('5')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">5</button>
+        <button type="button" onclick="pressPin('6')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">6</button>
+        <button type="button" onclick="pressPin('7')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">7</button>
+        <button type="button" onclick="pressPin('8')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">8</button>
+        <button type="button" onclick="pressPin('9')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">9</button>
+        <button type="button" onclick="clearPin()" class="py-3 bg-slate-950/60 hover:bg-slate-800 text-slate-400 font-medium text-xs rounded-xl border border-slate-800 transition">Limpar</button>
+        <button type="button" onclick="pressPin('0')" class="py-3 bg-slate-950 hover:bg-slate-800 text-white font-bold text-sm rounded-xl border border-slate-800 transition active:scale-95">0</button>
+        <button type="button" onclick="deletePinDigit()" class="py-3 bg-slate-950/60 hover:bg-slate-800 text-slate-400 font-medium text-xs rounded-xl border border-slate-800 transition"><i class="fa-solid fa-delete-left"></i></button>
       </div>
-      <p id="pinFeedback" class="text-[11px] text-slate-500">Digite seu PIN de 4 dígitos</p>
+      <p id="pinFeedback" class="text-[11px] text-slate-500">Digite seu PIN de 4 dígitos (1945)</p>
     </div>
   </div>
 
@@ -131,7 +131,6 @@
         <!-- Cards de Saldo Vivos e Calibrados -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           
-          <!-- Saldo Conta Nubank Vivo (Calibrado em R$ 1.019,61)[cite: 2, 3] -->
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative group">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span class="flex items-center gap-1.5">
@@ -145,7 +144,6 @@
             <span class="text-[11px] text-slate-500" id="dashCheckingSubtext">Saldo real em 02/09</span>
           </div>
 
-          <!-- Caixinhas Nubank -->
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative group">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span class="flex items-center gap-1.5">
@@ -159,7 +157,6 @@
             <span class="text-[11px] text-slate-500">Reserva de Emergência & Metas</span>
           </div>
 
-          <!-- Faturas Restantes Setembro -->
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
             <p class="text-xs font-medium text-slate-400 flex items-center justify-between">
               Faturas Restantes (Setembro) <i class="fa-regular fa-credit-card text-orange-400"></i>
@@ -168,7 +165,6 @@
             <span class="text-[11px] text-slate-500">Nu Quitado hoje | Resta Inter (22/09)</span>
           </div>
 
-          <!-- Previsão Outubro -->
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
             <p class="text-xs font-medium text-slate-400 flex items-center justify-between">
               Outubro Previsto (CEMERG) <i class="fa-solid fa-money-bill-trend-up text-sky-400"></i>
@@ -191,7 +187,6 @@
               </span>
             </div>
 
-            <!-- Seletor do Modo de Lançamento -->
             <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800 mb-3 text-[11px] font-semibold">
               <button type="button" onclick="setLauncherMode('expense')" id="btnModeExpense" class="py-1.5 rounded-md bg-slate-800 text-rose-400 shadow-sm transition flex items-center justify-center gap-1">
                 <i class="fa-solid fa-arrow-down"></i> Despesa
@@ -204,7 +199,6 @@
               </button>
             </div>
 
-            <!-- Formulário -->
             <form id="txForm" onsubmit="saveTransaction(event)" class="space-y-3">
               <input type="hidden" id="txFlow" value="expense" />
 
@@ -294,7 +288,7 @@
       </section>
 
       <!-- ================================================================= -->
-      <!-- ABA 2: HISTÓRICO MENSAL (COM DATAS E GRÁFICO DE AGOSTO)           -->
+      <!-- ABA 2: HISTÓRICO MENSAL                                           -->
       <!-- ================================================================= -->
       <section id="view-history" class="hidden space-y-6">
         <div class="flex space-x-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
@@ -326,7 +320,7 @@
           </div>
         </div>
 
-        <!-- SUB-ABA AGOSTO / 2026 (COM GRÁFICO E CORES) -->
+        <!-- SUB-ABA AGOSTO / 2026 -->
         <div id="hist-august" class="hidden space-y-6">
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
@@ -847,7 +841,7 @@
 
             <div>
               <label class="block text-xs text-slate-400 mb-1">Turno & Carga Horária</label>
-              <select id="shiftDuration" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+              <select id="shiftDuration" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
                 <option value="6_M">Manhã (6h) • R$ 830,82 Líquido</option>
                 <option value="6_T">Tarde (6h) • R$ 830,82 Líquido</option>
                 <option value="12_MT">MT 12h (Manhã + Tarde) • R$ 1.661,64 Líquido</option>
@@ -1012,6 +1006,7 @@
     function getBaseBalances() {
       const stored = localStorage.getItem('med_finance_base_balances');
       if (stored) return JSON.parse(stored);
+      // Saldo base consolidado após o salário e despesas de hoje (02/09/2026)
       return { checking: 1019.61, savings: 14402.17 };
     }
 
@@ -1040,6 +1035,7 @@
       let savings = base.savings;
 
       txs.forEach(t => {
+        // Lançamentos adicionados APÓS a calibragem de hoje
         if (t.isAfterCalibration) {
           const val = t.installmentValue || t.value;
           const flow = t.flow || 'expense';
@@ -1303,12 +1299,11 @@
         }
 
         const parcelInfo = item.installments > 1 ? ` (${item.installments}x de R$ ${val.toFixed(2)})` : '';
-        const dateStr = item.date ? `<span class="text-[10px] text-emerald-400 font-mono">[${item.date.slice(0, 5)}]</span> ` : '';
 
         html += `
           <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
             <div>
-              <p class="font-medium text-slate-200">${dateStr}${item.desc}${parcelInfo}</p>
+              <p class="font-medium text-slate-200">${item.desc}${parcelInfo}</p>
               <div class="flex items-center gap-2 mt-0.5">
                 ${flowBadge}
                 <span class="text-[10px] text-slate-400">${item.category || 'Movimentação'}</span>
@@ -1373,7 +1368,6 @@
 
       const installmentValue = Number((totalVal / installments).toFixed(2));
       const formattedDesc = installments > 1 ? `${desc} (1/${installments})` : desc;
-      const todayFormatted = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
 
       const newItem = {
         desc: formattedDesc,
@@ -1386,7 +1380,7 @@
         category: category,
         flow: flow,
         isAfterCalibration: true,
-        date: todayFormatted
+        date: new Date().toLocaleString('pt-BR')
       };
 
       const list = getStoredTxs();
@@ -2273,6 +2267,83 @@
       a.href = url;
       a.download = `backup_medfinance_${new Date().toISOString().slice(0,10)}.json`;
       a.click();
+    }
+
+    // =================================================================
+    // COFRE E TELA DE BLOQUEIO POR PIN (SENHA: 1945)
+    // =================================================================
+    let currentPinInput = "";
+    
+    function getStoredPin() {
+      return '1945';
+    }
+
+    function pressPin(digit) {
+      if (currentPinInput.length < 4) {
+        currentPinInput += digit;
+        updatePinDots();
+      }
+      if (currentPinInput.length === 4) {
+        setTimeout(verifyPin, 100);
+      }
+    }
+
+    function deletePinDigit() {
+      if (currentPinInput.length > 0) {
+        currentPinInput = currentPinInput.slice(0, -1);
+        updatePinDots();
+      }
+    }
+
+    function clearPin() {
+      currentPinInput = "";
+      updatePinDots();
+      const feedback = document.getElementById('pinFeedback');
+      if (feedback) {
+        feedback.innerText = "Digite seu PIN de 4 dígitos";
+        feedback.className = "text-[11px] text-slate-500";
+      }
+    }
+
+    function updatePinDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (dot) {
+          dot.className = i < currentPinInput.length ? "w-3.5 h-3.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-500/50 transition" : "w-3.5 h-3.5 rounded-full border border-slate-600 bg-slate-950 transition";
+        }
+      }
+    }
+
+    function verifyPin() {
+      const correctPin = getStoredPin();
+      if (currentPinInput === correctPin) {
+        document.getElementById('pinLockScreen').classList.add('hidden');
+        document.getElementById('appProtectedContent').classList.remove('hidden');
+        sessionStorage.setItem('medfinance_unlocked', 'true');
+      } else {
+        const feedback = document.getElementById('pinFeedback');
+        if (feedback) {
+          feedback.innerText = "PIN incorreto! Tente novamente.";
+          feedback.className = "text-[11px] text-rose-400 font-bold";
+        }
+        setTimeout(clearPin, 600);
+      }
+    }
+
+    function lockAppNow() {
+      sessionStorage.removeItem('medfinance_unlocked');
+      currentPinInput = "";
+      updatePinDots();
+      document.getElementById('appProtectedContent').classList.add('hidden');
+      document.getElementById('pinLockScreen').classList.remove('hidden');
+      clearPin();
+    }
+
+    if (sessionStorage.getItem('medfinance_unlocked') === 'true') {
+      const lockScreen = document.getElementById('pinLockScreen');
+      const protectedContent = document.getElementById('appProtectedContent');
+      if (lockScreen) lockScreen.classList.add('hidden');
+      if (protectedContent) protectedContent.classList.remove('hidden');
     }
 
     // Inicialização
