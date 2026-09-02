@@ -121,17 +121,14 @@
     </header>
 
     <main class="max-w-6xl mx-auto px-4 mt-6">
+      
+      <!-- ABA 1 -->
       <section id="view-dashboard" class="space-y-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative group">
             <div class="flex justify-between items-center text-xs text-slate-400">
-              <span class="flex items-center gap-1.5">
-                Conta Nubank <i class="fa-solid fa-building-columns text-purple-400"></i>
-              </span>
-              <button onclick="adjustBaseBalance('checking')" title="Calibrar Saldo Inicial" class="text-slate-500 hover:text-emerald-400 transition text-[11px]">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
+              <span class="flex items-center gap-1.5">Conta Nubank <i class="fa-solid fa-building-columns text-purple-400"></i></span>
+              <button onclick="adjustBaseBalance('checking')" title="Calibrar Saldo Inicial" class="text-slate-500 hover:text-emerald-400 transition text-[11px]"><i class="fa-solid fa-pen-to-square"></i></button>
             </div>
             <p class="text-2xl font-bold text-white mt-1" id="dashCheckingBalance">R$ 1.019,61</p>
             <span class="text-[11px] text-slate-500" id="dashCheckingSubtext">Saldo real em 02/09</span>
@@ -139,29 +136,21 @@
 
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative group">
             <div class="flex justify-between items-center text-xs text-slate-400">
-              <span class="flex items-center gap-1.5">
-                Caixinhas Turbo + 100% <i class="fa-solid fa-piggy-bank text-emerald-400"></i>
-              </span>
-              <button onclick="adjustBaseBalance('savings')" title="Calibrar Saldo das Caixinhas" class="text-slate-500 hover:text-emerald-400 transition text-[11px]">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
+              <span class="flex items-center gap-1.5">Caixinhas Turbo + 100% <i class="fa-solid fa-piggy-bank text-emerald-400"></i></span>
+              <button onclick="adjustBaseBalance('savings')" title="Calibrar Saldo das Caixinhas" class="text-slate-500 hover:text-emerald-400 transition text-[11px]"><i class="fa-solid fa-pen-to-square"></i></button>
             </div>
             <p class="text-2xl font-bold text-emerald-400 mt-1" id="dashSavingsBalance">R$ 14.402,17</p>
             <span class="text-[11px] text-slate-500">Reserva de Emergência & Metas</span>
           </div>
 
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
-            <p class="text-xs font-medium text-slate-400 flex items-center justify-between">
-              Faturas Restantes (Setembro) <i class="fa-regular fa-credit-card text-orange-400"></i>
-            </p>
+            <p class="text-xs font-medium text-slate-400 flex items-center justify-between">Faturas Restantes (Setembro) <i class="fa-regular fa-credit-card text-orange-400"></i></p>
             <p class="text-2xl font-bold text-orange-400 mt-1" id="dashCardsTotal">R$ 980,09</p>
             <span class="text-[11px] text-slate-500">Nu Quitado hoje | Resta Inter (22/09)</span>
           </div>
 
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
-            <p class="text-xs font-medium text-slate-400 flex items-center justify-between">
-              Outubro Previsto (CEMERG) <i class="fa-solid fa-money-bill-trend-up text-sky-400"></i>
-            </p>
+            <p class="text-xs font-medium text-slate-400 flex items-center justify-between">Outubro Previsto (CEMERG) <i class="fa-solid fa-money-bill-trend-up text-sky-400"></i></p>
             <p class="text-2xl font-bold text-sky-400 mt-1" id="dashOctIncome">R$ 10.711,59</p>
             <span class="text-[11px] text-slate-500">Bolsa (R$ 4.065) + Repasse plantões</span>
           </div>
@@ -170,58 +159,35 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
             <div class="flex justify-between items-center mb-3">
-              <h2 class="font-bold text-white flex items-center gap-2 text-sm">
-                <i class="fa-solid fa-bolt text-amber-400"></i>
-                Lançador de Movimentações
-              </h2>
-              <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">
-                Sincronizado
-              </span>
+              <h2 class="font-bold text-white flex items-center gap-2 text-sm"><i class="fa-solid fa-bolt text-amber-400"></i> Lançador de Movimentações</h2>
+              <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">Sincronizado</span>
             </div>
 
             <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800 mb-3 text-[11px] font-semibold">
-              <button type="button" onclick="setLauncherMode('expense')" id="btnModeExpense" class="py-1.5 rounded-md bg-slate-800 text-rose-400 shadow-sm transition flex items-center justify-center gap-1">
-                <i class="fa-solid fa-arrow-down"></i> Despesa
-              </button>
-              <button type="button" onclick="setLauncherMode('income')" id="btnModeIncome" class="py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1">
-                <i class="fa-solid fa-arrow-up"></i> Entrada
-              </button>
-              <button type="button" onclick="setLauncherMode('transfer')" id="btnModeTransfer" class="py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1">
-                <i class="fa-solid fa-piggy-bank"></i> Caixinha
-              </button>
+              <button type="button" onclick="setLauncherMode('expense')" id="btnModeExpense" class="py-1.5 rounded-md bg-slate-800 text-rose-400 shadow-sm transition flex items-center justify-center gap-1"><i class="fa-solid fa-arrow-down"></i> Despesa</button>
+              <button type="button" onclick="setLauncherMode('income')" id="btnModeIncome" class="py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1"><i class="fa-solid fa-arrow-up"></i> Entrada</button>
+              <button type="button" onclick="setLauncherMode('transfer')" id="btnModeTransfer" class="py-1.5 rounded-md text-slate-400 hover:text-white transition flex items-center justify-center gap-1"><i class="fa-solid fa-piggy-bank"></i> Caixinha</button>
             </div>
 
             <form id="txForm" onsubmit="saveTransaction(event)" class="space-y-3">
               <input type="hidden" id="txFlow" value="expense" />
-
               <div>
                 <label class="block text-xs text-slate-400 mb-1" id="lblDesc">Descrição do Item</label>
-                <input type="text" id="txDesc" required placeholder="Ex: Farmácia, Aluguel, Salário..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 placeholder-slate-600" />
+                <input type="text" id="txDesc" required placeholder="Ex: Farmácia, Aluguel, Salário..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500" />
               </div>
-
               <div class="grid grid-cols-2 gap-2" id="valInstallmentRow">
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">Valor (R$)</label>
-                  <input type="number" step="0.01" id="txValue" required placeholder="0,00" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 placeholder-slate-600" />
+                  <input type="number" step="0.01" id="txValue" required placeholder="0,00" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500" />
                 </div>
                 <div id="installmentsCol">
                   <label class="block text-xs text-slate-400 mb-1">Parcelas</label>
                   <select id="txInstallments" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
                     <option value="1">1x (À vista)</option>
-                    <option value="2">2x</option>
-                    <option value="3">3x</option>
-                    <option value="4">4x</option>
-                    <option value="5">5x</option>
-                    <option value="6">6x</option>
-                    <option value="7">7x</option>
-                    <option value="8">8x</option>
-                    <option value="9">9x</option>
-                    <option value="10">10x</option>
-                    <option value="12">12x</option>
+                    <option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option><option value="6">6x</option><option value="10">10x</option><option value="12">12x</option>
                   </select>
                 </div>
               </div>
-
               <div class="grid grid-cols-1 gap-2" id="methodCategoryGroup">
                 <div id="paymentMethodCol">
                   <label class="block text-xs text-slate-400 mb-1" id="lblPaymentMethod">Origem / Meio</label>
@@ -230,7 +196,7 @@
                     <option value="nubank">Crédito Nubank (Fatura)</option>
                     <option value="inter">Crédito Inter (Fatura)</option>
                     <option value="reembolso">Reembolsável (Amigo / Namorada)</option>
-                    <option value="invoice_pay">Pagamento de Fatura de Cartão (Sem duplicar gasto)</option>
+                    <option value="invoice_pay">Pagamento de Fatura de Cartão</option>
                   </select>
                 </div>
                 <div id="categoryCol">
@@ -248,7 +214,6 @@
                   </select>
                 </div>
               </div>
-
               <button type="submit" id="btnSubmitTx" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-2 mt-2">
                 <i class="fa-solid fa-floppy-disk"></i> <span id="btnSubmitText">Gravar Despesa</span>
               </button>
@@ -258,18 +223,11 @@
           <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center mb-3">
-                <h2 class="font-bold text-white flex items-center gap-2 text-sm">
-                  <i class="fa-solid fa-clock-rotate-left text-sky-400"></i>
-                  Fluxo de Caixa & Lançamentos do Mês
-                </h2>
-                <button onclick="clearCustomTransactions()" class="text-[11px] text-slate-500 hover:text-rose-400 transition">
-                  <i class="fa-solid fa-trash"></i> Limpar Tudo
-                </button>
+                <h2 class="font-bold text-white flex items-center gap-2 text-sm"><i class="fa-solid fa-clock-rotate-left text-sky-400"></i> Fluxo de Caixa & Lançamentos do Mês</h2>
+                <button onclick="clearCustomTransactions()" class="text-[11px] text-slate-500 hover:text-rose-400 transition"><i class="fa-solid fa-trash"></i> Limpar Tudo</button>
               </div>
-              
               <div class="space-y-2 overflow-y-auto max-h-60 pr-1" id="txContainer"></div>
             </div>
-
             <div class="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
               <span class="text-slate-400">Total de Despesas Lançadas em Setembro:</span>
               <span class="font-bold text-rose-400 text-sm" id="realtimeTotal">R$ 0,00</span>
@@ -281,149 +239,38 @@
       <!-- ABA 2: HISTÓRICO MENSAL -->
       <section id="view-history" class="hidden space-y-6">
         <div class="flex space-x-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
-          <button onclick="switchHistoryMonth('september')" id="subtab-september" class="flex-1 py-2 text-xs font-semibold rounded-lg transition bg-slate-800 text-emerald-400 border border-slate-700">
-            Setembro / 2026 (Do Zero ⚡)
-          </button>
-          <button onclick="switchHistoryMonth('august')" id="subtab-august" class="flex-1 py-2 text-xs font-semibold rounded-lg transition text-slate-400 hover:text-white">
-            Agosto / 2026 (Auditoria Fechada)
-          </button>
+          <button onclick="switchHistoryMonth('september')" id="subtab-september" class="flex-1 py-2 text-xs font-semibold rounded-lg transition bg-slate-800 text-emerald-400 border border-slate-700">Setembro / 2026 (Do Zero ⚡)</button>
+          <button onclick="switchHistoryMonth('august')" id="subtab-august" class="flex-1 py-2 text-xs font-semibold rounded-lg transition text-slate-400 hover:text-white">Agosto / 2026 (Auditoria Fechada)</button>
         </div>
 
         <div id="hist-september" class="space-y-6">
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
               <div>
-                <h2 class="font-bold text-white text-base flex items-center gap-2">
-                  <i class="fa-solid fa-bolt text-amber-400"></i>
-                  Aspectos da Vida Adulta (Setembro/2026)
-                </h2>
-                <p class="text-xs text-slate-400">Adicione os pagamentos de Moradia e Família conforme forem pagos. Clique no ✕ para estornar qualquer item.</p>
+                <h2 class="font-bold text-white text-base flex items-center gap-2"><i class="fa-solid fa-bolt text-amber-400"></i> Aspectos da Vida Adulta (Setembro/2026)</h2>
+                <p class="text-xs text-slate-400">Adicione os pagamentos conforme forem feitos. Clique no ✕ para remover.</p>
               </div>
-              <span class="text-xs bg-slate-800 text-emerald-400 px-3 py-1 rounded-lg border border-slate-700 font-bold" id="setTotalBadge">
-                Total Setembro: R$ 0,00
-              </span>
+              <span class="text-xs bg-slate-800 text-emerald-400 px-3 py-1 rounded-lg border border-slate-700 font-bold" id="setTotalBadge">Total Setembro: R$ 0,00</span>
             </div>
-
             <div class="space-y-2.5" id="septemberAccordionContainer"></div>
           </div>
         </div>
 
         <div id="hist-august" class="hidden space-y-6">
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
-              <div>
-                <h2 class="font-bold text-white text-base flex items-center gap-2">
-                  <i class="fa-solid fa-chart-donut text-emerald-400"></i>
-                  Aspectos da Vida Adulta (Agosto/2026)
-                </h2>
-                <p class="text-xs text-slate-400">Auditoria fechada consolidando R$ 9.746,32 consumidos no período[cite: 2].</p>
-              </div>
-              <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-lg border border-slate-700">
-                Total Consumido: <strong>R$ 9.746,32</strong>
-              </span>
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="font-bold text-white text-base"><i class="fa-solid fa-chart-donut text-emerald-400"></i> Agosto/2026 (R$ 9.746,32)[cite: 2]</h2>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              <div class="lg:col-span-4 flex justify-center sticky top-24">
-                <div class="relative w-full max-w-[240px] h-[240px]">
-                  <canvas id="expensesChart"></canvas>
-                </div>
-              </div>
-
-              <div class="lg:col-span-8 space-y-2.5">
-                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-rose-500"></span><span>1. Família & Dívidas Estruturais</span></span>
-                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 4.300,00 (44,1%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                  </summary>
-                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>03/ago • Pix Apoio Familiar (Mãe / Juazeiro)</span><span class="font-bold text-white">R$ 3.000,00</span></div>
-                    <div class="flex justify-between py-1"><span>19/ago • Pix Empréstimo (Levi - Parcela 8/21)</span><span class="font-bold text-white">R$ 1.300,00</span></div>
-                  </div>
-                </details>
-
-                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-sky-500"></span><span>2. Moradia & Contas Básicas</span></span>
-                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 1.669,22 (17,1%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                  </summary>
-                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>10/ago • Pix Claudemir (Aluguel Apartamento)</span><span class="font-bold text-white">R$ 1.450,00</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>08/ago • Pix Alares (Internet Fibra)</span><span class="font-bold text-white">R$ 99,99</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>13/ago • Boleto Enel (Energia Elétrica)</span><span class="font-bold text-white">R$ 81,55</span></div>
-                    <div class="flex justify-between py-1"><span>08/ago • Pix TIM (Telefonia Celular)</span><span class="font-bold text-white">R$ 37,68</span></div>
-                  </div>
-                </details>
-
-                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-500"></span><span>3. Supermercado & Alimentação em Casa</span></span>
-                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 1.213,36 (12,4%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                  </summary>
-                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>03/ago • Atacadão 620 AS (Feira Principal - Inter)</span><span class="font-bold text-white">R$ 691,30</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>16/ago • Atacadão Complementar (Nubank)</span><span class="font-bold text-white">R$ 290,54</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>21/ago • Pix Bytedance / BOLD (Barras Proteína)</span><span class="font-bold text-white">R$ 79,60</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>23/ago • Farmácia Pague Menos (Nubank)</span><span class="font-bold text-white">R$ 61,37</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>15/ago • Amazon Brasil (Higiene)</span><span class="font-bold text-white">R$ 55,65</span></div>
-                    <div class="flex justify-between py-1"><span>14/ago • Shopee Nivea (Óleo Banho)</span><span class="font-bold text-white">R$ 34,90</span></div>
-                  </div>
-                </details>
-
-                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-indigo-500"></span><span>4. Estruturação Pessoal & Formação Médica</span></span>
-                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 968,96 (9,9%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                  </summary>
-                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Cota CEMERG (5/10 - Nubank)</span><span class="font-bold text-white">R$ 380,00</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Magalu Eletros (7/10)</span><span class="font-bold text-white">R$ 330,98</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Máquina de Lavar (8/10 - Inter)</span><span class="font-bold text-white">R$ 222,04</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Plataforma Médica Pg *Wemeds (9/12)</span><span class="font-bold text-white">R$ 20,81</span></div>
-                    <div class="flex justify-between py-1"><span>Recorrente • Zurich Seguros (Nubank)</span><span class="font-bold text-white">R$ 15,13</span></div>
-                  </div>
-                </details>
-
-                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-500"></span><span>5. Restaurantes, Lazer & Cafés</span></span>
-                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 918,90 (9,4%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                  </summary>
-                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>14/ago • Sal e Brasa Fortaleza (Churrascaria)</span><span class="font-bold text-white">R$ 185,02</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>21/ago • Ordones Carne de Sol / Ordomar</span><span class="font-bold text-white">R$ 175,00</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>01/ago • Restaurante Feijão Verde (Débito)</span><span class="font-bold text-white">R$ 142,00</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Almoços Rotina • Arilson Martins (Pix + Inter)</span><span class="font-bold text-white">R$ 190,77</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Sobremesas • Ki Açaí + Açaí no Grau</span><span class="font-bold text-white">R$ 99,52</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Rotina Hospitalar • SESC Fortaleza (Cafés)</span><span class="font-bold text-white">R$ 78,20</span></div>
-                    <div class="flex justify-between py-1"><span>Delivery & Lanches Avulsos (iFood, Pastelaria, Star Midia)</span><span class="font-bold text-white">R$ 48,39</span></div>
-                  </div>
-                </details>
-
-                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-violet-500"></span><span>6. Compras Gerais, Vestuário & Diversos</span></span>
-                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 597,60 (6,1%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                  </summary>
-                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Parcela • Camisas Hering (1/3 antiga - Inter)</span><span class="font-bold text-white">R$ 50,87</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Utilidades • Shopee + Amazon Marketplace</span><span class="font-bold text-white">R$ 238,18</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Pix Avulsos & Serviços (Matheus, Damasceno, Gardem...)</span><span class="font-bold text-white">R$ 513,23</span></div>
-                    <div class="flex justify-between py-1 text-emerald-400"><span>Estornos Recebidos (Shein + Amazon)</span><span class="font-bold">-R$ 204,68</span></div>
-                  </div>
-                </details>
-
-                <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
-                  <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-400"></span><span>7. Mobilidade & Transporte</span></span>
-                    <div class="flex items-center gap-3"><span class="text-slate-200">R$ 78,28 (0,8%)</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
-                  </summary>
-                  <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Corridas • Uber (8 viagens líquidas)</span><span class="font-bold text-white">R$ 53,48</span></div>
-                    <div class="flex justify-between py-1 border-b border-slate-900"><span>Corrida • 99 POP</span><span class="font-bold text-white">R$ 9,80</span></div>
-                    <div class="flex justify-between py-1"><span>Estacionamento • Shopping Ancar</span><span class="font-bold text-white">R$ 15,00</span></div>
-                  </div>
-                </details>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div class="lg:col-span-4 flex justify-center"><div class="relative w-[220px] h-[220px]"><canvas id="expensesChart"></canvas></div></div>
+              <div class="lg:col-span-8 space-y-2.5 text-xs text-slate-300">
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>1. Família & Dívidas Estruturais (Pix Mãe + Levi)</span><strong class="text-white">R$ 4.300,00[cite: 2]</strong></div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>2. Moradia & Contas (Aluguel, Internet, Enel, TIM)</span><strong class="text-white">R$ 1.669,22[cite: 2]</strong></div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>3. Supermercado & Alimentação</span><strong class="text-white">R$ 1.213,36[cite: 2]</strong></div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>4. Estruturação Pessoal & Formação</span><strong class="text-white">R$ 968,96[cite: 2]</strong></div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>5. Restaurantes, Lazer & Cafés</span><strong class="text-white">R$ 918,90[cite: 2]</strong></div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>6. Compras Gerais & Vestuário</span><strong class="text-white">R$ 597,60[cite: 2]</strong></div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>7. Mobilidade & Transporte</span><strong class="text-white">R$ 78,28[cite: 2]</strong></div>
               </div>
             </div>
           </div>
@@ -433,192 +280,43 @@
       <!-- ABA 3: CARTÕES DE CRÉDITO -->
       <section id="view-cards" class="hidden space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <div class="bg-slate-900 border border-purple-500/30 rounded-2xl p-5 shadow-lg relative overflow-hidden">
-            <div class="absolute -right-8 -top-8 w-28 h-28 bg-purple-600/10 rounded-full blur-xl pointer-events-none"></div>
-            <div class="flex justify-between items-start mb-3">
-              <div class="flex items-center gap-3">
-                <div class="p-2.5 bg-purple-500/20 text-purple-400 rounded-xl border border-purple-500/30">
-                  <i class="fa-solid fa-credit-card text-lg"></i>
-                </div>
-                <div>
-                  <h3 class="font-bold text-white text-base">Nubank</h3>
-                  <p class="text-[11px] text-slate-400">Fecha dia <strong>02</strong> • Vence dia <strong>09</strong></p>
-                </div>
-              </div>
-              <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full font-semibold border border-emerald-500/30">
-                Setembro Pago ✓
-              </span>
-            </div>
-
-            <div class="space-y-2 pt-1 text-xs">
-              <div class="flex justify-between items-center pb-1.5 border-b border-slate-800">
-                <span class="text-slate-400">Fatura de Setembro (Fechada 02/09):</span>
-                <span class="font-bold text-emerald-400">R$ 0,00 (Liquidado R$ 2.208,28)</span>
-              </div>
-              <div class="flex justify-between items-center pb-1.5 border-b border-slate-800 text-sky-400">
-                <span class="flex items-center gap-1.5 font-medium">
-                  <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> Prevista para Outubro (Vence 09/10):
-                </span>
-                <span class="font-bold text-base" id="cardNuNext">R$ 1.133,58</span>
-              </div>
-              <p class="text-[10px] text-slate-400 pt-0.5">
-                Bruto aberto: <strong>R$ 1.555,89</strong> | Abatimento amigos: <strong class="text-emerald-400">-R$ 422,31</strong>
-              </p>
+          <div class="bg-slate-900 border border-purple-500/30 rounded-2xl p-5 shadow-lg">
+            <h3 class="font-bold text-white text-base mb-1">Nubank</h3>
+            <p class="text-xs text-slate-400 mb-3">Fecha 02 • Vence 09</p>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">Setembro:</span><span class="font-bold text-emerald-400">Pago ✓</span></div>
+              <div class="flex justify-between text-sky-400"><span class="font-medium">Outubro (Vence 09/10):</span><span class="font-bold text-base" id="cardNuNext">R$ 1.133,58</span></div>
             </div>
           </div>
-
-          <div class="bg-slate-900 border border-orange-500/30 rounded-2xl p-5 shadow-lg relative overflow-hidden">
-            <div class="absolute -right-8 -top-8 w-28 h-28 bg-orange-600/10 rounded-full blur-xl pointer-events-none"></div>
-            <div class="flex justify-between items-start mb-3">
-              <div class="flex items-center gap-3">
-                <div class="p-2.5 bg-orange-500/20 text-orange-400 rounded-xl border border-orange-500/30">
-                  <i class="fa-solid fa-credit-card text-lg"></i>
-                </div>
-                <div>
-                  <h3 class="font-bold text-white text-base">Banco Inter</h3>
-                  <p class="text-[11px] text-slate-400">Fecha dia <strong>16</strong> • Vence dia <strong>22</strong></p>
-                </div>
-              </div>
-              <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full font-semibold border border-amber-500/30">
-                Vence em 22/Set
-              </span>
-            </div>
-
-            <div class="space-y-2 pt-1 text-xs">
-              <div class="flex justify-between items-center pb-1.5 border-b border-slate-800">
-                <span class="text-slate-400">Fatura Aberta (Vence 22/Set):</span>
-                <span class="font-bold text-white" id="cardInterCurrent">R$ 980,09</span>
-              </div>
-              <div class="flex justify-between items-center pb-1.5 border-b border-slate-800 text-sky-400">
-                <span class="flex items-center gap-1.5 font-medium">
-                  <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> Prevista para Outubro (Vence 22/10):
-                </span>
-                <span class="font-bold text-base" id="cardInterNext">R$ 272,91</span>
-              </div>
-              <p class="text-[10px] text-slate-400 pt-0.5">
-                Feira Atacadão (R$ 691,30) + Máquina (R$ 222,04) - Estorno Shein (-R$ 114,69).
-              </p>
+          <div class="bg-slate-900 border border-orange-500/30 rounded-2xl p-5 shadow-lg">
+            <h3 class="font-bold text-white text-base mb-1">Banco Inter</h3>
+            <p class="text-xs text-slate-400 mb-3">Fecha 16 • Vence 22</p>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">Setembro (Vence 22/Set):</span><span class="font-bold text-white" id="cardInterCurrent">R$ 980,09</span></div>
+              <div class="flex justify-between text-sky-400"><span class="font-medium">Outubro (Vence 22/10):</span><span class="font-bold text-base" id="cardInterNext">R$ 272,91</span></div>
             </div>
           </div>
-
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div class="flex justify-between items-center mb-3">
-            <h3 class="font-bold text-white text-sm flex items-center gap-2">
-              <i class="fa-solid fa-credit-card text-purple-400"></i>
-              Novas Compras no Cartão de Crédito (Setembro)
-            </h3>
-            <span class="text-[10px] bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded border border-slate-700 font-medium" id="newCreditBadge">
-              0 compras no crédito
-            </span>
-          </div>
+          <h3 class="font-bold text-white text-sm mb-3"><i class="fa-solid fa-credit-card text-purple-400"></i> Novas Compras no Crédito (Setembro)</h3>
           <div class="space-y-2 overflow-y-auto max-h-48 pr-1" id="newCreditContainer"></div>
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
-            <div>
-              <h3 class="font-bold text-white text-sm flex items-center gap-2">
-                <i class="fa-solid fa-list-ol text-purple-400"></i>
-                Raio-X das Compras Parceladas Ativas
-              </h3>
-              <p class="text-xs text-slate-400 mt-0.5">
-                Base oficial auditada dos extratos Nubank e Banco Inter[cite: 1, 2].
-              </p>
-            </div>
-            <span class="text-xs bg-purple-500/10 text-purple-300 px-3 py-1 rounded-full border border-purple-500/20 font-semibold">
-              Extratos Sincronizados
-            </span>
-          </div>
-
+          <h3 class="font-bold text-white text-sm mb-4"><i class="fa-solid fa-list-ol text-purple-400"></i> Raio-X das Compras Parceladas Ativas</h3>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
-                  <th class="p-3">Item / Compra</th>
-                  <th class="p-3">Cartão</th>
-                  <th class="p-3">Parcela Atual</th>
-                  <th class="p-3">Valor / Mês</th>
-                  <th class="p-3">Restam</th>
-                  <th class="p-3">Término Previsto</th>
-                  <th class="p-3 text-right">Saldo Devedor</th>
-                </tr>
-              </thead>
+              <thead><tr class="bg-slate-950 text-slate-400 border-b border-slate-800"><th class="p-3">Item</th><th class="p-3">Cartão</th><th class="p-3">Parcela</th><th class="p-3">Valor/Mês</th><th class="p-3">Término</th><th class="p-3 text-right">Saldo Devedor</th></tr></thead>
               <tbody class="divide-y divide-slate-800/60 text-slate-300">
-                <tr class="hover:bg-slate-800/30">
-                  <td class="p-3 font-semibold text-white">Cota CEMERG Cooperativa</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                  <td class="p-3 font-bold text-white">6 / 10</td>
-                  <td class="p-3 font-bold text-white">R$ 380,00</td>
-                  <td class="p-3 text-slate-400">4 parcelas</td>
-                  <td class="p-3 text-sky-400 font-medium">Janeiro/2027</td>
-                  <td class="p-3 text-right font-bold text-white">R$ 1.520,00</td>
-                </tr>
-                <tr class="hover:bg-slate-800/30">
-                  <td class="p-3 font-semibold text-white">Magalu Eletrodomésticos (175,09 + 155,89)</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                  <td class="p-3 font-bold text-white">8 / 10</td>
-                  <td class="p-3 font-bold text-white">R$ 330,98</td>
-                  <td class="p-3 text-slate-400">2 parcelas</td>
-                  <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
-                  <td class="p-3 text-right font-bold text-white">R$ 661,96</td>
-                </tr>
-                <tr class="hover:bg-slate-800/30">
-                  <td class="p-3 font-semibold text-white">Máquina de Lavar Roupas</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px]">Inter</span></td>
-                  <td class="p-3 font-bold text-white">8 / 10</td>
-                  <td class="p-3 font-bold text-white">R$ 222,04</td>
-                  <td class="p-3 text-slate-400">2 parcelas</td>
-                  <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
-                  <td class="p-3 text-right font-bold text-white">R$ 444,08</td>
-                </tr>
-                <tr class="hover:bg-slate-800/30">
-                  <td class="p-3 font-semibold text-white">Previstory - Vistorias Apartamento</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                  <td class="p-3 font-bold text-white">1 / 2</td>
-                  <td class="p-3 font-bold text-white">R$ 197,16</td>
-                  <td class="p-3 text-slate-400">1 parcela</td>
-                  <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
-                  <td class="p-3 text-right font-bold text-white">R$ 197,16</td>
-                </tr>
-                <tr class="hover:bg-slate-800/30">
-                  <td class="p-3 font-semibold text-white">Camisas Hering (Compra Setembro)</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                  <td class="p-3 font-bold text-white">1 / 6</td>
-                  <td class="p-3 font-bold text-white">R$ 78,91</td>
-                  <td class="p-3 text-slate-400">5 parcelas</td>
-                  <td class="p-3 text-sky-400 font-medium">Fevereiro/2027</td>
-                  <td class="p-3 text-right font-bold text-white">R$ 394,55</td>
-                </tr>
-                <tr class="hover:bg-slate-800/30">
-                  <td class="p-3 font-semibold text-white">Camisas Hering (Compra Antiga)</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px]">Inter</span></td>
-                  <td class="p-3 font-bold text-white">1 / 3</td>
-                  <td class="p-3 font-bold text-white">R$ 50,87</td>
-                  <td class="p-3 text-slate-400">2 parcelas</td>
-                  <td class="p-3 text-emerald-400 font-medium">Novembro/2026</td>
-                  <td class="p-3 text-right font-bold text-white">R$ 101,74</td>
-                </tr>
-                <tr class="hover:bg-slate-800/30">
-                  <td class="p-3 font-semibold text-white">Amazon Logcomerc Utilidades</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                  <td class="p-3 font-bold text-white">2 / 4</td>
-                  <td class="p-3 font-bold text-white">R$ 31,51</td>
-                  <td class="p-3 text-slate-400">2 parcelas</td>
-                  <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
-                  <td class="p-3 text-right font-bold text-white">R$ 63,02</td>
-                </tr>
-                <tr class="hover:bg-slate-800/30">
-                  <td class="p-3 font-semibold text-white">Plataforma Médica Wemeds</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px]">Nubank</span></td>
-                  <td class="p-3 font-bold text-white">10 / 12</td>
-                  <td class="p-3 font-bold text-white">R$ 20,81</td>
-                  <td class="p-3 text-slate-400">2 parcelas</td>
-                  <td class="p-3 text-sky-400 font-medium">Novembro/2026</td>
-                  <td class="p-3 text-right font-bold text-white">R$ 41,62</td>
-                </tr>
+                <tr><td class="p-3 font-semibold text-white">Cota CEMERG</td><td class="p-3">Nubank</td><td class="p-3">6 / 10</td><td class="p-3">R$ 380,00</td><td class="p-3 text-sky-400">Janeiro/2027</td><td class="p-3 text-right font-bold">R$ 1.520,00</td></tr>
+                <tr><td class="p-3 font-semibold text-white">Magalu Eletros</td><td class="p-3">Nubank</td><td class="p-3">8 / 10</td><td class="p-3">R$ 330,98</td><td class="p-3 text-sky-400">Novembro/2026</td><td class="p-3 text-right font-bold">R$ 661,96</td></tr>
+                <tr><td class="p-3 font-semibold text-white">Máquina de Lavar</td><td class="p-3">Inter</td><td class="p-3">8 / 10</td><td class="p-3">R$ 222,04</td><td class="p-3 text-emerald-400">Novembro/2026</td><td class="p-3 text-right font-bold">R$ 444,08</td></tr>
+                <tr><td class="p-3 font-semibold text-white">Previstory Vistorias</td><td class="p-3">Nubank</td><td class="p-3">1 / 2</td><td class="p-3">R$ 197,16</td><td class="p-3 text-emerald-400">Novembro/2026</td><td class="p-3 text-right font-bold">R$ 197,16</td></tr>
+                <tr><td class="p-3 font-semibold text-white">Camisas Hering (Set)</td><td class="p-3">Nubank</td><td class="p-3">1 / 6</td><td class="p-3">R$ 78,91</td><td class="p-3 text-sky-400">Fevereiro/2027</td><td class="p-3 text-right font-bold">R$ 394,55</td></tr>
+                <tr><td class="p-3 font-semibold text-white">Camisas Hering (Antiga)</td><td class="p-3">Inter</td><td class="p-3">1 / 3</td><td class="p-3">R$ 50,87</td><td class="p-3 text-emerald-400">Novembro/2026</td><td class="p-3 text-right font-bold">R$ 101,74</td></tr>
+                <tr><td class="p-3 font-semibold text-white">Amazon Logcomerc</td><td class="p-3">Nubank</td><td class="p-3">2 / 4</td><td class="p-3">R$ 31,51</td><td class="p-3 text-sky-400">Novembro/2026</td><td class="p-3 text-right font-bold">R$ 63,02</td></tr>
+                <tr><td class="p-3 font-semibold text-white">Plataforma Wemeds</td><td class="p-3">Nubank</td><td class="p-3">10 / 12</td><td class="p-3">R$ 20,81</td><td class="p-3 text-sky-400">Novembro/2026</td><td class="p-3 text-right font-bold">R$ 41,62</td></tr>
               </tbody>
             </table>
           </div>
@@ -628,24 +326,10 @@
       <!-- ABA 4: EXPECTATIVAS E EMPRÉSTIMO -->
       <section id="view-expectations" class="hidden space-y-6">
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-            <h2 class="font-bold text-white text-sm flex items-center gap-2">
-              <i class="fa-solid fa-map-location-dot text-emerald-400"></i>
-              Planejamento Tático: Rodízios da Residência vs. Finanças
-            </h2>
-          </div>
+          <h2 class="font-bold text-white text-sm mb-3"><i class="fa-solid fa-map-location-dot text-emerald-400"></i> Planejamento Tático: Rodízios da Residência vs. Finanças</h2>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
-                  <th class="p-3">Mês Caixa</th>
-                  <th class="p-3">Seu Rodízio da Residência</th>
-                  <th class="p-3">Entradas (Bolsa + CEMERG)</th>
-                  <th class="p-3">Faturas Estimadas</th>
-                  <th class="p-3">Sobra / Superávit</th>
-                  <th class="p-3">Diretriz Estratégica</th>
-                </tr>
-              </thead>
+              <thead><tr class="bg-slate-950 text-slate-400 border-b border-slate-800"><th class="p-3">Mês Caixa</th><th class="p-3">Rodízio</th><th class="p-3">Entradas</th><th class="p-3">Faturas</th><th class="p-3">Superávit</th><th class="p-3">Diretriz</th></tr></thead>
               <tbody id="expectationsTableBody" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
             </table>
           </div>
@@ -653,16 +337,13 @@
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
           <div class="flex justify-between items-center mb-3">
-            <h3 class="font-bold text-white text-sm flex items-center gap-2">
-              <i class="fa-solid fa-handshake-simple text-indigo-400"></i>
-              Controle Oficial do Empréstimo
-            </h3>
-            <span class="text-xs bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full border border-indigo-500/20 font-bold" id="loanStatusBadge">Restam 13 parcelas</span>
+            <h3 class="font-bold text-white text-sm"><i class="fa-solid fa-handshake-simple text-indigo-400"></i> Controle Oficial do Empréstimo (R$ 25.842 em 21x)</h3>
+            <span class="text-xs bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full font-bold" id="loanStatusBadge">Restam 13 parcelas</span>
           </div>
-          <div class="w-full bg-slate-800 rounded-full h-2.5 mt-3 mb-2">
+          <div class="w-full bg-slate-800 rounded-full h-2.5 mt-3 mb-4">
             <div class="bg-indigo-500 h-2.5 rounded-full" id="loanProgressBar" style="width: 39.3%"></div>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 mt-4" id="loanPendingContainer"></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5" id="loanPendingContainer"></div>
         </div>
       </section>
 
@@ -670,16 +351,14 @@
       <section id="view-shifts" class="hidden space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-            <h2 class="font-bold text-white text-sm flex items-center gap-2 mb-3">
-              <i class="fa-solid fa-calendar-plus text-sky-400"></i> Agendar Plantão HUC
-            </h2>
+            <h2 class="font-bold text-white text-sm mb-3"><i class="fa-solid fa-calendar-plus text-sky-400"></i> Agendar Plantão HUC</h2>
             <form id="shiftForm" onsubmit="saveShift(event)" class="space-y-3">
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Data do Plantão</label>
+                <label class="block text-xs text-slate-400 mb-1">Data</label>
                 <input type="date" id="shiftDate" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white" />
               </div>
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Setor / Unidade</label>
+                <label class="block text-xs text-slate-400 mb-1">Unidade</label>
                 <select id="shiftUnit" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
                   <option value="HUC (PX) - UROLOGIA">HUC (PX) - UROLOGIA</option>
                   <option value="HUC - UCP">HUC - UCP</option>
@@ -694,13 +373,13 @@
                   <option value="12_MT">MT 12h • R$ 1.661,64</option>
                 </select>
               </div>
-              <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-medium py-2.5 rounded-lg text-xs">Adicionar</button>
+              <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-medium py-2.5 rounded-lg text-xs">Adicionar Plantão</button>
             </form>
           </div>
           <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
             <div class="space-y-2 overflow-y-auto max-h-56 pr-1" id="shiftsListContainer"></div>
             <div class="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
-              <span class="text-slate-400">Total Líquido:</span>
+              <span class="text-slate-400">Total Líquido Registrado:</span>
               <span class="font-bold text-emerald-400 text-sm" id="shiftsTotalValue">R$ 0,00</span>
             </div>
           </div>
@@ -834,7 +513,7 @@
         const data = await res.json();
         if (data && data.status === "success" && Array.isArray(data.expenses)) {
           localStorage.setItem('med_finance_txs', JSON.stringify(data.expenses));
-          renderTxs(); renderCardsTab(); renderLiveBalances();
+          renderTxs(); renderCardsTab(); renderLiveBalances(); renderSeptemberRealtimeHistory();
         }
       } catch (err) { console.warn("Offline"); }
     }
@@ -849,7 +528,7 @@
       if (tabId === 'history') renderSeptemberRealtimeHistory();
       if (tabId === 'cards') renderCardsTab();
       if (tabId === 'expectations') { renderExpectationsTable(); renderLoanInstallments(); }
-      if (tabId === 'shifts') renderCalendar();
+      if (tabId === 'shifts') { renderShifts(); renderCalendar(); }
     }
 
     function switchHistoryMonth(month) {
@@ -872,6 +551,7 @@
       const container = document.getElementById('txContainer');
       const list = getStoredTxs();
       let totalExpense = 0;
+      if (!container) return;
       if (list.length === 0) {
         container.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">Nenhuma movimentação registrada.</div>`;
         document.getElementById('realtimeTotal').innerText = 'R$ 0,00';
@@ -934,13 +614,63 @@
     }
 
     function clearCustomTransactions() {
-      if (confirm('Apagar lançamentos?')) { localStorage.removeItem('med_finance_txs'); renderTxs(); renderCardsTab(); renderLiveBalances(); }
+      if (confirm('Apagar lançamentos?')) { localStorage.removeItem('med_finance_txs'); renderTxs(); renderSeptemberRealtimeHistory(); renderCardsTab(); renderLiveBalances(); }
     }
 
     function renderSeptemberRealtimeHistory() {
       const container = document.getElementById('septemberAccordionContainer');
       if (!container) return;
-      container.innerHTML = `<div class="text-xs text-slate-400">Nenhuma despesa avulsa lançada.</div>`;
+      const list = getStoredTxs();
+      
+      const categories = [
+        { id: 'mor', title: '1. Moradia e Contas Básicas', color: 'bg-sky-500', items: [] },
+        { id: 'fam', title: '2. Família e Dívidas Estruturais', color: 'bg-rose-500', items: [] },
+        { id: 'sup', title: '3. Supermercado e Alimentação', color: 'bg-emerald-500', items: [] },
+        { id: 'res', title: '4. Lazer e Restaurantes', color: 'bg-amber-500', items: [] },
+        { id: 'far', title: '5. Farmácia & Saúde', color: 'bg-teal-500', items: [] },
+        { id: 'ves', title: '6. Vestuário e Bens Pessoais', color: 'bg-violet-500', items: [] },
+        { id: 'tra', title: '7. Transporte e Mobilidade', color: 'bg-slate-400', items: [] },
+        { id: 'est', title: '8. Estruturação e Formação', color: 'bg-indigo-500', items: [] },
+        { id: 'out', title: '9. Outros e Avulsos', color: 'bg-yellow-500', items: [] }
+      ];
+
+      list.forEach((t, idx) => {
+        if (t.flow === 'income' || t.flow?.includes('transfer') || t.type === 'invoice_pay') return;
+        const catName = t.category || 'Outros e Avulsos';
+        const found = categories.find(c => c.title.toLowerCase().includes(catName.toLowerCase().slice(0, 5)));
+        if (found) {
+          found.items.push({ desc: `${t.desc} (${t.typeName})`, val: t.installmentValue || t.value, idx });
+        } else {
+          categories[8].items.push({ desc: `${t.desc} (${t.typeName})`, val: t.installmentValue || t.value, idx });
+        }
+      });
+
+      let grandTotal = 0;
+      categories.forEach(c => c.subtotal = c.items.reduce((acc, i) => acc + i.val, 0));
+      grandTotal = categories.reduce((acc, c) => acc + c.subtotal, 0);
+
+      document.getElementById('setTotalBadge').innerText = `Total Setembro: R$ ${grandTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+      let html = '';
+      categories.forEach(cat => {
+        html += `
+          <details class="group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden transition">
+            <summary class="flex justify-between items-center p-3 cursor-pointer hover:bg-slate-900/50 text-xs font-semibold">
+              <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full ${cat.color}"></span><span>${cat.title}</span></span>
+              <div class="flex items-center gap-3"><span>R$ ${cat.subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span><i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></div>
+            </summary>
+            <div class="p-3 pt-1 border-t border-slate-900 text-xs space-y-1.5 bg-slate-900/20 text-slate-300">
+              ${cat.items.length > 0 ? cat.items.map(i => `
+                <div class="flex justify-between items-center py-1 border-b border-slate-900/80">
+                  <span>${i.desc}</span>
+                  <div class="flex items-center gap-2"><strong class="text-white">R$ ${i.val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong><button onclick="removeTx(${i.idx})" class="text-rose-400 p-1"><i class="fa-solid fa-xmark"></i></button></div>
+                </div>
+              `).join('') : '<div class="py-1 text-slate-600 italic">Nenhum lançamento nesta categoria.</div>'}
+            </div>
+          </details>
+        `;
+      });
+      container.innerHTML = html;
     }
 
     function renderCardsTab() {
@@ -953,19 +683,57 @@
     }
 
     function renderExpectationsTable() {
-      document.getElementById('expectationsTableBody').innerHTML = `<tr><td class="p-3" colspan="6">Planejamento Ativo.</td></tr>`;
+      const tbody = document.getElementById('expectationsTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = `
+        <tr><td class="p-3">Out/2026</td><td class="p-3 text-sky-400">Enfermaria Clínica</td><td class="p-3">R$ 5.180,82</td><td class="p-3">~R$ 1.406,00</td><td class="p-3 text-emerald-400 font-bold">+R$ 3.774,82</td><td class="p-3">Recompõe reservas.</td></tr>
+        <tr><td class="p-3">Nov/2026</td><td class="p-3 text-sky-400">HGF</td><td class="p-3">R$ 5.180,82</td><td class="p-3">~R$ 1.090,00</td><td class="p-3 text-emerald-400 font-bold">+R$ 4.090,82</td><td class="p-3">Fins de semana livres.</td></tr>
+      `;
     }
 
     function renderLoanInstallments() {
-      document.getElementById('loanPendingContainer').innerHTML = `<div class="text-xs text-slate-400">Controle ativo.</div>`;
+      const container = document.getElementById('loanPendingContainer');
+      if (!container) return;
+      container.innerHTML = `
+        <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg text-xs"><span class="font-bold text-white">#9 • Setembro/2026</span><span class="block text-emerald-400 font-bold mt-1">R$ 1.306,00</span></div>
+        <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg text-xs"><span class="font-bold text-white">#10 • Outubro/2026</span><span class="block text-emerald-400 font-bold mt-1">R$ 1.306,00</span></div>
+        <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg text-xs"><span class="font-bold text-white">#11 • Novembro/2026</span><span class="block text-emerald-400 font-bold mt-1">R$ 1.306,00</span></div>
+      `;
     }
 
     function renderShifts() {
-      document.getElementById('shiftsListContainer').innerHTML = `<div class="text-xs text-slate-400">Escala carregada.</div>`;
+      const container = document.getElementById('shiftsListContainer');
+      if (!container) return;
+      container.innerHTML = `
+        <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
+          <div><p class="font-bold text-sky-400">12/09/2026 • <span class="text-white">HUC (PX) - UROLOGIA</span></p><p class="text-[10px] text-slate-400">Repasse previsto: Outubro/2026</p></div>
+          <span class="font-bold text-white">R$ 830,82</span>
+        </div>
+      `;
+      document.getElementById('shiftsTotalValue').innerText = 'R$ 830,82';
+    }
+
+    let currentCalDate = new Date(2026, 8, 1);
+    function changeCalMonth(delta) {
+      currentCalDate.setMonth(currentCalDate.getMonth() + delta);
+      renderCalendar();
     }
 
     function renderCalendar() {
-      document.getElementById('calendarViewContainer').innerHTML = `<div class="text-xs text-slate-400">Calendário de Plantões e Feriados Ativo.</div>`;
+      const container = document.getElementById('calendarViewContainer');
+      if (!container) return;
+      container.innerHTML = `
+        <div class="text-xs text-slate-300 space-y-2">
+          <div class="p-2.5 bg-slate-950 rounded-lg border border-amber-500/30 flex justify-between items-center">
+            <span>★ <strong>07/09/2026</strong> - Independência do Brasil</span>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">Feriado Nacional</span>
+          </div>
+          <div class="p-2.5 bg-slate-950 rounded-lg border border-emerald-500/30 flex justify-between items-center">
+            <span>🩺 <strong>12/09/2026</strong> - Plantão HUC (Urologia)</span>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">R$ 830,82</span>
+          </div>
+        </div>
+      `;
     }
 
     // PIN
@@ -995,7 +763,7 @@
     }
     function lockAppNow() {
       sessionStorage.removeItem('medfinance_unlocked'); currentPinInput = ""; updatePinDots();
-      document.getElementById('appProtectedClass').classList.add('hidden');
+      document.getElementById('appProtectedContent').classList.add('hidden');
       document.getElementById('pinLockScreen').classList.remove('hidden');
     }
 
