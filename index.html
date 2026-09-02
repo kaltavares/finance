@@ -406,20 +406,33 @@
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div class="flex items-center gap-3">
-              <div class="p-2 bg-sky-500/10 text-sky-400 rounded-lg"><i class="fa-solid fa-calendar-alt"></i></div>
+              <div class="p-2 bg-sky-500/10 text-sky-400 rounded-lg">
+                <i class="fa-solid fa-calendar-alt"></i>
+              </div>
               <h2 class="font-bold text-white text-sm" id="calMonthTitle">Setembro de 2026</h2>
             </div>
-            <div class="flex items-center space-x-2">
+
+            <div class="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-end">
               <div class="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
-                <button onclick="setCalLayout('grid')" id="layout-btn-grid" class="px-3 py-1 rounded font-medium transition bg-slate-800 text-emerald-400 shadow-sm flex items-center gap-1.5"><i class="fa-solid fa-table-cells"></i> Grade</button>
-                <button onclick="setCalLayout('timeline')" id="layout-btn-timeline" class="px-3 py-1 rounded font-medium transition text-slate-400 hover:text-white flex items-center gap-1.5"><i class="fa-solid fa-list-ul"></i> Agenda</button>
+                <button onclick="setCalLayout('grid')" id="layout-btn-grid" class="px-3 py-1 rounded font-medium transition bg-slate-800 text-emerald-400 shadow-sm flex items-center gap-1.5">
+                  <i class="fa-solid fa-table-cells"></i> <span class="hidden sm:inline">Grade</span>
+                </button>
+                <button onclick="setCalLayout('timeline')" id="layout-btn-timeline" class="px-3 py-1 rounded font-medium transition text-slate-400 hover:text-white flex items-center gap-1.5">
+                  <i class="fa-solid fa-list-ul"></i> <span class="hidden sm:inline">Agenda Diária</span>
+                </button>
               </div>
-              <div class="flex space-x-1">
-                <button onclick="changeCalMonth(-1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition"><i class="fa-solid fa-chevron-left"></i></button>
-                <button onclick="changeCalMonth(1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition"><i class="fa-solid fa-chevron-right"></i></button>
+
+              <div class="flex items-center space-x-1">
+                <button onclick="changeCalMonth(-1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition">
+                  <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button onclick="changeCalMonth(1)" class="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </button>
               </div>
             </div>
           </div>
+
           <div id="calendarViewContainer"></div>
         </div>
       </section>
@@ -545,12 +558,12 @@
       if (mode === 'expense') {
         btnExp.className = "py-1.5 rounded-md bg-slate-800 text-rose-400 shadow-sm transition flex items-center justify-center gap-1 font-bold";
         installmentsCol.classList.remove('hidden'); categoryCol.classList.remove('hidden');
-        methodSelect.innerHTML = `<option value="debito" selected>Débito / Pix (Sai da Conta)</option><option value="nubank">Crédito Nubank (Fatura)</option><option value="inter">Crédito Inter (Fatura)</option><option value="reembolso">Reembolsável (Amigo / Namorada)</option><option value="invoice_pay">Pagamento de Fatura de Cartão</option>`;
+        methodSelect.innerHTML = `<option value="debito" selected>Débito / Pix (Sai da Conta)</option><option value="nubank">Crédito Nubank</option><option value="inter">Crédito Inter</option><option value="invoice_pay">Pagamento de Fatura</option>`;
         btnSubmitText.innerText = "Gravar Despesa";
       } else if (mode === 'income') {
         btnInc.className = "py-1.5 rounded-md bg-slate-800 text-emerald-400 shadow-sm transition flex items-center justify-center gap-1 font-bold";
         installmentsCol.classList.add('hidden'); categoryCol.classList.add('hidden');
-        methodSelect.innerHTML = `<option value="income_checking" selected>Entra na Conta Nubank (+ Saldo)</option>`;
+        methodSelect.innerHTML = `<option value="income_checking" selected>Entra na Conta Nubank</option>`;
         btnSubmitText.innerText = "Registrar Entrada (+ Saldo)";
       } else if (mode === 'transfer') {
         btnTra.className = "py-1.5 rounded-md bg-slate-800 text-amber-400 shadow-sm transition flex items-center justify-center gap-1 font-bold";
