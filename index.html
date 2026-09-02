@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MedFinance • HUC</title>
 
-  <link rel="icon" type="image/svg+xml" href="icon.svg" />
-  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#020617" />
 
@@ -29,8 +29,8 @@
   <!-- TELA DE BLOQUEIO POR PIN (SENHA: 1945) -->
   <div id="pinLockScreen" class="fixed inset-0 bg-slate-950 z-[100] flex flex-col items-center justify-center p-4">
     <div class="w-full max-w-xs bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl text-center space-y-5">
-      <div class="w-16 h-16 mx-auto bg-emerald-500/10 rounded-2xl border border-emerald-500/20 flex items-center justify-center">
-        <img src="icon.svg" alt="MedFinance Logo" class="w-10 h-10" />
+      <div class="w-16 h-16 mx-auto bg-slate-950 rounded-2xl border border-slate-800 flex items-center justify-center p-1.5">
+        <img src="logo.png" alt="MedFinance Logo" class="w-full h-full object-contain" />
       </div>
       <div>
         <h2 class="font-bold text-white text-base">MedFinance Privado</h2>
@@ -67,8 +67,8 @@
     <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
       <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
         <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 p-1 bg-emerald-500/10 rounded-xl border border-emerald-500/20 shadow-inner flex items-center justify-center">
-            <img src="icon.svg" alt="MedFinance" class="w-8 h-8" />
+          <div class="w-10 h-10 p-1 bg-slate-950 rounded-xl border border-slate-800 shadow-inner flex items-center justify-center">
+            <img src="logo.png" alt="MedFinance" class="w-full h-full object-contain" />
           </div>
           <div>
             <h1 class="font-bold text-base text-white tracking-tight">MedFinance • Residente HUC</h1>
@@ -226,7 +226,7 @@
                 <div id="paymentMethodCol">
                   <label class="block text-xs text-slate-400 mb-1" id="lblPaymentMethod">Origem / Meio</label>
                   <select id="txType" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-                    <option value="debito" selected>Débito / Pix (Sai da Conta Nubank)</option>
+                    <option value="debito" selected>Débito / Pix (Sai da Conta)</option>
                     <option value="nubank">Crédito Nubank (Fatura)</option>
                     <option value="inter">Crédito Inter (Fatura)</option>
                     <option value="reembolso">Reembolsável (Amigo / Namorada)</option>
@@ -688,7 +688,7 @@
               </div>
               <div>
                 <label class="block text-xs text-slate-400 mb-1">Turno</label>
-                <select id="shiftDuration" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                <select id="shiftDuration" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white">
                   <option value="6_M">Manhã (6h) • R$ 830,82</option>
                   <option value="6_T">Tarde (6h) • R$ 830,82</option>
                   <option value="12_MT">MT 12h • R$ 1.661,64</option>
@@ -995,7 +995,7 @@
     }
     function lockAppNow() {
       sessionStorage.removeItem('medfinance_unlocked'); currentPinInput = ""; updatePinDots();
-      document.getElementById('appProtectedContent').classList.add('hidden');
+      document.getElementById('appProtectedClass').classList.add('hidden');
       document.getElementById('pinLockScreen').classList.remove('hidden');
     }
 
