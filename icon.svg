@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Fundo com cantos arredondados -->
+  <rect width="512" height="512" rx="110" fill="url(#bgGrad)"/>
+  <rect width="504" height="504" x="4" y="4" rx="106" fill="none" stroke="#1e293b" stroke-width="6"/>
+
+  <!-- Escudo Protetor de Fundo -->
+  <path d="M256 70 C340 70 410 100 410 100 V260 C410 360 330 420 256 450 C182 420 102 360 102 260 V100 C102 100 172 70 256 70 Z" fill="#0f172a" stroke="#334155" stroke-width="8" opacity="0.6"/>
+
+  <!-- Cruz Médica com Glow Esmeralda -->
+  <g filter="url(#glow)">
+    <path d="M226 150 H286 V226 H362 V286 H286 V362 H226 V286 H150 V226 H226 Z" fill="url(#emeraldGrad)"/>
+  </g>
+
+  <!-- Gráfico de Crescimento Financeiro em Linha de Pulso/ECG -->
+  <path d="M130 310 L195 310 L220 240 L255 350 L290 200 L320 310 L382 310" fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Ponto de Investimento Dourado -->
+  <circle cx="290" cy="200" r="14" fill="url(#goldGrad)" stroke="#ffffff" stroke-width="4" filter="url(#glow)"/>
+
+  <!-- Símbolo de Cifrão Discreto Centralizado -->
+  <text x="256" y="275" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="900" fill="#ffffff" text-anchor="middle" opacity="0.95">R$</text>
+</svg>
