@@ -1258,21 +1258,78 @@
       return data ? JSON.parse(data) : [];
     }
 
-    function renderTxs() {
+function renderTxs() {
       const container = document.getElementById('txContainer');
-      const list = getStoredTxs();
+      let list = getStoredTxs();
       let totalExpense = 0;
 
       if (list.length === 0) {
         container.innerHTML = `
           <div class="text-center py-8 text-slate-500 text-xs">
             <i class="fa-regular fa-folder-open text-2xl mb-2 block"></i>
-            Nenhuma movimentação registrada em Setembro.<br>Utilize o formulário ao lado para registrar entradas ou saídas.
+            Nenhuma movimentação registrada em Setembro.
           </div>
         `;
         document.getElementById('realtimeTotal').innerText = 'R$ 0,00';
         return;
       }
+
+      // Ordena do mais recente para o mais antigo com base na data salva
+      list.sort((a, b) => {
+        const timeA = a.rawDate ? new Date(a.rawDate).getTime() : 0;
+        const timeB = b.rawDate ? new Date(b.rawDate).getTime() : 0;
+        return timeB - timeA;
+      });
+
+      let html = '';
+      list.forEach((item, index) => {
+        const val = item.installmentValue || item.value;
+        const flow = item.flow || 'expense';
+        
+        let flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold">Saída</span>`;
+        let valColor = 'text-white';
+        let valSign = '';
+
+        if (flow === 'income') {
+          flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">Entrada</span>`;
+          valColor = 'text-emerald-400 font-bold';
+          valSign = '+ ';
+        } else if (flow.includes('transfer')) {
+          flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold">Caixinha</span>`;
+          valColor = 'text-amber-300 font-bold';
+        } else {
+          if (item.type !== 'invoice_pay') {
+            totalExpense += val;
+          } else {
+            flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 font-bold">Pgto Fatura</span>`;
+          }
+        }
+
+        const parcelInfo = item.installments > 1 ? ` (${item.installments}x de R$ ${val.toFixed(2)})` : '';
+        const dateTag = item.date ? `<span class="text-[10px] text-emerald-400 font-mono">[${item.date.slice(0, 6)}]</span> ` : '';
+
+        html += `
+          <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
+            <div>
+              <p class="font-medium text-slate-200">${dateTag}${item.desc}${parcelInfo}</p>
+              <div class="flex items-center gap-2 mt-0.5">
+                ${flowBadge}
+                <span class="text-[10px] text-slate-400">${item.category || 'Movimentação'}</span>
+                <span class="text-[10px] text-slate-600">•</span>
+                <span class="text-[10px] text-slate-500">${item.typeName}</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="${valColor}">${valSign}R$ ${val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+              <button onclick="removeTx(${index})" class="block text-[10px] text-slate-600 hover:text-rose-400 ml-auto mt-0.5">Remover</button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      document.getElementById('realtimeTotal').innerText = 'R$ ' + totalExpense.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    }
 
       let html = '';
       list.forEach((item, index) => {
