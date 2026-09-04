@@ -203,14 +203,14 @@
               <input type="hidden" id="txFlow" value="expense" />
 
               <div>
-              <label class="block text-xs text-slate-400 mb-1" id="lblDesc">Descrição do Item</label>
-              <input type="text" id="txDesc" required placeholder="Ex: Farmácia, Aluguel, Salário..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 placeholder-slate-600" />
-            </div>
+                <label class="block text-xs text-slate-400 mb-1" id="lblDesc">Descrição do Item</label>
+                <input type="text" id="txDesc" required placeholder="Ex: Farmácia, Aluguel, Salário..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 placeholder-slate-600" />
+              </div>
 
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Data da Movimentação</label>
-              <input type="date" id="txDateInput" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500" />
-            </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Data da Movimentação</label>
+                <input type="date" id="txDateInput" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
+              </div>
 
               <div class="grid grid-cols-2 gap-2" id="valInstallmentRow">
                 <div>
@@ -246,20 +246,20 @@
                     <option value="invoice_pay">Pagamento de Fatura de Cartão (Sem duplicar gasto)</option>
                   </select>
                 </div>
-<div id="categoryCol">
-  <label class="block text-xs text-slate-400 mb-1">Aspecto / Categoria</label>
-  <select id="txCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-    <option value="Supermercado e Alimentação" selected>Supermercado e Alimentação</option>
-    <option value="Moradia e Contas Básicas">Moradia e Contas Básicas</option>
-    <option value="Família e Dívidas Estruturais">Família e Dívidas Estruturais</option>
-    <option value="Lazer e Restaurantes">Lazer e Restaurantes</option>
-    <option value="Farmácia & Saúde">Farmácia & Saúde</option>
-    <option value="Vestuário e Bens Pessoais">Vestuário e Bens Pessoais</option>
-    <option value="Transporte e Mobilidade">Transporte e Mobilidade</option>
-    <option value="Estruturação e Formação">Estruturação e Formação</option>
-    <option value="Outros e Avulsos">Outros e Avulsos</option>
-  </select>
-</div>
+                <div id="categoryCol">
+                  <label class="block text-xs text-slate-400 mb-1">Aspecto / Categoria</label>
+                  <select id="txCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                    <option value="Supermercado e Alimentação" selected>Supermercado e Alimentação</option>
+                    <option value="Moradia e Contas Básicas">Moradia e Contas Básicas</option>
+                    <option value="Família e Dívidas Estruturais">Família e Dívidas Estruturais</option>
+                    <option value="Lazer e Restaurantes">Lazer e Restaurantes</option>
+                    <option value="Farmácia & Saúde">Farmácia & Saúde</option>
+                    <option value="Vestuário e Bens Pessoais">Vestuário e Bens Pessoais</option>
+                    <option value="Transporte e Mobilidade">Transporte e Mobilidade</option>
+                    <option value="Estruturação e Formação">Estruturação e Formação</option>
+                    <option value="Outros e Avulsos">Outros e Avulsos</option>
+                  </select>
+                </div>
               </div>
 
               <button type="submit" id="btnSubmitTx" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-2 mt-2">
@@ -1263,7 +1263,7 @@
       return data ? JSON.parse(data) : [];
     }
 
-function renderTxs() {
+    function renderTxs() {
       const container = document.getElementById('txContainer');
       let list = getStoredTxs();
       let totalExpense = 0;
@@ -1313,7 +1313,6 @@ function renderTxs() {
 
         const parcelInfo = item.installments > 1 ? ` (${item.installments}x de R$ ${val.toFixed(2)})` : '';
         
-        // Exibe a tag de data limpa e corrigida (Padrão BR: DD Set HH:mm)
         let cleanDateTag = '<span class="text-[10px] text-emerald-400 font-mono">[02 Set]</span> ';
         if (item.date) {
           if (item.date.includes('/')) {
@@ -1353,112 +1352,6 @@ function renderTxs() {
       document.getElementById('realtimeTotal').innerText = 'R$ ' + totalExpense.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
     }
 
-      // Ordena do mais recente para o mais antigo com base na data salva
-      list.sort((a, b) => {
-        const timeA = a.rawDate ? new Date(a.rawDate).getTime() : 0;
-        const timeB = b.rawDate ? new Date(b.rawDate).getTime() : 0;
-        return timeB - timeA;
-      });
-
-      let html = '';
-      list.forEach((item, index) => {
-        const val = item.installmentValue || item.value;
-        const flow = item.flow || 'expense';
-        
-        let flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold">Saída</span>`;
-        let valColor = 'text-white';
-        let valSign = '';
-
-        if (flow === 'income') {
-          flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">Entrada</span>`;
-          valColor = 'text-emerald-400 font-bold';
-          valSign = '+ ';
-        } else if (flow.includes('transfer')) {
-          flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold">Caixinha</span>`;
-          valColor = 'text-amber-300 font-bold';
-        } else {
-          if (item.type !== 'invoice_pay') {
-            totalExpense += val;
-          } else {
-            flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 font-bold">Pgto Fatura</span>`;
-          }
-        }
-
-        const parcelInfo = item.installments > 1 ? ` (${item.installments}x de R$ ${val.toFixed(2)})` : '';
-        const dateTag = item.date ? `<span class="text-[10px] text-emerald-400 font-mono">[${item.date.slice(0, 6)}]</span> ` : '';
-
-        html += `
-          <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
-            <div>
-              <p class="font-medium text-slate-200">${dateTag}${item.desc}${parcelInfo}</p>
-              <div class="flex items-center gap-2 mt-0.5">
-                ${flowBadge}
-                <span class="text-[10px] text-slate-400">${item.category || 'Movimentação'}</span>
-                <span class="text-[10px] text-slate-600">•</span>
-                <span class="text-[10px] text-slate-500">${item.typeName}</span>
-              </div>
-            </div>
-            <div class="text-right">
-              <span class="${valColor}">${valSign}R$ ${val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-              <button onclick="removeTx(${index})" class="block text-[10px] text-slate-600 hover:text-rose-400 ml-auto mt-0.5">Remover</button>
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-      document.getElementById('realtimeTotal').innerText = 'R$ ' + totalExpense.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-    }
-
-      let html = '';
-      list.forEach((item, index) => {
-        const val = item.installmentValue || item.value;
-        const flow = item.flow || 'expense';
-        
-        let flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold">Saída</span>`;
-        let valColor = 'text-white';
-        let valSign = '';
-
-        if (flow === 'income') {
-          flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">Entrada</span>`;
-          valColor = 'text-emerald-400 font-bold';
-          valSign = '+ ';
-        } else if (flow.includes('transfer')) {
-          flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold">Caixinha</span>`;
-          valColor = 'text-amber-300 font-bold';
-        } else {
-          if (item.type !== 'invoice_pay') {
-            totalExpense += val;
-          } else {
-            flowBadge = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 font-bold">Pgto Fatura</span>`;
-          }
-        }
-
-        const parcelInfo = item.installments > 1 ? ` (${item.installments}x de R$ ${val.toFixed(2)})` : '';
-
-        html += `
-          <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
-            <div>
-              <p class="font-medium text-slate-200">${item.desc}${parcelInfo}</p>
-              <div class="flex items-center gap-2 mt-0.5">
-                ${flowBadge}
-                <span class="text-[10px] text-slate-400">${item.category || 'Movimentação'}</span>
-                <span class="text-[10px] text-slate-600">•</span>
-                <span class="text-[10px] text-slate-500">${item.typeName}</span>
-              </div>
-            </div>
-            <div class="text-right">
-              <span class="${valColor}">${valSign}R$ ${val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-              <button onclick="removeTx(${index})" class="block text-[10px] text-slate-600 hover:text-rose-400 ml-auto mt-0.5">Remover</button>
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-      document.getElementById('realtimeTotal').innerText = 'R$ ' + totalExpense.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-    }
-
     async function saveTransaction(e) {
       e.preventDefault();
       const btn = document.getElementById('btnSubmitTx');
@@ -1466,8 +1359,8 @@ function renderTxs() {
       
       const mode = currentLauncherMode;
       const desc = document.getElementById('txDesc').value;
-    const rawValStr = document.getElementById('txValue').value.replace(/\./g, '').replace(',', '.');
-    const totalVal = parseFloat(rawValStr);      
+      const rawValStr = document.getElementById('txValue').value.replace(/\./g, '').replace(',', '.');
+      const totalVal = parseFloat(rawValStr);      
       const installments = (mode === 'expense') ? parseInt(document.getElementById('txInstallments').value) : 1;
       const rawType = document.getElementById('txType').value;
       const category = (mode === 'expense') ? document.getElementById('txCategory').value : (mode === 'income' ? 'Entradas & Receitas' : 'Caixinha');
@@ -1506,37 +1399,44 @@ function renderTxs() {
       const installmentValue = Number((totalVal / installments).toFixed(2));
       const formattedDesc = installments > 1 ? `${desc} (1/${installments})` : desc;
 
-const selectedDateVal = document.getElementById('txDateInput').value; 
-    let formattedDisplayDate = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + String(new Date().getHours()).padStart(2, '0') + 'h' + String(new Date().getMinutes()).padStart(2, '0') + 'min';
-    let rawDateForSort = new Date().toISOString();
+      const selectedDateVal = document.getElementById('txDateInput').value; 
+      let formattedDisplayDate = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + String(new Date().getHours()).padStart(2, '0') + 'h' + String(new Date().getMinutes()).padStart(2, '0') + 'min';
+      let rawDateForSort = new Date().toISOString();
 
-    if (selectedDateVal) {
-      const parts = selectedDateVal.split('-'); 
-      const dObj = new Date(parts[0], parts[1] - 1, parts[2], new Date().getHours(), new Date().getMinutes());
-      formattedDisplayDate = dObj.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + String(dObj.getHours()).padStart(2, '0') + 'h' + String(dObj.getMinutes()).padStart(2, '0') + 'min';
-      rawDateForSort = dObj.toISOString();
-    }
+      if (selectedDateVal) {
+        const parts = selectedDateVal.split('-'); 
+        const dObj = new Date(parts[0], parts[1] - 1, parts[2], new Date().getHours(), new Date().getMinutes());
+        formattedDisplayDate = dObj.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + String(dObj.getHours()).padStart(2, '0') + 'h' + String(dObj.getMinutes()).padStart(2, '0') + 'min';
+        rawDateForSort = dObj.toISOString();
+      }
 
-    const newItem = {
-      desc: formattedDesc,
-      totalValue: totalVal,
-      installments: installments,
-      installmentValue: installmentValue,
-      value: installmentValue,
-      type: typeKey,
-      typeName: typeName,
-      category: category,
-      flow: flow,
-      isAfterCalibration: true,
-      date: formattedDisplayDate,
-      rawDate: rawDateForSort
-    };
+      const newItem = {
+        desc: formattedDesc,
+        totalValue: totalVal,
+        installments: installments,
+        installmentValue: installmentValue,
+        value: installmentValue,
+        type: typeKey,
+        typeName: typeName,
+        category: category,
+        flow: flow,
+        isAfterCalibration: true,
+        date: formattedDisplayDate,
+        rawDate: rawDateForSort
+      };
 
       const list = getStoredTxs();
       list.unshift(newItem);
       localStorage.setItem('med_finance_txs', JSON.stringify(list));
 
       document.getElementById('txForm').reset();
+      
+      // Restaura a data de hoje no input após resetar o form
+      const dateInputEl = document.getElementById('txDateInput');
+      if (dateInputEl) {
+        dateInputEl.value = new Date().toISOString().split('T')[0];
+      }
+
       renderTxs();
       renderSeptemberRealtimeHistory();
       renderCardsTab();
@@ -1653,43 +1553,19 @@ const selectedDateVal = document.getElementById('txDateInput').value;
         const normalized = (tx.category || '').toLowerCase().trim();
         const targetIdx = categoryMap[normalized] !== undefined ? categoryMap[normalized] : 8;
         
-let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span> ';
+        let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span> ';
         if (tx.date) {
-          try {
-            let day, monthIdx, hours = '00', mins = '00';
-            const cleanStr = tx.date.trim();
-
-            if (cleanStr.includes('/')) {
-              // Formato brasileiro DD/MM/YYYY ou DD/MM/YY com ou sem hora
-              const parts = cleanStr.split(' ');
-              const dateParts = parts[0].split('/');
-              day = dateParts[0];
-              monthIdx = parseInt(dateParts[1], 10) - 1;
-
-              if (parts[1]) {
-                const timeParts = parts[1].split(':');
-                hours = timeParts[0] || '00';
-                mins = timeParts[1] || '00';
-              }
-            } else {
-              const dObj = new Date(cleanStr);
-              if (!isNaN(dObj.getTime())) {
-                day = String(dObj.getDate()).padStart(2, '0');
-                monthIdx = dObj.getMonth();
-                hours = String(dObj.getHours()).padStart(2, '0');
-                mins = String(dObj.getMinutes()).padStart(2, '0');
-              }
-            }
-
-            if (day !== undefined && monthIdx !== undefined && !isNaN(monthIdx)) {
-              const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-              const monthName = months[monthIdx];
-              dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${day} ${monthName} ${hours}h${mins}min]</span> `;
-            } else {
-              dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${cleanStr.slice(0, 10)}]</span> `;
-            }
-          } catch(e) {
-            dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date}]</span> `;
+          if (tx.date.includes('/')) {
+            const parts = tx.date.split(' ');
+            const dateParts = parts[0].split('/');
+            const day = dateParts[0];
+            const monthNum = parseInt(dateParts[1], 10);
+            const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+            const monthName = months[monthNum - 1] || 'Set';
+            const timePart = parts[1] ? ` ${parts[1].slice(0, 5)}min` : '';
+            dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${day} ${monthName}${timePart}]</span> `;
+          } else {
+            dateTag = `<span class="text-[10px] text-emerald-400 font-mono">[${tx.date.slice(0, 11)}]</span> `;
           }
         }
 
@@ -2524,7 +2400,7 @@ let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span
     }
 
     function lockAppNow() {
-      sessionStorage.removeItem('medfinance_unlocked');
+      sessionStorage.removeItem('med_finance_unlocked');
       currentPinInput = "";
       updatePinDots();
       document.getElementById('appProtectedContent').classList.add('hidden');
@@ -2532,7 +2408,7 @@ let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span
       clearPin();
     }
 
-    if (sessionStorage.getItem('medfinance_unlocked') === 'true') {
+    if (sessionStorage.getItem('med_finance_unlocked') === 'true') {
       const lockScreen = document.getElementById('pinLockScreen');
       const protectedContent = document.getElementById('appProtectedContent');
       if (lockScreen) lockScreen.classList.add('hidden');
@@ -2558,7 +2434,7 @@ let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span
       syncFromCloud(true);
     });
 
-          function formatMoneyInput(input) {
+    function formatMoneyInput(input) {
       let value = input.value.replace(/\D/g, '');
       if (!value) {
         input.value = '';
@@ -2570,7 +2446,6 @@ let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span
       input.value = value;
     }
 
-    
   </script>
 </body>
 </html>
