@@ -982,18 +982,6 @@
         y = (m <= 9 && y === 2027) ? 2027 : 2026;
       }
 
-      function formatMoneyInput(input) {
-      let value = input.value.replace(/\D/g, '');
-      if (!value) {
-        input.value = '';
-        return;
-      }
-      value = (parseInt(value, 10) / 100).toFixed(2);
-      value = value.replace('.', ',');
-      value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-      input.value = value;
-    }
-
       const dStr = d < 10 ? '0' + d : '' + d;
       const mStr = m < 10 ? '0' + m : '' + m;
       return { 
@@ -2569,6 +2557,20 @@ let dateTag = '<span class="text-[10px] text-slate-500 font-mono">[02 Set]</span
     window.addEventListener('DOMContentLoaded', () => {
       syncFromCloud(true);
     });
+
+          function formatMoneyInput(input) {
+      let value = input.value.replace(/\D/g, '');
+      if (!value) {
+        input.value = '';
+        return;
+      }
+      value = (parseInt(value, 10) / 100).toFixed(2);
+      value = value.replace('.', ',');
+      value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      input.value = value;
+    }
+
+    
   </script>
 </body>
 </html>
